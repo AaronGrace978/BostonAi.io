@@ -1,5 +1,6 @@
 {
-  "updated": "2026-06-20",
+  "updated": "2026-06-21",
+  "featured": "toa-agent-build-day",
   "events": [
     {
       "id": "toa-agent-build-day",
@@ -7,12 +8,13 @@
       "org": "The Open Accelerator",
       "date": "2026-06-27",
       "endDate": "2026-06-27",
-      "location": "Boston, MA",
+      "location": "Boston, MA — Fort Point",
       "format": "in-person",
       "tags": ["ai", "agents", "boston"],
       "prize": "Access + mentorship",
+      "featured": true,
       "url": "https://the-open-accelerator.com/hackathon/upcoming/Skilled-Agents/",
-      "blurb": "One Saturday. Three lanes. Shippable agent skills anchored to agentskills.io — Fort Point, ~100 builders."
+      "blurb": "Next target locked. One Saturday. Three lanes. Shippable agent skills — ~100 builders."
     },
     {
       "id": "toa-small-models",

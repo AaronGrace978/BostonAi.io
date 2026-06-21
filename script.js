@@ -57,7 +57,7 @@
   }
 
   /* ---------- count-up stats ---------- */
-  const counters = $$(".stat__num[data-count]");
+  const counters = $$(".stat__num[data-count], .trophy-bar__num[data-count]");
   const runCounter = (el) => {
     const target = parseInt(el.dataset.count, 10) || 0;
     const suffix = el.dataset.suffix || "";
