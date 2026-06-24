@@ -26,6 +26,8 @@
     return `mailto:${SQUAD_EMAIL}?subject=${subject}&body=${body}`;
   };
 
+  const squadFormHref = (e) => `#squad?hackathon=${encodeURIComponent(e.id)}`;
+
   const fmtDate = (d) => {
     if (!d || d === "ongoing") return "Ongoing";
     const dt = new Date(d + "T12:00:00");
@@ -79,7 +81,7 @@
           <div class="scout-card__tags">${(e.tags || []).map((t) => `<span class="scout-tag">#${t}</span>`).join("")}</div>
           <div class="scout-card__actions">
             <a class="scout-card__link" href="${e.url}" target="_blank" rel="noopener">Scout it →</a>
-            <a class="btn btn--ghost btn--sm scout-card__squad" href="${squadMailto(e)}">Form a squad →</a>
+            <a class="btn btn--ghost btn--sm scout-card__squad" href="${squadFormHref(e)}">Form a squad →</a>
           </div>
         </div>
       </article>`;
@@ -103,7 +105,18 @@
     const feat = events.find((e) => e.id === featuredId || e.featured) || events.find((e) => !isPast(e) && e.date !== "ongoing");
     if (!feat) return;
     heroTarget.innerHTML = `<strong>${feat.title}</strong> · ${fmtDate(feat.date)} · ${feat.location}`;
-    heroTarget.href = squadMailto(feat);
+    heroTarget.href = squadFormHref(feat);
+  };
+
+  const setCtaBand = () => {
+    const band = $(".scout__cta-band");
+    if (!band) return;
+    const feat = events.find((e) => e.id === featuredId || e.featured) || events.find((e) => !isPast(e) && e.date !== "ongoing");
+    if (!feat) return;
+    const shortLoc = feat.location?.split("—").pop()?.trim() || feat.location;
+    band.innerHTML = `
+      <p>Squad forming for <strong>${feat.title} · ${fmtDate(feat.date)} · ${shortLoc}</strong></p>
+      <a href="${squadFormHref(feat)}" class="btn btn--solid">Form a team for this one →</a>`;
   };
 
   const setStatus = (msg) => { if (status) status.textContent = msg; };
@@ -119,6 +132,7 @@
       if (updated && data.updated) updated.textContent = `Feed updated ${data.updated}. Squad forming — email Aaron to lock in.`;
       setStatus(`${events.filter((e) => !isPast(e)).length} targets on the board · squad forming now`);
       setHeroTarget();
+      setCtaBand();
       render();
     } catch {
       setStatus("Scout feed offline.");

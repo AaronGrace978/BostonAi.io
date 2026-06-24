@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-21",
+  "updated": "2026-06-24",
   "featured": "toa-agent-build-day",
   "events": [
     {
@@ -39,6 +39,19 @@
       "prize": "4 awards",
       "url": "https://the-open-accelerator.com/hackathon/",
       "blurb": "~90 hackers, 6 tracks — open-source inference shipped in one day."
+    },
+    {
+      "id": "nanda-hack",
+      "title": "NandaHack — Agentic AI Hackathon",
+      "org": "HCLTech × MIT Media Lab",
+      "date": "2026-07-11",
+      "endDate": "2026-07-11",
+      "location": "Cambridge, MA — MIT Media Lab",
+      "format": "hybrid",
+      "tags": ["ai", "boston", "agents", "online"],
+      "prize": "$18K cash + $50K credits",
+      "url": "https://nandahack.up.railway.app/",
+      "blurb": "Agentic AI hack — compete online, optional MIT finale Jul 11. NANDA Summit AM, demos & awards PM."
     },
     {
       "id": "nymbl-hackathon",

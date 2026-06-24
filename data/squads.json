@@ -1,0 +1,27 @@
+{
+  "updated": "2026-06-24",
+  "parties": [
+    {
+      "id": "agent-build-day-war-room",
+      "hackathonId": "toa-agent-build-day",
+      "name": "War Room Alpha",
+      "leader": "Aaron Grace",
+      "slots": 4,
+      "filled": 2,
+      "lookingFor": ["full-stack", "agent orchestration"],
+      "stack": "Python · LangGraph · agentskills.io",
+      "blurb": "Lane 2 — shippable agent skills with ADLC rigor. Need one more builder who ships, not slides."
+    },
+    {
+      "id": "nanda-open-party",
+      "hackathonId": "nanda-hack",
+      "name": "NANDA Network Party",
+      "leader": "Aaron Grace",
+      "slots": 5,
+      "filled": 1,
+      "lookingFor": ["distributed systems", "frontend", "agent dev"],
+      "stack": "NANDA stack · multi-agent · open source",
+      "blurb": "Online build, MIT finale Jul 11. $18K prizes — scouting sharp builders for the agentic web."
+    }
+  ]
+}
