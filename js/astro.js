@@ -132,6 +132,18 @@ function moonCoords(d) {
   return { ra: rightAscension(l, b), dec: declination(l, b), dist: dt };
 }
 
+/**
+ * Where a fixed point on the celestial sphere (J2000 RA/Dec, degrees)
+ * sits in the local sky right now. Same az/alt convention as sunPosition.
+ */
+export function raDecToAltAz(raDeg, decDeg, date, lat = BOSTON.lat, lon = BOSTON.lon) {
+  const lw = rad * -lon;
+  const phi = rad * lat;
+  const H = siderealTime(toDays(date), lw) - raDeg * rad;
+  const dec = decDeg * rad;
+  return { azimuth: azimuth(H, phi, dec), altitude: altitude(H, phi, dec) };
+}
+
 /** Moon altitude/azimuth (radians), same convention as sunPosition. */
 export function moonPosition(date, lat = BOSTON.lat, lon = BOSTON.lon) {
   const lw = rad * -lon;

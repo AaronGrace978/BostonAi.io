@@ -9,8 +9,11 @@
  */
 
 import {
-  sunPosition, moonPosition, moonPhase, bostonParts, mulberry32,
+  sunPosition, moonPosition, moonPhase, bostonParts, mulberry32, raDecToAltAz,
 } from './astro.js';
+import { STARS, CONSTELLATIONS } from './starcat.js';
+import { planetRaDec, planetMag, PLANETS } from './planets.js';
+import { tideFraction } from './tide.js';
 
 /* ---------- small helpers ---------- */
 
@@ -194,23 +197,19 @@ function buildSkyline(w, horizonY, skyH) {
   return { buildings, back };
 }
 
-/* ---------- stars ---------- */
+/* ---------- meteor showers (peak nights, local calendar) ---------- */
+/* [month (0-based), day, name] — the sky performs on schedule. */
+const SHOWERS = [
+  [0, 3, 'Quadrantids'], [3, 22, 'Lyrids'], [4, 5, 'Eta Aquariids'],
+  [6, 30, 'Delta Aquariids'], [7, 12, 'Perseids'], [9, 21, 'Orionids'],
+  [10, 17, 'Leonids'], [11, 13, 'Geminids'], [11, 22, 'Ursids'],
+];
 
-function buildStars(w, skyBottom) {
-  const rng = mulberry32(1630); // Boston, est.
-  const stars = [];
-  const count = Math.round((w * skyBottom) / 3800);
-  for (let i = 0; i < count; i++) {
-    stars.push({
-      x: rng() * w,
-      y: rng() * skyBottom * 0.96,
-      r: 0.4 + rng() * 1.1,
-      tw: 0.5 + rng() * 2.2,
-      ph: rng() * TAU,
-      warm: rng() < 0.12,
-    });
+export function activeShower(parts) {
+  for (const [m, d, name] of SHOWERS) {
+    if (parts.m === m && Math.abs(parts.d - d) <= 1) return name;
   }
-  return stars;
+  return null;
 }
 
 /* ---------- the renderer ---------- */
@@ -221,9 +220,12 @@ export function createSky(canvas, getNow) {
 
   let w = 0, h = 0, dpr = 1;
   let horizonY = 0, skyH = 0;
-  let skyline = null, stars = null;
+  let skyline = null;
   let raf = 0, lastStatic = 0;
   let running = false;
+
+  // slow-changing astronomy, recomputed once a minute
+  let slow = { at: 0, tide: 0.5, planets: [] };
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -235,7 +237,6 @@ export function createSky(canvas, getNow) {
     horizonY = Math.round(h * 0.82);
     skyH = h * 0.34;
     skyline = buildSkyline(w, horizonY, skyH);
-    stars = buildStars(w, horizonY);
   }
 
   /* map an alt/az (radians, az: 0=S, -E, +W) to canvas position */
@@ -245,10 +246,20 @@ export function createSky(canvas, getNow) {
     return [x, y];
   }
 
+  function refreshSlow(now) {
+    slow.at = now.valueOf();
+    slow.tide = tideFraction(now);
+    slow.planets = PLANETS.map((p) => {
+      const { ra, dec } = planetRaDec(p.name, now);
+      return { ...p, ra, dec, mag: planetMag(p.name, now) };
+    });
+  }
+
   function draw() {
     const now = getNow();
     const t = now.valueOf() / 1000;
     const parts = bostonParts(now);
+    if (Math.abs(now.valueOf() - slow.at) > 60000) refreshSlow(now);
 
     const sun = sunPosition(now);
     const moon = moonPosition(now);
@@ -282,29 +293,105 @@ export function createSky(canvas, getNow) {
       ctx.fillRect(0, 0, w, horizonY + 1);
     }
 
-    /* — stars — */
+    /* — the real stars, wheeling with sidereal time — */
     if (night > 0.02) {
-      for (const s of stars) {
-        const tw = reduced ? 0.75 : 0.55 + 0.45 * Math.sin(t * s.tw + s.ph);
-        const a = night * tw * (0.35 + s.r * 0.4);
+      for (let i = 0; i < STARS.length; i++) {
+        const [ra, dec, mag, bv] = STARS[i];
+        const pos = raDecToAltAz(ra, dec, now);
+        if (pos.altitude < 0.015) continue;
+        if (Math.abs(pos.azimuth) > Math.PI * 0.78) continue;
+        const [sx, sy] = toXY(pos.azimuth, pos.altitude);
+
+        // brightness from magnitude; extinction near the horizon
+        const bright = Math.pow(10, -0.28 * (mag + 1.44)); // Sirius ≈ 1
+        const ext = smooth(0.02, 0.22, pos.altitude);
+        const tw = reduced ? 0.8 : 0.62 + 0.38 * Math.sin(t * (0.9 + (i % 7) * 0.33) + i);
+        const a = night * ext * tw * Math.min(1, 0.22 + bright * 0.9);
         if (a < 0.03) continue;
-        ctx.fillStyle = s.warm ? `rgba(255,224,178,${a})` : `rgba(214,224,255,${a})`;
-        ctx.fillRect(s.x, s.y, s.r, s.r);
+
+        // color from B-V: blue-white → white → amber
+        const warmth = clamp((bv + 0.1) / 1.6, 0, 1);
+        const col = mixc([200, 216, 255], [255, 222, 170], warmth);
+        const r = 0.5 + Math.min(1.7, bright * 1.35);
+        ctx.fillStyle = css(col, a);
+        ctx.fillRect(sx - r / 2, sy - r / 2, r, r);
+        if (mag < 0.6) { // the brightest few get a soft cross of glow
+          ctx.fillStyle = css(col, a * 0.3);
+          ctx.fillRect(sx - r * 1.6, sy - 0.5, r * 3.2, 1);
+          ctx.fillRect(sx - 0.5, sy - r * 1.6, 1, r * 3.2);
+        }
       }
-      // an occasional meteor, on a fixed schedule
+
+      /* — constellation figures, barely there in deep night — */
+      const lineA = smooth(0.5, 0.98, night) * 0.065;
+      if (lineA > 0.01) {
+        ctx.strokeStyle = `rgba(190,205,240,${lineA})`;
+        ctx.lineWidth = 0.7;
+        for (const id in CONSTELLATIONS) {
+          for (const seg of CONSTELLATIONS[id]) {
+            let started = false;
+            ctx.beginPath();
+            for (const [ra, dec] of seg) {
+              const pos = raDecToAltAz(ra, dec, now);
+              if (pos.altitude < 0 || Math.abs(pos.azimuth) > Math.PI * 0.78) { started = false; continue; }
+              const [sx, sy] = toXY(pos.azimuth, pos.altitude);
+              if (started) ctx.lineTo(sx, sy); else { ctx.moveTo(sx, sy); started = true; }
+            }
+            ctx.stroke();
+          }
+        }
+      }
+
+      /* — the planets, where they really are — */
+      for (const pl of slow.planets) {
+        const pos = raDecToAltAz(pl.ra, pl.dec, now);
+        if (pos.altitude < 0.02 || Math.abs(pos.azimuth) > Math.PI * 0.76) continue;
+        const [px, py] = toXY(pos.azimuth, pos.altitude);
+        const bright = Math.pow(10, -0.24 * (pl.mag + 2));
+        const ext = smooth(0.02, 0.2, pos.altitude);
+        const a = night * ext * Math.min(1, 0.5 + bright);
+        if (a < 0.04) continue;
+        const r = 1.1 + Math.min(2.1, bright * 1.5);
+        const g2 = ctx.createRadialGradient(px, py, 0, px, py, r * 4);
+        g2.addColorStop(0, css(pl.color, a * 0.5));
+        g2.addColorStop(1, css(pl.color, 0));
+        ctx.fillStyle = g2;
+        ctx.fillRect(px - r * 4, py - r * 4, r * 8, r * 8);
+        ctx.fillStyle = css(pl.color, a);
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, TAU);
+        ctx.fill();
+        // a whisper of a label, deep at night only
+        const la = smooth(0.6, 1, night) * ext * 0.4;
+        if (la > 0.05 && w > 700) {
+          ctx.fillStyle = `rgba(214,224,248,${la})`;
+          ctx.font = '10px "IBM Plex Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(pl.label, px, py + r + 12);
+        }
+      }
+
+      /* — meteors: quiet most nights, a show on shower peaks — */
       if (!reduced) {
-        const cycle = Math.floor(t / 90);
-        const into = t - cycle * 90;
-        const crng = mulberry32(cycle);
-        if (crng() < 0.3 && into < 1.1) {
+        const shower = activeShower(parts);
+        const period = shower ? 14 : 90;
+        const chance = shower ? 0.85 : 0.3;
+        const cycle = Math.floor(t / period);
+        const into = t - cycle * period;
+        const crng = mulberry32(cycle * 13 + 5);
+        if (crng() < chance && into < 1.1) {
           const p = into / 1.1;
-          const mx = w * (0.15 + crng() * 0.7) + p * 130;
-          const my = horizonY * (0.08 + crng() * 0.3) + p * 60;
+          const mx = w * (0.1 + crng() * 0.8) + p * 150;
+          const my = horizonY * (0.06 + crng() * 0.38) + p * 70;
           const a = Math.sin(p * Math.PI) * night * 0.85;
-          ctx.strokeStyle = `rgba(230,238,255,${a})`;
+          const len = shower ? 60 : 46;
+          const grad = ctx.createLinearGradient(mx - len, my - len * 0.45, mx, my);
+          grad.addColorStop(0, 'rgba(230,238,255,0)');
+          grad.addColorStop(1, `rgba(230,238,255,${a})`);
+          ctx.strokeStyle = grad;
           ctx.lineWidth = 1.2;
           ctx.beginPath();
-          ctx.moveTo(mx - 46, my - 21);
+          ctx.moveTo(mx - len, my - len * 0.45);
           ctx.lineTo(mx, my);
           ctx.stroke();
         }
@@ -379,8 +466,8 @@ export function createSky(canvas, getNow) {
     const frontCol = mixc([8, 10, 18], mixc(stops[3], [40, 48, 62], 0.6), dayness * 0.8);
     drawSkyline(ctx, t, parts, night, dayness, backCol, frontCol);
 
-    /* — water — */
-    drawWater(ctx, t, stops, night, dayness, glow, sunX, sunAltDeg, moonX, moonUp, mph, reduced);
+    /* — water, standing where the real tide has it — */
+    drawWater(ctx, t, stops, night, dayness, glow, sunX, sunAltDeg, moonX, moonUp, mph, reduced, slow.tide);
 
     /* — season in the air — */
     if (!reduced) drawSeasonParticles(ctx, t, parts, night);
@@ -597,24 +684,33 @@ export function createSky(canvas, getNow) {
     ctx.fill();
   }
 
-  function drawWater(ctx, t, stops, night, dayness, glow, sunX, sunAltDeg, moonX, moonUp, mph, reduced) {
-    const wh = h - horizonY;
+  function drawWater(ctx, t, stops, night, dayness, glow, sunX, sunAltDeg, moonX, moonUp, mph, reduced, tide) {
+    // the seawall: exposed granite at low tide, awash at high
+    const wallH = Math.max(8, h * 0.016);
+    const waterTop = horizonY + 2 + (1 - tide) * (wallH - 3);
+    ctx.fillStyle = css(mixc([26, 26, 30], [58, 56, 58], dayness * 0.7));
+    ctx.fillRect(0, horizonY, w, wallH + 2);
+    // wet stain where the water has just been
+    ctx.fillStyle = 'rgba(10,14,24,0.5)';
+    ctx.fillRect(0, horizonY + 2, w, Math.max(0, waterTop - horizonY - 2));
+
+    const wh = h - waterTop;
     // the harbor: mostly the upper sky darkened, with a trace of horizon color
     const base = mixc(stops[1], [6, 9, 18], 0.45);
     const shallow = mixc(base, stops[3], 0.28);
     const deep = mixc(base, [3, 5, 11], 0.58);
-    const g = ctx.createLinearGradient(0, horizonY, 0, h);
+    const g = ctx.createLinearGradient(0, waterTop, 0, h);
     g.addColorStop(0, css(shallow));
     g.addColorStop(1, css(deep));
     ctx.fillStyle = g;
-    ctx.fillRect(0, horizonY, w, wh);
+    ctx.fillRect(0, waterTop, w, wh);
 
     // shimmer strokes
     const srng = mulberry32(777);
     const n = Math.round(w / 18);
     for (let i = 0; i < n; i++) {
       const sx = srng() * w;
-      const sy = horizonY + 4 + Math.pow(srng(), 1.6) * (wh - 10);
+      const sy = waterTop + 4 + Math.pow(srng(), 1.6) * (wh - 10);
       const len = 6 + srng() * 26;
       const sp = 0.4 + srng() * 1.4;
       const ph = srng() * TAU;
@@ -631,7 +727,7 @@ export function createSky(canvas, getNow) {
       const colW = w * 0.045;
       for (let i = 0; i < 26; i++) {
         const fy = Math.pow(crng() * 0.98, 1.25);
-        const sy = horizonY + 3 + fy * (wh - 8);
+        const sy = waterTop + 3 + fy * (wh - 8);
         const jitter = (crng() - 0.5) * colW * (0.6 + fy);
         const len = 5 + crng() * 20 * (1 - fy * 0.5);
         const sp = 0.5 + crng() * 1.3;

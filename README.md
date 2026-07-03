@@ -17,14 +17,22 @@ different every single day, whether or not anyone is watching:
 
 - **The Sky** — a full-viewport canvas of Boston Harbor. The sun and moon are
   drawn where they actually are over 42.3601° N, 71.0589° W, computed in the
-  browser from the real time. Stars come out with astronomical twilight, windows
-  light up in the evening, the Zakim gets its blue wash at night, planes drift
-  into Logan, and the season decides what falls through the air — snow, leaves,
-  petals, fireflies.
+  browser from the real time. The stars are the real ones: a thousand-star
+  catalog (Yale BSC, mag ≤ 4.6) wheeling with sidereal time, with faint
+  constellation figures in deep night — Orion really does rise over the harbor
+  in winter. Venus, Mars, Jupiter, and Saturn are placed by solving Kepler's
+  equation (verified against JPL Horizons to under half a degree). The water
+  level follows a real harmonic tide prediction for Boston Harbor (28
+  constituents, fitted to NOAA's published tables to ~1.5 cm RMS) — the
+  seawall drowns at high tide and bares at low. On meteor-shower peak nights
+  (Perseids, Geminids…) the sky performs. Windows light up in the evening,
+  the Zakim gets its blue cables at night, planes drift into Logan, and the
+  season decides what falls through the air — snow, leaves, petals, fireflies.
 - **The Almanac** — sunrise, sunset, daylight gained or lost since yesterday,
-  the moon's phase and age, the season's progress, the year's progress. All
-  computed live from the NOAA solar equations and a truncated lunar theory.
-  No API, no data files, no network calls.
+  the moon's phase and age, the tide, the visible planets, the season's
+  progress, the year's progress. All computed live from the NOAA solar
+  equations, a truncated lunar theory, harmonic tide analysis, and Kepler's
+  equation. No API, no runtime network calls.
 - **Today's Line** — 182 lines of text, one per day, written the night the site
   was rebuilt. Each day from July 3 to December 31, 2026 has its own line,
   waiting for its date. After that they return in order, like a tide.
@@ -52,7 +60,10 @@ GitHub Pages.
 ├── index.html          # the whole page
 ├── styles.css          # one palette: deep ink and harbor light
 ├── js/
-│   ├── astro.js        # solar + lunar math (NOAA-style), seasons, formatting
+│   ├── astro.js        # solar + lunar math (NOAA-style), sidereal time, seasons
+│   ├── tide.js         # harmonic tide prediction for Boston Harbor
+│   ├── planets.js      # Keplerian positions for the naked-eye planets
+│   ├── starcat.js      # bright-star catalog + constellation figures (YBS)
 │   ├── sky.js          # the sky/skyline/harbor canvas renderer
 │   ├── grove.js        # the tree: fixed structure, date-driven growth
 │   ├── lines.js        # 182 daily lines

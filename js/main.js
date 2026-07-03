@@ -7,10 +7,19 @@
  */
 
 import {
-  BOSTON, sunPosition, moonPhase, sunTimes, season,
+  BOSTON, sunPosition, moonPhase, sunTimes, season, raDecToAltAz,
   bostonNoon, bostonTime, bostonParts, fmtDuration, fmtDelta,
 } from './astro.js';
-import { createSky, drawMoonDisc } from './sky.js';
+
+/* compass direction from our azimuth convention (0 = south, +west, -east) */
+function compass(az) {
+  const deg = ((az * 180 / Math.PI) + 180 + 360) % 360; // 0 = north
+  const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  return dirs[Math.round(deg / 45) % 8];
+}
+import { createSky, drawMoonDisc, activeShower } from './sky.js';
+import { tideHeight, tideRate, nextTides } from './tide.js';
+import { planetRaDec, PLANETS } from './planets.js';
 import { createGrove, growthAt, dayNumber, PLANTED, GROWTH_DAYS } from './grove.js';
 import { lineFor, LINES } from './lines.js';
 import { countdown, letterHTML } from './letter.js';
@@ -92,6 +101,8 @@ function skyStatusText() {
       ? `The night is thinning. Sunrise at ${bostonTime(t.sunrise)}.`
       : 'Almost full dark over Boston.' + moonBit();
   }
+  const shower = activeShower(p);
+  if (shower) return `Deep night, and the ${shower} are falling.${moonBit()} Sunrise at ${bostonTime(t.sunrise)}.`;
   return `Deep night over the harbor.${moonBit()} Sunrise at ${bostonTime(t.sunrise)}.`;
 }
 
@@ -143,6 +154,48 @@ function renderAlmanac() {
   $('moonNote').textContent = mph.name === 'Full Moon'
     ? 'Full tonight. No further action required.'
     : `Next full moon: ${fullFmt.format(fullDate)}. It has never once been late.`;
+
+  // — the harbor —
+  const ft = (m) => `${(m * 3.28084).toFixed(1)} ft`;
+  const height = tideHeight(n);
+  const rising = tideRate(n) > 0;
+  const tides = nextTides(n, 2);
+  $('tideNow').textContent = ft(height);
+  $('tideState').textContent = rising ? 'coming in' : 'going out';
+  if (tides.length >= 2) {
+    $('tideNext').textContent = `${tides[0].type} · ${bostonTime(tides[0].time)}`;
+    $('tideThen').textContent = `${tides[1].type} · ${bostonTime(tides[1].time)}`;
+    const swing = Math.abs(tides[0].height - height);
+    $('tideNote').textContent = rising
+      ? `The Atlantic is moving ${ft(swing)} of water into the harbor before ${bostonTime(tides[0].time)}, without hurrying.`
+      : `The harbor is handing ${ft(swing)} of water back to the Atlantic by ${bostonTime(tides[0].time)}. It will all return.`;
+  }
+
+  // — tonight's sky —
+  let visibleCount = 0;
+  for (const pl of PLANETS) {
+    const { ra, dec } = planetRaDec(pl.name, n);
+    const pos = raDecToAltAz(ra, dec, n);
+    const altDeg = pos.altitude * 180 / Math.PI;
+    const el = $('pl' + pl.label);
+    if (altDeg > 5) {
+      const dir = compass(pos.azimuth);
+      el.textContent = `up · ${dir}, ${Math.round(altDeg)}°`;
+      visibleCount++;
+    } else if (altDeg > -3) {
+      el.textContent = 'on the horizon';
+    } else {
+      el.textContent = 'below the horizon';
+    }
+  }
+  const sunUp = sunPosition(n).altitude > 0;
+  $('skyNote').textContent = sunUp
+    ? (visibleCount > 0
+      ? `${visibleCount} planet${visibleCount === 1 ? ' is' : 's are'} above the horizon right now — just outshone. They are exactly where Kepler says.`
+      : 'Positions solved from orbital mechanics, in your browser. Check back after dark.')
+    : (visibleCount > 0
+      ? 'Real positions, solved from Kepler\u2019s equation in your browser. Step outside and check the math.'
+      : 'The planets are all below the horizon just now. The stars above are the real ones, in their real places.');
 
   // — season —
   const s = season(n);
