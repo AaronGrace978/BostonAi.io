@@ -72,7 +72,7 @@ function skyStatusText() {
       ? `Morning over the city. High noon at ${bostonTime(t.solarNoon)}.`
       : `Afternoon light on the harbor. Sunset at ${bostonTime(t.sunset)}.`;
   }
-  if (altDeg >= 0) {
+  if (altDeg >= -0.9) {
     return morning
       ? `The sun is up over the harbor. The city is waking.`
       : `Golden hour. The sun sets at ${bostonTime(t.sunset)}.`;
@@ -97,12 +97,9 @@ function skyStatusText() {
 
 function tickStatus() {
   $('skyStatus').textContent = skyStatusText();
-  const phase = (() => {
-    const alt = sunPosition(now()).altitude * 180 / Math.PI;
-    if (alt >= 6) return 'daylight';
-    if (alt >= -6) return 'twilight';
-    return 'night';
-  })();
+  const alt = sunPosition(now()).altitude * 180 / Math.PI;
+  const phase = alt >= 6 ? 'daylight' : (alt >= -6 ? 'twilight' : 'night');
+  document.body.dataset.skyphase = phase;
   document.title = `bostonai.io — ${phase} over Boston`;
 }
 

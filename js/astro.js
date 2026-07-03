@@ -62,13 +62,18 @@ export function sunPosition(date, lat = BOSTON.lat, lon = BOSTON.lon) {
 }
 
 /**
- * The sun's ecliptic longitude in degrees [0, 360).
+ * The sun's apparent ecliptic longitude in degrees [0, 360), Meeus-style.
  * 0 = March equinox, 90 = June solstice, 180 = September equinox, 270 = December solstice.
+ * (More accurate than the positional shortcut above; used for season boundaries.)
  */
 export function solarLongitude(date) {
-  const L = eclipticLongitude(solarMeanAnomaly(toDays(date)));
-  const deg = ((L / rad) % 360 + 360) % 360;
-  return deg;
+  const d = toDays(date);
+  const L0 = 280.46646 + 0.98564736 * d; // mean longitude
+  const M = rad * (357.52911 + 0.98560028 * d);
+  const C = 1.914602 * Math.sin(M) + 0.019993 * Math.sin(2 * M) + 0.000289 * Math.sin(3 * M);
+  const omega = rad * (125.04 - 0.052954 * d);
+  const lambda = L0 + C - 0.00569 - 0.00478 * Math.sin(omega); // apparent
+  return ((lambda % 360) + 360) % 360;
 }
 
 const J0 = 0.0009;
@@ -182,8 +187,18 @@ export function season(date) {
   const lon = solarLongitude(date);
   const idx = Math.floor(lon / 90) % 4;
   const into = lon % 90;
-  // the sun's longitude advances ~0.98565 degrees per day
-  const daysLeft = (90 - into) / 0.98565;
+  const target = ((idx + 1) * 90) % 360;
+
+  // signed angular distance to the next boundary, bisected to the hour
+  const dist = (t) => ((solarLongitude(new Date(t)) - target + 540) % 360) - 180;
+  let lo = date.valueOf();
+  let hi = lo + 100 * DAY_MS;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (dist(mid) < 0) lo = mid; else hi = mid;
+  }
+  const daysLeft = (hi - date.valueOf()) / DAY_MS;
+
   return {
     ...SEASONS[idx],
     progress: into / 90,

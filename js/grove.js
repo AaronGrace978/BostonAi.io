@@ -105,7 +105,8 @@ export function createGrove(canvas, getNow) {
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     baseY = h * 0.88;
-    unit = Math.min(h * 0.30, w * 0.22); // trunk target length
+    // trunk target length — the full crown stacks to ~3x this, so keep headroom
+    unit = Math.min(h * 0.235, w * 0.17);
   }
 
   function draw() {
@@ -197,12 +198,17 @@ export function createGrove(canvas, getNow) {
 
       ctx.translate(0, -drawLen);
 
-      // record leaf/light anchor points in canvas coordinates
-      if (node.depth >= MAXD - 2 && tt > 0.55) {
+      // leaf/light anchors: the canopy frontier — branches whose children
+      // haven't fully grown in yet — plus the outer generations when mature
+      const childLead = node.children.length
+        ? Math.max(...node.children.map((ch) => g - ch.birth))
+        : -1;
+      const frontier = node.children.length === 0 || childLead < birthWindow * 1.1;
+      if (tt > 0.35 && node.depth >= 1 && (frontier || node.depth >= MAXD - 2)) {
         const m = ctx.getTransform();
         const px = m.e / dpr, py = m.f / dpr;
         if (node.leafSeed < leaf.density) {
-          leaves.push({ x: px, y: py, seed: node.leafSeed, id: node.leafId, tt });
+          leaves.push({ x: px, y: py, seed: node.leafSeed, id: node.leafId, tt, depth: node.depth });
         }
         if (lights && node.leafId % 3 === 0) {
           lightPts.push({ x: px, y: py, id: node.leafId });
@@ -217,7 +223,7 @@ export function createGrove(canvas, getNow) {
 
     ctx.restore();
 
-    /* leaves — drawn after wood so they sit on top */
+    /* leaves — clusters of leaflets, drawn after wood so they sit on top */
     for (const lf of leaves) {
       let c;
       if (leaf.mix !== undefined) {
@@ -226,12 +232,21 @@ export function createGrove(canvas, getNow) {
       } else {
         c = leaf.colors[lf.id % leaf.colors.length];
       }
-      const wob = reduced ? 0 : Math.sin(t * 0.8 + lf.id) * 0.6;
-      const r = (2.1 + (lf.id % 3) * 0.8) * lf.tt;
-      ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},0.82)`;
-      ctx.beginPath();
-      ctx.ellipse(lf.x + wob, lf.y, r * 1.25, r * 0.85, lf.id, 0, TAU);
-      ctx.fill();
+      const wob = reduced ? 0 : Math.sin(t * 0.8 + lf.id) * 0.7;
+      // young canopies carry slightly bigger leaves for their size
+      const youth = 1 + Math.max(0, (MAXD - 1 - lf.depth)) * 0.18;
+      const size = Math.min(1, lf.tt * 1.5);
+      const r = (2.0 + (lf.id % 3) * 0.7) * size * Math.min(youth, 1.8);
+      ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},0.78)`;
+      const n = leaf.density > 0.2 ? 3 : 1;
+      for (let k = 0; k < n; k++) {
+        const a = lf.id * 2.4 + k * (TAU / 3);
+        const dx = Math.cos(a) * r * 1.35;
+        const dy = Math.sin(a) * r * 1.05 - r * 0.4;
+        ctx.beginPath();
+        ctx.ellipse(lf.x + wob + dx, lf.y + dy, r * 1.2, r * 0.8, a, 0, TAU);
+        ctx.fill();
+      }
     }
 
     /* holiday lights */

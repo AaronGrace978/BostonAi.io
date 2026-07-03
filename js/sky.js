@@ -506,10 +506,19 @@ export function createSky(canvas, getNow) {
         ctx.stroke();
       }
     }
-    // the Zakim's blue wash at night
+    // the Zakim's blue lighting at night: retrace the cables in blue
     if (night > 0.25) {
-      ctx.fillStyle = `rgba(90,150,255,${0.10 * night})`;
-      ctx.fillRect(b.x - 8, topY, b.w + 16, deckY - topY + 6);
+      ctx.strokeStyle = `rgba(110,165,255,${0.28 * night})`;
+      ctx.lineWidth = 0.8;
+      for (let i = 1; i <= 7; i++) {
+        const f = i / 8;
+        for (const [cx, dir] of [[cx1, -1], [cx1, 1], [cx2, -1], [cx2, 1]]) {
+          ctx.beginPath();
+          ctx.moveTo(cx, topY + (deckY - topY) * 0.12);
+          ctx.lineTo(cx + dir * f * b.w * 0.30, deckY);
+          ctx.stroke();
+        }
+      }
     }
     beacon(ctx, cx1, topY - 2, night, t, 0.7);
     beacon(ctx, cx2, topY - 2, night, t, 2.1);
@@ -590,8 +599,10 @@ export function createSky(canvas, getNow) {
 
   function drawWater(ctx, t, stops, night, dayness, glow, sunX, sunAltDeg, moonX, moonUp, mph, reduced) {
     const wh = h - horizonY;
-    const deep = mixc(stops[3], [3, 5, 11], 0.72);
-    const shallow = mixc(stops[3], [8, 12, 22], 0.45);
+    // the harbor: mostly the upper sky darkened, with a trace of horizon color
+    const base = mixc(stops[1], [6, 9, 18], 0.45);
+    const shallow = mixc(base, stops[3], 0.28);
+    const deep = mixc(base, [3, 5, 11], 0.58);
     const g = ctx.createLinearGradient(0, horizonY, 0, h);
     g.addColorStop(0, css(shallow));
     g.addColorStop(1, css(deep));
