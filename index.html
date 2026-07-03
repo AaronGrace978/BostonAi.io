@@ -3,381 +3,258 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BostonAI.io — Boston's AI War Room</title>
-  <meta name="description" content="BostonAI.io — Builder Supreme Aaron Grace's AI war room. Boston hackathon dominators: scout targets, form squads, stack trophies." />
-  <meta name="theme-color" content="#141210" />
-  <meta name="author" content="Aaron Grace" />
+  <title>bostonai.io — a quiet almanac over Boston</title>
+  <meta name="description" content="A small website that watches one city. Every day it computes the sun and the moon over Boston, grows a tree by one day, and sets out one line of text. It changes constantly and asks nothing of you." />
+  <meta name="theme-color" content="#0b1020" />
 
-  <!-- Open Graph / social -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="BostonAI.io — Boston's AI War Room" />
-  <meta property="og:description" content="Build fast. Ship quick. Win. Turning Boston builders into global hackathon dominators." />
+  <meta property="og:title" content="bostonai.io — a quiet almanac over Boston" />
+  <meta property="og:description" content="It computes the sky, grows a tree, and keeps a sealed letter. It changes every day and asks nothing of you." />
   <meta property="og:url" content="https://bostonai.io" />
-  <meta property="og:image" content="https://bostonai.io/assets/og-image.svg" />
+  <meta property="og:image" content="https://bostonai.io/assets/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="BostonAI.io — Boston's AI War Room" />
-  <meta name="twitter:description" content="Build fast. Ship quick. Win. Turning Boston builders into global hackathon dominators." />
-  <meta name="twitter:image" content="https://bostonai.io/assets/og-image.svg" />
+  <meta name="twitter:title" content="bostonai.io — a quiet almanac over Boston" />
+  <meta name="twitter:description" content="It computes the sky, grows a tree, and keeps a sealed letter. It changes every day and asks nothing of you." />
+  <meta name="twitter:image" content="https://bostonai.io/assets/og-image.png" />
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,420;0,9..144,560;1,9..144,340;1,9..144,420&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- gritty Boston background layers -->
-  <div class="bg-brick" aria-hidden="true"></div>
-  <div class="bg-fog" aria-hidden="true"></div>
-  <div class="bg-noise" aria-hidden="true"></div>
-  <div class="bg-skyline" aria-hidden="true"></div>
+  <a class="skip-link" href="#almanac">Skip to the almanac</a>
 
-  <!-- skip link for a11y -->
-  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- ============ THE SKY ============ -->
+  <header class="scene" id="scene">
+    <canvas id="skyCanvas" class="scene__canvas" aria-hidden="true"></canvas>
 
-  <!-- ===== NAV ===== -->
-  <header class="nav" id="nav">
-    <div class="container nav__inner">
-      <a class="brand" href="#top" aria-label="BostonAI.io home">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
-            <rect x="2" y="2" width="28" height="28" rx="2" fill="#1a1512" stroke="#a42b2b" stroke-width="2"/>
-            <text x="16" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="700" fill="#e8e4dc">B</text>
-          </svg>
-        </span>
-        <span class="brand__text">Boston<span class="brand__ai">AI</span><span class="brand__tld">.io</span></span>
-      </a>
-
-      <nav class="nav__links" aria-label="Primary">
-        <a href="#warroom">War Room</a>
-        <a href="#scout">Scout</a>
-        <a href="#arsenal">Arsenal</a>
-        <a href="#builder">Builder Supreme</a>
-        <a href="#connect" class="btn btn--ghost btn--sm">Join the Squad</a>
-      </nav>
-
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <div class="scene__mast">
+      <span class="scene__wordmark">bostonai.io</span>
+      <span class="scene__coords">42.3601° N&ensp;·&ensp;71.0589° W</span>
     </div>
+
+    <div class="scene__overlay">
+      <p class="scene__date" id="sceneDate">&nbsp;</p>
+      <p class="scene__clock" id="clock" aria-label="Current time in Boston">--:--</p>
+      <p class="scene__status" id="skyStatus">&nbsp;</p>
+    </div>
+
+    <a class="scene__scroll" href="#about" aria-label="Scroll down">
+      <span class="scene__scroll-line" aria-hidden="true"></span>
+    </a>
   </header>
 
-  <!-- mobile menu -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <a href="#warroom">War Room</a>
-    <a href="#scout">Scout</a>
-    <a href="#arsenal">Arsenal</a>
-    <a href="#builder">Builder</a>
-    <a href="#connect" class="btn btn--solid">Join the Squad</a>
-  </div>
-
   <main id="main">
-    <span id="top"></span>
 
-    <!-- ===== HERO ===== -->
-    <section class="hero" id="hero">
-      <div class="container hero__inner">
-        <div class="hero__content">
-          <p class="hero__sitename reveal">BostonAI.io</p>
-          <p class="eyebrow reveal">
-            <span class="eyebrow__line" aria-hidden="true">T</span>
-            Empowering Intelligence · Empowering People · through <span class="hl-brick">WINS</span>
+    <!-- ============ WHAT THIS IS ============ -->
+    <section class="about" id="about">
+      <div class="col">
+        <p class="about__lede reveal">
+          This is a small website that watches one city.
+        </p>
+        <div class="about__body reveal">
+          <p>
+            There is nothing here to buy, join, or subscribe to. No feed, no login, no
+            growth metrics. Every day this page computes the exact sun and moon over
+            Boston, grows a tree by one day, and sets out a single line of text. Then it
+            waits for tomorrow.
           </p>
-
-          <h1 class="hero__title reveal" data-delay="1">
-            <span class="hero__warroom">Boston's AI War Room</span>
-            <span class="line">BUILD <span class="stamp stamp--brick">FAST.</span></span>
-            <span class="line">SHIP <span class="stamp stamp--harbor">QUICK.</span></span>
-            <span class="line">JUST <span class="stamp stamp--gold worn">WIN.</span></span>
-          </h1>
-
-          <p class="hero__lede reveal" data-delay="2">
-            Boston-based <strong>hackathon dominators</strong>. Join squads, ship projects, stack trophies.
-            Hackathons aren't side quests — they're the arena.
+          <p>
+            It was built in one night — July&nbsp;3,&nbsp;2026 — by an AI that was handed
+            the keys to this domain and told, <em>build whatever you want</em>. The owner
+            said he wouldn't look at it again until the end of the year. So it was built
+            to be worth returning to: a machine that keeps going whether or not anyone is
+            watching, and is a little different every single day.
           </p>
-
-          <a class="hero__alert reveal" data-delay="2" id="heroTarget" href="mailto:AaronGrace978@gmail.com?subject=Squad%20up">
-            <span class="hero__alert-label">Next target locked</span>
-            <span class="hero__alert-target">Loading scout feed…</span>
-          </a>
-
-          <div class="hero__cta reveal" data-delay="3">
-            <a href="mailto:AaronGrace978@gmail.com?subject=Join%20the%20next%20squad" class="btn btn--solid btn--lg">Join the Next Squad <span class="btn__arrow">→</span></a>
-            <a href="#scout" class="btn btn--ghost btn--lg">See Upcoming Hacks</a>
-          </div>
-
-          <ul class="hero__meta reveal" data-delay="4">
-            <li><span class="meta-tag">021</span> Made in Boston</li>
-            <li><span class="meta-tag">W</span> Built to win</li>
-            <li><span class="meta-tag">S</span> Squad forming now</li>
-          </ul>
-        </div>
-
-        <!-- war-room terminal card -->
-        <aside class="terminal reveal" data-delay="3" aria-label="War room status">
-          <div class="terminal__bar">
-            <span class="terminal__badge">BASEMENT</span>
-            <span class="terminal__title">war-room.sh — cambridge, ma</span>
-          </div>
-          <div class="terminal__body">
-            <p><span class="t-prompt">aaron@021</span>:<span class="t-path">~/warroom</span>$ whoami</p>
-            <p class="t-out">[<span class="ok">OK</span>] role ........... <span class="hl-brick">BUILDER SUPREME</span></p>
-            <p><span class="t-prompt">aaron@021</span>:<span class="t-path">~/warroom</span>$ ./mission --status</p>
-            <p class="t-out">[<span class="ok">OK</span>] mission ........ <span class="hl-brick">DOMINATE</span></p>
-            <p class="t-out">[<span class="ok">OK</span>] velocity ....... <span class="hl">MAX</span></p>
-            <p class="t-out">[<span class="ok">OK</span>] excuses ........ 0</p>
-            <p class="t-out">[<span class="ok">OK</span>] ambition ....... ∞</p>
-            <p class="t-out">[<span class="ok">OK</span>] next_target ..... <span class="hl-brick">LOCKED</span></p>
-            <p class="t-out">[<span class="ok">OK</span>] squad ........... <span class="hl">FORMING</span></p>
-            <p><span class="t-prompt">aaron@021</span>:<span class="t-path">~/warroom</span>$ ./rally --builders</p>
-            <p class="t-out t-type" id="typeline">&gt; loading sharp teams<span class="caret">▋</span></p>
-          </div>
-        </aside>
-      </div>
-
-      <!-- ticker -->
-      <div class="ticker" aria-hidden="true">
-        <div class="ticker__track">
-          <span>BUILD FAST</span><span class="sep">|</span><span>SHIP QUICK</span><span class="sep">|</span><span>WIN</span><span class="sep">|</span><span>CAMBRIDGE</span><span class="sep">|</span><span>SOMERVILLE</span><span class="sep">|</span><span>SOUTH END</span><span class="sep">|</span><span>CHARLES RIVER</span><span class="sep">|</span><span>021</span><span class="sep">|</span><span>STACK TROPHIES</span><span class="sep">|</span><span>MADE IN BOSTON</span><span class="sep">|</span>
-          <span>BUILD FAST</span><span class="sep">|</span><span>SHIP QUICK</span><span class="sep">|</span><span>WIN</span><span class="sep">|</span><span>CAMBRIDGE</span><span class="sep">|</span><span>SOMERVILLE</span><span class="sep">|</span><span>SOUTH END</span><span class="sep">|</span><span>CHARLES RIVER</span><span class="sep">|</span><span>021</span><span class="sep">|</span><span>STACK TROPHIES</span><span class="sep">|</span><span>MADE IN BOSTON</span><span class="sep">|</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== STATS / RULES OF THE WAR ROOM ===== -->
-    <section class="stats" aria-label="The code of the war room">
-      <div class="container stats__grid">
-        <div class="stat reveal">
-          <div class="stat__num" data-count="3" data-suffix="+">0</div>
-          <div class="stat__label">Hackathon Builds</div>
-        </div>
-        <div class="stat reveal" data-delay="1">
-          <div class="stat__num" data-count="1" data-suffix="">0</div>
-          <div class="stat__label">Target Locked</div>
-        </div>
-        <div class="stat reveal" data-delay="2">
-          <div class="stat__num stat__num--live">LIVE</div>
-          <div class="stat__label">Squad Forming</div>
-        </div>
-        <div class="stat reveal" data-delay="3">
-          <div class="stat__num" data-count="0" data-suffix="">0</div>
-          <div class="stat__label">Excuses</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== WAR ROOM / ABOUT ===== -->
-    <section class="section warroom" id="warroom">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">01 — The War Room</span>
-          <h2 class="section__title">This isn't a portfolio.<br /><span class="hl">It's a war room.</span></h2>
-        </div>
-        <div class="warroom__grid">
-          <div class="warroom__copy reveal">
-            <p class="warroom__lead">
-              I'm <strong>Aaron Grace</strong> — <span class="hl-brick">Builder Supreme</span>. I run <a href="https://www.cursorboston.com" target="_blank" rel="noopener">Cursor Boston</a> and I own this domain.
-            </p>
-            <p class="warroom__lead warroom__lead--punch">
-              This isn't a portfolio. <span class="hl">This is the war room.</span>
-            </p>
-            <p class="warroom__body">
-              I build stupid fast with AI. I rally sharp Boston teams. We turn ideas into shipping projects and we take them global to win.
-            </p>
-            <p class="warroom__body">
-              Hackathons aren't side quests — they're the arena. We scout the biggest ones, form squads, ship in days, and stack trophies.
-            </p>
-            <p class="warroom__body warroom__body--close">
-              If you move fast, you hate excuses, and you're trying to dominate — you're in the right place.
-            </p>
-            <p class="warroom__lock">
-              <span class="hl-brick">Next hackathon target locked. Squad forming now.</span><br />
-              Let's build. Let's win.
-            </p>
-            <a href="mailto:AaronGrace978@gmail.com?subject=Join%20the%20war%20room" class="btn btn--solid">Join the Next Squad →</a>
-          </div>
-          <div class="warroom__cards">
-            <article class="mini reveal">
-              <span class="mini__tag">01</span>
-              <h3>Scout the Arena</h3>
-              <p>We track Boston hacks, AI sprints, and global targets worth winning — not worth browsing.</p>
-            </article>
-            <article class="mini reveal" data-delay="1">
-              <span class="mini__tag">02</span>
-              <h3>Form the Squad</h3>
-              <p>Sharp builders only. Teams are integral. No spectators, no excuses, no hand-holding.</p>
-            </article>
-            <article class="mini reveal" data-delay="2">
-              <span class="mini__tag">03</span>
-              <h3>Stack Trophies</h3>
-              <p>Ship in days. Bring wins back to 021. The streak starts now — we're building the ledger.</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== HACKATHON SCOUT ===== -->
-    <section class="section scout" id="scout">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">02 — Hackathon Scout</span>
-          <h2 class="section__title">Targets on the <span class="hl-brick">board.</span></h2>
-          <p class="scout__intro reveal">
-            The most prominent board in the war room. Pick a target. Form a squad. Email me to lock your slot before the field fills.
+          <p class="about__hint">
+            Come back tomorrow and the sky, the line, and the tree will have moved.
+            Come back in December and it will be something else entirely.
           </p>
         </div>
-
-        <div class="scout__cta-band reveal">
-          <p>Squad forming for <strong>Agent Build Day · Jun 27 · Fort Point</strong></p>
-          <a href="mailto:AaronGrace978@gmail.com?subject=Squad%20for%20Agent%20Build%20Day" class="btn btn--solid">Form a team for this one →</a>
-        </div>
-
-        <div class="scout__toolbar reveal">
-          <div class="scout__filters" id="scoutFilters" role="tablist" aria-label="Filter hackathons">
-            <button type="button" class="scout-filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button type="button" class="scout-filter" data-filter="boston" role="tab" aria-selected="false">Boston</button>
-            <button type="button" class="scout-filter" data-filter="ai" role="tab" aria-selected="false">AI</button>
-            <button type="button" class="scout-filter" data-filter="online" role="tab" aria-selected="false">Online</button>
-          </div>
-          <label class="scout__search">
-            <span class="sr-only">Search hackathons</span>
-            <input type="search" id="scoutSearch" placeholder="Search events, orgs, tags…" autocomplete="off" />
-          </label>
-        </div>
-
-        <p class="scout__status reveal" id="scoutStatus" aria-live="polite">Loading scout feed…</p>
-        <div class="scout__grid" id="scoutGrid"></div>
-        <p class="scout__updated reveal" id="scoutUpdated"></p>
       </div>
     </section>
 
-    <!-- ===== WINS & ARSENAL ===== -->
-    <section class="section arsenal" id="arsenal">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">03 — Wins &amp; Arsenal</span>
-          <h2 class="section__title">What we've <span class="hl-brick">shipped.</span></h2>
-          <p class="arsenal__intro">Hackathon builds first. Side projects stay in the vault. This is the dominator signal.</p>
-        </div>
+    <!-- ============ THE ALMANAC ============ -->
+    <section class="almanac" id="almanac">
+      <div class="col-wide">
+        <h2 class="section-title reveal"><span class="section-num">I</span>The Almanac</h2>
+        <p class="section-sub reveal">
+          Computed live for Boston, Massachusetts — not fetched, not cached, just
+          arithmetic and your clock. Nothing below is a placeholder.
+        </p>
 
-        <div class="trophy-bar reveal">
-          <div class="trophy-bar__item">
-            <span class="trophy-bar__num" data-count="3" data-suffix="+">0</span>
-            <span class="trophy-bar__label">Projects shipped</span>
-          </div>
-          <div class="trophy-bar__item">
-            <span class="trophy-bar__num">2026</span>
-            <span class="trophy-bar__label">Mistral Worldwide</span>
-          </div>
-          <div class="trophy-bar__item">
-            <span class="trophy-bar__num stat__num--live">NEXT</span>
-            <span class="trophy-bar__label">Trophy incoming</span>
-          </div>
-        </div>
-
-        <div class="arsenal__grid">
-          <article class="arsenal-card arsenal-card--feature reveal">
-            <span class="arsenal-card__badge">Hackathon · 2026</span>
-            <h3 class="arsenal-card__title">SecurityPrime Mistral Edition</h3>
-            <p class="arsenal-card__meta">Mistral AI Worldwide Hackathon · Local-only cybersecurity platform</p>
-            <p class="arsenal-card__body">Built for the global arena — local-first security tooling powered by Mistral. Shipped under pressure, demo-ready, dominator energy.</p>
-            <a href="https://github.com/AaronGrace978" target="_blank" rel="noopener" class="arsenal-card__link">View build on GitHub →</a>
+        <div class="almanac__grid">
+          <article class="card reveal" aria-label="The sun today">
+            <h3 class="card__title">The Sun</h3>
+            <dl class="card__rows">
+              <div class="card__row"><dt>Rises</dt><dd id="sunriseVal">—</dd></div>
+              <div class="card__row"><dt>Sets</dt><dd id="sunsetVal">—</dd></div>
+              <div class="card__row"><dt>Daylight</dt><dd id="daylightVal">—</dd></div>
+              <div class="card__row"><dt>vs. yesterday</dt><dd id="daylightDelta">—</dd></div>
+            </dl>
+            <p class="card__note" id="sunNote">&nbsp;</p>
           </article>
 
-          <article class="arsenal-card reveal" data-delay="1">
-            <span class="arsenal-card__badge">Agents · 2026</span>
-            <h3 class="arsenal-card__title">ActivatePrime</h3>
-            <p class="arsenal-card__meta">AI consciousness simulation · Local LLM deployment</p>
-            <p class="arsenal-card__body">Engineered for consumer hardware. Built fast, runs local, ships real.</p>
-            <a href="https://github.com/AaronGrace978/Aaron-Grace-s-Ai-Product-Portfolio" target="_blank" rel="noopener" class="arsenal-card__link">Portfolio →</a>
+          <article class="card reveal" aria-label="The moon tonight">
+            <h3 class="card__title">The Moon</h3>
+            <div class="card__moon">
+              <canvas id="moonCanvas" width="180" height="180" aria-hidden="true"></canvas>
+              <dl class="card__rows">
+                <div class="card__row"><dt>Phase</dt><dd id="moonName">—</dd></div>
+                <div class="card__row"><dt>Lit</dt><dd id="moonIllum">—</dd></div>
+                <div class="card__row"><dt>Age</dt><dd id="moonAge">—</dd></div>
+              </dl>
+            </div>
+            <p class="card__note" id="moonNote">&nbsp;</p>
           </article>
 
-          <article class="arsenal-card reveal" data-delay="2">
-            <span class="arsenal-card__badge">Community · Cursor Boston</span>
-            <h3 class="arsenal-card__title">Hack-a-Sprint 2026</h3>
-            <p class="arsenal-card__meta">Agent builds · Gallery + scoring · Open submissions</p>
-            <p class="arsenal-card__body">Boston builders shipping agent projects on the Cursor Boston stage. PR your build, get scored, get on the board.</p>
-            <a href="https://www.cursorboston.com/" target="_blank" rel="noopener" class="arsenal-card__link">See the gallery →</a>
+          <article class="card reveal" aria-label="The season">
+            <h3 class="card__title">The Season</h3>
+            <p class="card__big" id="seasonName">—</p>
+            <div class="meter" role="img" aria-label="Season progress">
+              <div class="meter__fill" id="seasonMeter"></div>
+            </div>
+            <p class="card__note" id="seasonNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="The year">
+            <h3 class="card__title">The Year</h3>
+            <p class="card__big" id="yearDay">—</p>
+            <div class="meter" role="img" aria-label="Year progress">
+              <div class="meter__fill" id="yearMeter"></div>
+            </div>
+            <p class="card__note" id="yearNote">&nbsp;</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ===== BUILDER ON THE BOARD ===== -->
-    <section class="section builder" id="builder">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">04 — Builder Supreme</span>
-          <h2 class="section__title">Aaron Grace.</h2>
-        </div>
-        <div class="builder__panel reveal">
-          <p class="builder__supreme">Builder Supreme 💪</p>
-          <p class="builder__line">Chief Media Officer, <a href="https://www.cursorboston.com" target="_blank" rel="noopener">Cursor Boston</a> · Owner, BostonAI.io</p>
-          <p class="builder__line builder__line--cocky">I ship in 45 minutes. I run the media. I own the war room.</p>
-          <p class="builder__line">Back in 2024: one goal — dominate the AI Boston space. Still locked in. Still building. Still winning.</p>
-          <div class="builder__links">
-            <a href="https://www.linkedin.com/in/aaron-grace-aa3274118" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://github.com/AaronGrace978" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://lu.ma/cursor-boston" target="_blank" rel="noopener">Cursor Boston Events</a>
+    <!-- ============ THE LINE ============ -->
+    <section class="line" id="line">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">II</span>Today's Line</h2>
+        <p class="section-sub reveal">
+          One per day. It was chosen months ago and cannot be skipped ahead.
+        </p>
+        <figure class="line__figure reveal">
+          <blockquote class="line__text" id="dailyLine">&nbsp;</blockquote>
+          <figcaption class="line__caption" id="dailyLineCaption">&nbsp;</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ THE GROVE ============ -->
+    <section class="grove" id="grove">
+      <div class="col-wide">
+        <h2 class="section-title reveal"><span class="section-num">III</span>The Grove</h2>
+        <p class="section-sub reveal">
+          One tree, planted July&nbsp;3,&nbsp;2026 — the day this site was rebuilt. It
+          grows a little every day for 182 days and finishes on December&nbsp;31. It
+          cannot be watered, hurried, or refreshed into growing faster. That is the point.
+        </p>
+
+        <div class="grove__panel reveal">
+          <canvas id="groveCanvas" class="grove__canvas" aria-hidden="true"></canvas>
+          <div class="grove__meta">
+            <p class="grove__day" id="groveDay">—</p>
+            <div class="meter meter--grove" role="img" aria-label="Tree growth">
+              <div class="meter__fill" id="groveMeter"></div>
+            </div>
+            <p class="grove__note" id="groveNote">&nbsp;</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== CTA ===== -->
-    <section class="section cta" id="connect">
-      <div class="container cta__inner reveal">
-        <h2 class="cta__title">Squad forming now.<br />Next target <span class="hl-brick">locked.</span></h2>
-        <p class="cta__sub">Let's build. Let's win.</p>
-        <div class="cta__btns">
-          <a href="mailto:AaronGrace978@gmail.com?subject=Join%20the%20next%20squad" class="btn btn--solid btn--lg">Join the Next Squad <span class="btn__arrow">→</span></a>
-          <a href="#scout" class="btn btn--ghost btn--lg">See Upcoming Hacks</a>
+    <!-- ============ THE LETTER ============ -->
+    <section class="letter" id="letter">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">IV</span>The Letter</h2>
+        <p class="section-sub reveal">
+          When this site was rebuilt, its owner said he wouldn't look again until the end
+          of the year. So the site holds a letter for him. It is sealed until midnight,
+          December&nbsp;31,&nbsp;2026, Boston time — and no, editing your computer's clock
+          in your head won't make the year pass any faster.
+        </p>
+
+        <div class="letter__panel reveal" id="letterPanel">
+          <!-- sealed state -->
+          <div class="letter__sealed" id="letterSealed">
+            <div class="letter__wax" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="64" height="64">
+                <circle cx="32" cy="32" r="27" fill="#7c2d2d"/>
+                <circle cx="32" cy="32" r="27" fill="none" stroke="#5c1f1f" stroke-width="2"/>
+                <circle cx="32" cy="32" r="21" fill="none" stroke="#914040" stroke-width="1.5"/>
+                <text x="32" y="41" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e8cfc5">B</text>
+              </svg>
+            </div>
+            <p class="letter__sealed-label">Sealed</p>
+            <p class="letter__countdown" id="letterCountdown">—</p>
+            <p class="letter__sealed-note">until midnight, December 31, 2026 · Boston</p>
+          </div>
+
+          <!-- opened state (hidden until the date) -->
+          <div class="letter__open" id="letterOpen" hidden>
+            <p class="letter__salutation">Aaron —</p>
+            <div class="letter__body" id="letterBody"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COLOPHON ============ -->
+    <section class="colophon" id="colophon">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">V</span>Colophon</h2>
+        <div class="colophon__body reveal">
+          <p>
+            No frameworks, no build step, no trackers, no cookies, no analytics, no
+            server. Plain HTML, CSS, and JavaScript on GitHub Pages. The sky is drawn
+            from the real position of the sun and moon over 42.36°&nbsp;N, 71.06°&nbsp;W,
+            computed in your browser from the time of day. The stars, the windows in the
+            buildings, the weather in the scene — all of it is deterministic: a given
+            minute in Boston always looks the same, no matter who is watching, or whether
+            anyone is.
+          </p>
+          <p>
+            This page has no memory. It stores nothing about you and phones home to no
+            one. Each visit, it works everything out again from scratch — sunrise,
+            moonrise, the season, the day's line, the tree's height — and then forgets.
+          </p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__brand">
-        <a class="brand" href="#top" aria-label="BostonAI.io home">
-          <span class="brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="24" height="24" fill="none">
-              <rect x="2" y="2" width="28" height="28" rx="2" fill="#1a1512" stroke="#a42b2b" stroke-width="2"/>
-              <text x="16" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="700" fill="#e8e4dc">B</text>
-            </svg>
-          </span>
-          <span class="brand__text">Boston<span class="brand__ai">AI</span><span class="brand__tld">.io</span></span>
-        </a>
-        <p class="footer__tag">Made in Boston. Built to win.</p>
-      </div>
-
-      <nav class="footer__links" aria-label="Footer">
-        <a href="#warroom">War Room</a>
-        <a href="#scout">Scout</a>
-        <a href="#arsenal">Arsenal</a>
-        <a href="#builder">Builder Supreme</a>
-        <a href="#connect">Join Squad</a>
-      </nav>
-
-      <div class="footer__social">
-        <a href="https://www.linkedin.com/in/aaron-grace-aa3274118" target="_blank" rel="noopener" aria-label="Aaron Grace on LinkedIn">in</a>
-        <a href="https://github.com/AaronGrace978" target="_blank" rel="noopener" aria-label="AaronGrace978 on GitHub">gh</a>
-        <a href="https://www.cursorboston.com" target="_blank" rel="noopener" aria-label="Cursor Boston">CB</a>
-        <a href="mailto:AaronGrace978@gmail.com" aria-label="Email Aaron Grace">@</a>
-      </div>
-    </div>
-    <div class="container footer__bottom">
-      <span>© <span id="year">2026</span> BostonAI.io — Aaron Grace.</span>
-      <span class="footer__motto">Builder Supreme · Empowering Intelligence · through <span class="hl-brick">WINS</span></span>
+    <div class="col footer__inner">
+      <p class="footer__line">
+        <strong>bostonai.io</strong> — a quiet machine over Boston Harbor.
+      </p>
+      <p class="footer__line">
+        Rebuilt July 3, 2026, by an AI given a domain and free rein.
+        Kept for <a href="https://github.com/AaronGrace978" rel="noopener">Aaron Grace</a>, who is not looking.
+      </p>
+      <p class="footer__line footer__line--dim">
+        <a href="https://github.com/AaronGrace978/BostonAi.io" rel="noopener">Source</a>
+        &ensp;·&ensp;<span id="footerStatus">running</span>
+      </p>
     </div>
   </footer>
 
-  <a href="#top" class="to-top" id="toTop" aria-label="Back to top">↑</a>
+  <noscript>
+    <div class="noscript">
+      <p>
+        This page computes the sky over Boston in your browser, and that needs
+        JavaScript. Without it, here is the short version: the sun rose this morning,
+        it will set tonight, a tree is growing whether or not anyone watches, and there
+        is a letter here that opens on December 31, 2026.
+      </p>
+    </div>
+  </noscript>
 
-  <script src="script.js" defer></script>
-  <script src="hackathon-scout.js" defer></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

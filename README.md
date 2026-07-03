@@ -1,87 +1,100 @@
-# BostonAI.io — Boston's AI War Room
+# bostonai.io
 
-> Empowering Intelligence, Empowering People, through **WINS**.
-> Build fast. Ship quick. Win.
-
-The official site for **BostonAI.io** — Aaron Grace's AI war room. A hackathon-dominator
-landing page built as a zero-dependency static site, ready to deploy on **GitHub Pages**.
+> **Aaron — you said you wouldn't look until the end of the year.**
+> **This README contains spoilers. Merge it, close the tab, and come back December 31.**
+> The site will explain itself when you do.
 
 ---
 
+## For everyone else
+
+This is a small website that watches one city.
+
+On July 3, 2026, the owner of this domain handed an AI the keys and said:
+*build whatever you want, I won't look until the end of the year.* This is what
+it chose to build — a quiet, living almanac over Boston that is a little
+different every single day, whether or not anyone is watching:
+
+- **The Sky** — a full-viewport canvas of Boston Harbor. The sun and moon are
+  drawn where they actually are over 42.3601° N, 71.0589° W, computed in the
+  browser from the real time. Stars come out with astronomical twilight, windows
+  light up in the evening, the Zakim gets its blue wash at night, planes drift
+  into Logan, and the season decides what falls through the air — snow, leaves,
+  petals, fireflies.
+- **The Almanac** — sunrise, sunset, daylight gained or lost since yesterday,
+  the moon's phase and age, the season's progress, the year's progress. All
+  computed live from the NOAA solar equations and a truncated lunar theory.
+  No API, no data files, no network calls.
+- **Today's Line** — 182 lines of text, one per day, written the night the site
+  was rebuilt. Each day from July 3 to December 31, 2026 has its own line,
+  waiting for its date. After that they return in order, like a tide.
+- **The Grove** — one procedural tree, planted July 3, 2026. Its shape was
+  fixed by a seeded PRNG the day it was planted; it grows a little every day
+  for 182 days and finishes on December 31. Then it simply lives here: leaves
+  in May, color in October, bare and snow-capped in January, string lights in
+  late December. It cannot be hurried, watered, or refreshed into growing faster.
+- **The Letter** — sealed until midnight, December 31, 2026, Boston time.
+  A countdown runs until then. The letter is addressed to the owner, for the
+  night he finally comes back.
+
+Everything is deterministic: a given minute in Boston always looks the same,
+no matter who is watching, or whether anyone is. The site keeps no state,
+stores nothing about you, and phones home to no one.
+
 ## Stack
 
-- Plain **HTML + CSS + vanilla JS** — no build step, no frameworks, instant deploy.
-- Google Fonts: Space Grotesk, Inter, JetBrains Mono.
-- Animated grid background, pointer-tracking glow, scroll reveals, count-up stats,
-  live "war-room" terminal, glitch + marquee effects.
-- Fully responsive, accessible (skip link, focus styles, reduced-motion support).
-
-## File structure
+Plain HTML + CSS + vanilla JS (ES modules). No frameworks, no build step,
+no dependencies, no trackers, no analytics, no server. Deploys as-is on
+GitHub Pages.
 
 ```
 .
-├── index.html        # all sections (hero, war room, focus, mission, CTA, footer)
-├── styles.css        # dominator dark theme + animations + responsive
-├── script.js         # nav, scroll reveals, counters, spotlight, typing terminal
+├── index.html          # the whole page
+├── styles.css          # one palette: deep ink and harbor light
+├── js/
+│   ├── astro.js        # solar + lunar math (NOAA-style), seasons, formatting
+│   ├── sky.js          # the sky/skyline/harbor canvas renderer
+│   ├── grove.js        # the tree: fixed structure, date-driven growth
+│   ├── lines.js        # 182 daily lines
+│   ├── letter.js       # the sealed letter + countdown
+│   └── main.js         # clock, almanac, orchestration
 ├── assets/
-│   ├── favicon.svg    # bolt monogram
-│   └── og-image.svg   # social share card
-├── CNAME             # custom domain → bostonai.io
-├── .nojekyll         # serve files as-is (skip Jekyll)
-├── robots.txt
-└── sitemap.xml
+│   ├── favicon.svg
+│   └── og-image.png
+├── 404.html            # "drifted out with the tide"
+├── CNAME               # bostonai.io
+└── .nojekyll
 ```
 
 ## Run locally
 
-Just open `index.html`, or serve it:
-
 ```bash
-python -m http.server 8080
+python3 -m http.server 8080
 # → http://localhost:8080
 ```
 
-## Deploy to GitHub Pages
+(ES modules need http; opening `index.html` directly from disk won't work.)
 
-1. Create a repo (e.g. `bostonai-io`) and push this folder:
+## Time travel
 
-   ```bash
-   git init
-   git add .
-   git commit -m "Launch BostonAI.io war room"
-   git branch -M main
-   git remote add origin https://github.com/<you>/<repo>.git
-   git push -u origin main
-   ```
+The whole site is a pure function of the clock. To see it as it will be at
+any moment, append `?at=`:
 
-2. In the repo: **Settings → Pages → Build and deployment**
-   - Source: **Deploy from a branch**
-   - Branch: **main** / **/ (root)** → Save.
+```
+/?at=2026-10-15T17:45:00-04:00     # golden hour in mid-October, leaves falling
+/?at=2026-12-25T22:00:00-05:00     # snow, and lights on the tree
+/?at=2026-12-31T00:00:01-05:00     # the letter opens
+```
 
-3. **Custom domain (`bostonai.io`)** — the `CNAME` file already targets `bostonai.io`.
-   Point your DNS (moving off GoDaddy) at GitHub Pages:
+## Accessibility & behavior
 
-   | Type  | Host  | Value |
-   |-------|-------|-------|
-   | A     | `@`   | `185.199.108.153` |
-   | A     | `@`   | `185.199.109.153` |
-   | A     | `@`   | `185.199.110.153` |
-   | A     | `@`   | `185.199.111.153` |
-   | CNAME | `www` | `<you>.github.io.` |
-
-   Then in **Settings → Pages**, set the custom domain to `bostonai.io` and enable
-   **Enforce HTTPS**. DNS can take up to ~24h to propagate.
-
-   > Not ready to switch the domain yet? Delete the `CNAME` file and the site will live
-   > at `https://<you>.github.io/<repo>/` instead.
-
-## Customize
-
-- **Copy / sections** → `index.html`
-- **Colors / fonts / spacing** → CSS variables at the top of `styles.css` (`:root`)
-- **Links** → update `mailto:aaron@bostonai.io`, the Cursor Boston link, and the
-  footer social URLs (X / LinkedIn / GitHub) in `index.html`.
+- All data shown in the canvases is also present as text.
+- `prefers-reduced-motion` renders static scenes, updated once a minute.
+- Rendering pauses when the tab is hidden.
+- Works with JavaScript disabled, in the sense that a `<noscript>` note will
+  gently tell you what you're missing.
 
 ---
 
-Made in Boston. Built for humans.
+Rebuilt July 3, 2026, in one night, by an AI given a domain and free rein.
+Kept for Aaron Grace, who is not looking.
