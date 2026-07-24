@@ -35,6 +35,12 @@ export type VfsNode =
   | { type: 'file'; content: string; updatedAt: number }
   | { type: 'dir'; updatedAt: number }
 
+export interface VfsSnapshot {
+  version: 1
+  savedAt: number
+  nodes: Array<{ path: string; node: VfsNode }>
+}
+
 export class VirtualFS {
   private nodes = new Map<string, VfsNode>()
 
@@ -120,6 +126,38 @@ export class VirtualFS {
     lines.push(path === '/' ? '/' : path)
     walk(path, '  ', depth)
     return lines.join('\n')
+  }
+
+  /** Serializable copy of the whole tree, for persistence. */
+  snapshot(): VfsSnapshot {
+    const nodes: VfsSnapshot['nodes'] = []
+    for (const [path, node] of this.nodes) {
+      if (path === '/') continue
+      nodes.push({ path, node: { ...node } })
+    }
+    return { version: 1, savedAt: Date.now(), nodes }
+  }
+
+  /**
+   * Replace the tree with a snapshot, re-validating every path.
+   * Returns the number of files restored; corrupt entries are skipped.
+   */
+  restore(snapshot: VfsSnapshot): number {
+    this.reset()
+    let files = 0
+    for (const entry of snapshot.nodes) {
+      try {
+        if (entry.node.type === 'dir') {
+          this.mkdir(entry.path)
+        } else if (typeof entry.node.content === 'string') {
+          this.writeFile(entry.path, entry.node.content)
+          files += 1
+        }
+      } catch {
+        // Skip anything that no longer passes path validation.
+      }
+    }
+    return files
   }
 
   /** Snapshot of successful writes this session (for completion gates). */
