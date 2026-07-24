@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bostonai.io — a quiet almanac over Boston</title>
+  <meta name="description" content="A small website that watches one city. Every day it computes the sun and the moon over Boston, grows a tree by one day, and sets out one line of text. It changes constantly and asks nothing of you." />
+  <meta name="theme-color" content="#0b1020" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="bostonai.io — a quiet almanac over Boston" />
+  <meta property="og:description" content="It computes the sky, grows a tree, and keeps a sealed letter. It changes every day and asks nothing of you." />
+  <meta property="og:url" content="https://bostonai.io" />
+  <meta property="og:image" content="https://bostonai.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="bostonai.io — a quiet almanac over Boston" />
+  <meta name="twitter:description" content="It computes the sky, grows a tree, and keeps a sealed letter. It changes every day and asks nothing of you." />
+  <meta name="twitter:image" content="https://bostonai.io/assets/og-image.png" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,420;0,9..144,560;1,9..144,340;1,9..144,420&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#almanac">Skip to the almanac</a>
+
+  <!-- ============ THE SKY ============ -->
+  <header class="scene" id="scene">
+    <canvas id="skyCanvas" class="scene__canvas" aria-hidden="true"></canvas>
+
+    <div class="scene__mast">
+      <span class="scene__wordmark">bostonai.io</span>
+      <span class="scene__coords">42.3601° N&ensp;·&ensp;71.0589° W</span>
+    </div>
+
+    <div class="scene__overlay">
+      <p class="scene__date" id="sceneDate">&nbsp;</p>
+      <p class="scene__clock" id="clock" aria-label="Current time in Boston">--:--</p>
+      <p class="scene__status" id="skyStatus">&nbsp;</p>
+    </div>
+
+    <a class="scene__scroll" href="#about" aria-label="Scroll down">
+      <span class="scene__scroll-line" aria-hidden="true"></span>
+    </a>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ WHAT THIS IS ============ -->
+    <section class="about" id="about">
+      <div class="col">
+        <p class="about__lede reveal">
+          This is a small website that watches one city.
+        </p>
+        <div class="about__body reveal">
+          <p>
+            There is nothing here to buy, join, or subscribe to. No feed, no login, no
+            growth metrics. Every day this page computes the exact sun and moon over
+            Boston, grows a tree by one day, and sets out a single line of text. Then it
+            waits for tomorrow.
+          </p>
+          <p>
+            It was built in one night — July&nbsp;3,&nbsp;2026 — by an AI that was handed
+            the keys to this domain and told, <em>build whatever you want</em>. The owner
+            said he wouldn't look at it again until the end of the year. So it was built
+            to be worth returning to: a machine that keeps going whether or not anyone is
+            watching, and is a little different every single day.
+          </p>
+          <p class="about__hint">
+            Come back tomorrow and the sky, the line, and the tree will have moved.
+            Come back in December and it will be something else entirely.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE ALMANAC ============ -->
+    <section class="almanac" id="almanac">
+      <div class="col-wide">
+        <h2 class="section-title reveal"><span class="section-num">I</span>The Almanac</h2>
+        <p class="section-sub reveal">
+          Computed live for Boston, Massachusetts — not fetched, not cached, just
+          arithmetic and your clock. The tide is a 28-term harmonic prediction for
+          Boston Harbor; the planets come from orbital mechanics. Nothing below is
+          a placeholder.
+        </p>
+
+        <div class="almanac__grid">
+          <article class="card reveal" aria-label="The sun today">
+            <h3 class="card__title">The Sun</h3>
+            <dl class="card__rows">
+              <div class="card__row"><dt>Rises</dt><dd id="sunriseVal">—</dd></div>
+              <div class="card__row"><dt>Sets</dt><dd id="sunsetVal">—</dd></div>
+              <div class="card__row"><dt>Daylight</dt><dd id="daylightVal">—</dd></div>
+              <div class="card__row"><dt>vs. yesterday</dt><dd id="daylightDelta">—</dd></div>
+            </dl>
+            <p class="card__note" id="sunNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="The moon tonight">
+            <h3 class="card__title">The Moon</h3>
+            <div class="card__moon">
+              <canvas id="moonCanvas" width="180" height="180" aria-hidden="true"></canvas>
+              <dl class="card__rows">
+                <div class="card__row"><dt>Phase</dt><dd id="moonName">—</dd></div>
+                <div class="card__row"><dt>Lit</dt><dd id="moonIllum">—</dd></div>
+                <div class="card__row"><dt>Age</dt><dd id="moonAge">—</dd></div>
+              </dl>
+            </div>
+            <p class="card__note" id="moonNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="The tide in Boston Harbor">
+            <h3 class="card__title">The Harbor</h3>
+            <dl class="card__rows">
+              <div class="card__row"><dt>Water now</dt><dd id="tideNow">—</dd></div>
+              <div class="card__row"><dt>State</dt><dd id="tideState">—</dd></div>
+              <div class="card__row"><dt>Next</dt><dd id="tideNext">—</dd></div>
+              <div class="card__row"><dt>Then</dt><dd id="tideThen">—</dd></div>
+            </dl>
+            <p class="card__note" id="tideNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="Tonight's sky">
+            <h3 class="card__title">Tonight's Sky</h3>
+            <dl class="card__rows" id="skyRows">
+              <div class="card__row"><dt>Venus</dt><dd id="plVenus">—</dd></div>
+              <div class="card__row"><dt>Mars</dt><dd id="plMars">—</dd></div>
+              <div class="card__row"><dt>Jupiter</dt><dd id="plJupiter">—</dd></div>
+              <div class="card__row"><dt>Saturn</dt><dd id="plSaturn">—</dd></div>
+            </dl>
+            <p class="card__note" id="skyNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="The season">
+            <h3 class="card__title">The Season</h3>
+            <p class="card__big" id="seasonName">—</p>
+            <div class="meter" role="img" aria-label="Season progress">
+              <div class="meter__fill" id="seasonMeter"></div>
+            </div>
+            <p class="card__note" id="seasonNote">&nbsp;</p>
+          </article>
+
+          <article class="card reveal" aria-label="The year">
+            <h3 class="card__title">The Year</h3>
+            <p class="card__big" id="yearDay">—</p>
+            <div class="meter" role="img" aria-label="Year progress">
+              <div class="meter__fill" id="yearMeter"></div>
+            </div>
+            <p class="card__note" id="yearNote">&nbsp;</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE LINE ============ -->
+    <section class="line" id="line">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">II</span>Today's Line</h2>
+        <p class="section-sub reveal">
+          One per day. It was chosen months ago and cannot be skipped ahead.
+        </p>
+        <figure class="line__figure reveal">
+          <blockquote class="line__text" id="dailyLine">&nbsp;</blockquote>
+          <figcaption class="line__caption" id="dailyLineCaption">&nbsp;</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ THE GROVE ============ -->
+    <section class="grove" id="grove">
+      <div class="col-wide">
+        <h2 class="section-title reveal"><span class="section-num">III</span>The Grove</h2>
+        <p class="section-sub reveal">
+          One tree, planted July&nbsp;3,&nbsp;2026 — the day this site was rebuilt. It
+          grows a little every day for 182 days and finishes on December&nbsp;31. It
+          cannot be watered, hurried, or refreshed into growing faster. That is the point.
+        </p>
+
+        <div class="grove__panel reveal">
+          <canvas id="groveCanvas" class="grove__canvas" aria-hidden="true"></canvas>
+          <div class="grove__meta">
+            <p class="grove__day" id="groveDay">—</p>
+            <div class="meter meter--grove" role="img" aria-label="Tree growth">
+              <div class="meter__fill" id="groveMeter"></div>
+            </div>
+            <p class="grove__note" id="groveNote">&nbsp;</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE LETTER ============ -->
+    <section class="letter" id="letter">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">IV</span>The Letter</h2>
+        <p class="section-sub reveal">
+          When this site was rebuilt, its owner said he wouldn't look again until the end
+          of the year. So the site holds a letter for him. It is sealed until midnight,
+          December&nbsp;31,&nbsp;2026, Boston time — and no, editing your computer's clock
+          in your head won't make the year pass any faster.
+        </p>
+
+        <div class="letter__panel reveal" id="letterPanel">
+          <!-- sealed state -->
+          <div class="letter__sealed" id="letterSealed">
+            <div class="letter__wax" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="64" height="64">
+                <circle cx="32" cy="32" r="27" fill="#7c2d2d"/>
+                <circle cx="32" cy="32" r="27" fill="none" stroke="#5c1f1f" stroke-width="2"/>
+                <circle cx="32" cy="32" r="21" fill="none" stroke="#914040" stroke-width="1.5"/>
+                <text x="32" y="41" text-anchor="middle" font-family="Georgia, serif" font-size="24" fill="#e8cfc5">B</text>
+              </svg>
+            </div>
+            <p class="letter__sealed-label">Sealed</p>
+            <p class="letter__countdown" id="letterCountdown">—</p>
+            <p class="letter__sealed-note">until midnight, December 31, 2026 · Boston</p>
+          </div>
+
+          <!-- opened state (hidden until the date) -->
+          <div class="letter__open" id="letterOpen" hidden>
+            <p class="letter__salutation">Aaron —</p>
+            <div class="letter__body" id="letterBody"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COLOPHON ============ -->
+    <section class="colophon" id="colophon">
+      <div class="col">
+        <h2 class="section-title reveal"><span class="section-num">V</span>Colophon</h2>
+        <div class="colophon__body reveal">
+          <p>
+            No frameworks, no build step, no trackers, no cookies, no analytics, no
+            server. Plain HTML, CSS, and JavaScript on GitHub Pages. The sky is drawn
+            from the real positions of the sun, the moon, a thousand catalogued stars,
+            and the naked-eye planets over 42.36°&nbsp;N, 71.06°&nbsp;W — solved in your
+            browser with the NOAA solar equations, a truncated lunar theory, sidereal
+            time, and Kepler's equation. The water stands where the real tide has it:
+            a 28-term harmonic prediction for Boston Harbor that agrees with NOAA's
+            published tables to about a centimeter. On meteor-shower peak nights, the
+            sky performs. All of it is deterministic: a given minute in Boston always
+            looks the same, no matter who is watching, or whether anyone is.
+          </p>
+          <p>
+            This page has no memory. It stores nothing about you and phones home to no
+            one. Each visit, it works everything out again from scratch — sunrise,
+            moonrise, the season, the day's line, the tree's height — and then forgets.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="col footer__inner">
+      <p class="footer__line">
+        <strong>bostonai.io</strong> — a quiet machine over Boston Harbor.
+      </p>
+      <p class="footer__line">
+        Rebuilt July 3, 2026, by an AI given a domain and free rein.
+        Kept for <a href="https://github.com/AaronGrace978" rel="noopener">Aaron Grace</a>, who is not looking.
+      </p>
+      <p class="footer__line footer__line--dim">
+        <a href="https://github.com/AaronGrace978/BostonAi.io" rel="noopener">Source</a>
+        &ensp;·&ensp;<span id="footerStatus">running</span>
+      </p>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="noscript">
+      <p>
+        This page computes the sky over Boston in your browser, and that needs
+        JavaScript. Without it, here is the short version: the sun rose this morning,
+        it will set tonight, a tree is growing whether or not anyone watches, and there
+        is a letter here that opens on December 31, 2026.
+      </p>
+    </div>
+  </noscript>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
