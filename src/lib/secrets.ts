@@ -102,8 +102,9 @@ export function providerNeedsKey(provider: ProviderId): boolean {
 
 export const LOCAL_PROXY_ORIGIN = 'http://127.0.0.1:8787'
 /** Production CORS relay — keys pass through to the provider only, not stored. */
+// Optional chain on env: import.meta.env is undefined under plain Node (test:playbook).
 export const CLOUD_RELAY_ORIGIN =
-  (import.meta.env.VITE_CLOUD_RELAY_URL as string | undefined)?.replace(/\/$/, '') ||
+  (import.meta.env?.VITE_CLOUD_RELAY_URL as string | undefined)?.replace(/\/$/, '') ||
   'https://bostonai-relay.aarongrace978.workers.dev'
 
 type RouteProvider = Exclude<ProviderId, 'ollama' | 'prime' | 'custom'>
