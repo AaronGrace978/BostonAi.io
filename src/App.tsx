@@ -3,6 +3,8 @@ import { runGoal, type StreamEvent } from './agent/runtime'
 import {
   clearVault,
   loadVault,
+  LOCAL_PROXY_ORIGIN,
+  pingLocalProxy,
   providerNeedsKey,
   saveVault,
   type ProviderId,
@@ -27,41 +29,28 @@ const PROVIDERS: ProviderDef[] = [
   {
     id: 'ollama-cloud',
     label: 'Ollama Cloud',
-    meta: 'Frontier cloud · ollama.com',
-    modelHint: 'qwen3.5',
-    models: [
-      'qwen3.5',
-      'glm-5.2',
-      'kimi-k2.7-code',
-      'gemma4',
-      'deepseek-v4-flash',
-      'deepseek-v4-pro',
-      'minimax-m2.7',
-      'kimi-k2.6',
-    ],
+    meta: 'Cloud models',
+    modelHint: 'glm-5.2',
+    models: ['qwen3.5', 'glm-5.2', 'kimi-k2.7-code', 'gemma4', 'deepseek-v4-flash', 'deepseek-v4-pro', 'minimax-m2.7', 'kimi-k2.6'],
   },
   {
     id: 'openai',
     label: 'OpenAI',
-    meta: 'GPT line · API',
+    meta: 'GPT family',
     modelHint: 'gpt-4.1',
     models: ['gpt-4.1', 'gpt-4.1-mini', 'gpt-4o', 'o3', 'o4-mini'],
   },
   {
     id: 'anthropic',
     label: 'Anthropic',
-    meta: 'Claude line · API',
+    meta: 'Claude family',
     modelHint: 'claude-sonnet-4-20250514',
-    models: [
-      'claude-sonnet-4-20250514',
-      'claude-opus-4-20250514',
-      'claude-3-5-haiku-latest',
-    ],
+    models: ['claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-3-5-haiku-latest'],
   },
   {
     id: 'prime',
     label: 'Prime V1',
-    meta: 'Coming soon · BostonAI',
+    meta: 'Coming soon',
     modelHint: 'prime-v1',
     models: ['prime-v1'],
     soon: true,
@@ -69,44 +58,74 @@ const PROVIDERS: ProviderDef[] = [
   {
     id: 'openrouter',
     label: 'OpenRouter',
-    meta: 'Multi-provider relay',
+    meta: 'Many models',
     modelHint: 'anthropic/claude-sonnet-4',
-    models: [
-      'anthropic/claude-sonnet-4',
-      'openai/gpt-4.1',
-      'google/gemini-2.5-pro',
-      'moonshotai/kimi-k2.5',
-    ],
+    models: ['anthropic/claude-sonnet-4', 'openai/gpt-4.1', 'google/gemini-2.5-pro'],
   },
   {
     id: 'ollama',
     label: 'Ollama Local',
-    meta: '127.0.0.1 · deck-ready',
+    meta: 'On your machine',
     modelHint: 'llama3.2',
   },
   {
     id: 'groq',
     label: 'Groq',
-    meta: 'Speed lane',
+    meta: 'Fast replies',
     modelHint: 'llama-3.3-70b-versatile',
   },
   {
     id: 'gemini',
     label: 'Gemini',
-    meta: 'Google AI',
+    meta: 'Google',
     modelHint: 'gemini-2.5-flash',
   },
   {
     id: 'custom',
     label: 'Custom',
-    meta: 'OpenAI-compatible',
+    meta: 'Your endpoint',
     modelHint: 'your-model',
   },
 ]
 
-const DISTRICTS = ['SEAPORT', 'BACK BAY', 'KENDALL', 'COMBAT ZONE', 'NORTH END', 'HUB'] as const
+const KIND_LABEL: Record<string, string> = {
+  status: 'Working',
+  thought: 'Thinking',
+  tool: 'Building',
+  result: 'Done step',
+  message: 'Answer',
+  error: 'Problem',
+  preview: 'Preview',
+}
 
-function HarborParticles() {
+function LivingTitle({ text }: { text: string }) {
+  const [glitchAt, setGlitchAt] = useState(-1)
+  const chars = useMemo(() => text.split(''), [text])
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setGlitchAt(Math.floor(Math.random() * chars.length))
+      window.setTimeout(() => setGlitchAt(-1), 420)
+    }, 2200)
+    return () => window.clearInterval(id)
+  }, [chars.length])
+
+  return (
+    <h1 className="glitch-title" aria-label={text}>
+      {chars.map((ch, i) => (
+        <span
+          key={`${ch}-${i}`}
+          className={`ch${glitchAt === i ? ' is-glitching' : ''}`}
+          style={{ animationDelay: `${i * 0.05}s` }}
+        >
+          {ch === ' ' ? '\u00A0' : ch}
+        </span>
+      ))}
+    </h1>
+  )
+}
+
+function HarborField({ building }: { building: boolean }) {
   const ref = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
@@ -114,14 +133,14 @@ function HarborParticles() {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
     let raf = 0
-    const dots = Array.from({ length: 70 }, () => ({
+    const n = building ? 110 : 75
+    const dots = Array.from({ length: n }, () => ({
       x: Math.random(),
       y: Math.random(),
       z: 0.2 + Math.random() * 0.8,
-      vx: (Math.random() - 0.5) * 0.00025,
-      vy: 0.00015 + Math.random() * 0.00055,
+      vx: (Math.random() - 0.5) * (building ? 0.00055 : 0.00022),
+      vy: (building ? 0.00035 : 0.00012) + Math.random() * 0.00045,
     }))
 
     const resize = () => {
@@ -136,24 +155,20 @@ function HarborParticles() {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
       for (const d of dots) {
         d.x += d.vx
-        d.y += d.vy
+        d.y += d.vy * (building ? 1.6 : 1)
         if (d.y > 1.05) d.y = -0.05
-        if (d.x < -0.05) d.x = 1.05
-        if (d.x > 1.05) d.x = -0.05
+        if (d.x < -0.05 || d.x > 1.05) d.x = Math.random()
         const x = d.x * window.innerWidth
         const y = d.y * window.innerHeight
-        const r = 0.6 + d.z * 1.8
         ctx.beginPath()
-        ctx.fillStyle = d.z > 0.6 ? 'rgba(240,224,32,0.55)' : 'rgba(77,238,234,0.35)'
-        ctx.arc(x, y, r, 0, Math.PI * 2)
+        ctx.fillStyle = d.z > 0.55 ? 'rgba(184,224,255,0.55)' : 'rgba(58,160,255,0.28)'
+        ctx.arc(x, y, 0.7 + d.z * (building ? 2.2 : 1.6), 0, Math.PI * 2)
         ctx.fill()
       }
-      // soft connecting neon strands near center
-      ctx.strokeStyle = 'rgba(126,200,227,0.06)'
-      ctx.lineWidth = 1
-      for (let i = 0; i < dots.length; i += 7) {
+      ctx.strokeStyle = building ? 'rgba(58,160,255,0.12)' : 'rgba(58,160,255,0.05)'
+      for (let i = 0; i < dots.length; i += building ? 4 : 8) {
         const a = dots[i]
-        const b = dots[(i + 11) % dots.length]
+        const b = dots[(i + 9) % dots.length]
         ctx.beginPath()
         ctx.moveTo(a.x * window.innerWidth, a.y * window.innerHeight)
         ctx.lineTo(b.x * window.innerWidth, b.y * window.innerHeight)
@@ -169,23 +184,38 @@ function HarborParticles() {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [building])
 
   return <canvas ref={ref} className="fx-canvas" aria-hidden />
+}
+
+function TypeStream({ text }: { text: string }) {
+  const [shown, setShown] = useState('')
+  useEffect(() => {
+    setShown('')
+    let i = 0
+    const id = window.setInterval(() => {
+      i += 1
+      setShown(text.slice(0, i))
+      if (i >= text.length) window.clearInterval(id)
+    }, 18)
+    return () => window.clearInterval(id)
+  }, [text])
+  return <div className="type-stream">{shown}</div>
 }
 
 export default function App() {
   const [vault, setVault] = useState<VaultState>(() => loadVault())
   const [goal, setGoal] = useState(
-    'Build a Boston Harbor tide dashboard as a single index.html — live Boston clock, neon Seaport card UI, fog-over-water vibe.',
+    'Build a Boston Harbor tide page — live Boston clock, calm blue cards, fog over the water.',
   )
   const [running, setRunning] = useState(false)
   const [feed, setFeed] = useState<FeedItem[]>([])
   const [previewHtml, setPreviewHtml] = useState<string | null>(null)
   const [previewPath, setPreviewPath] = useState<string | null>(null)
-  const [district] = useState(
-    () => DISTRICTS[Math.floor(Math.random() * DISTRICTS.length)],
-  )
+  const [proxyUp, setProxyUp] = useState(false)
+  const [showProxyHelp, setShowProxyHelp] = useState(false)
+  const [livePhrase, setLivePhrase] = useState('Ready when you are')
   const vfsRef = useRef(new VirtualFS())
   const abortRef = useRef<AbortController | null>(null)
   const feedEndRef = useRef<HTMLDivElement | null>(null)
@@ -204,6 +234,20 @@ export default function App() {
     feedEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [feed])
 
+  useEffect(() => {
+    let alive = true
+    const tick = async () => {
+      const ok = await pingLocalProxy()
+      if (alive) setProxyUp(ok)
+    }
+    void tick()
+    const id = window.setInterval(tick, 4000)
+    return () => {
+      alive = false
+      window.clearInterval(id)
+    }
+  }, [])
+
   const updateVault = useCallback((patch: Partial<VaultState>) => {
     setVault(prev => {
       const next = { ...prev, ...patch }
@@ -214,10 +258,15 @@ export default function App() {
 
   const pushEvent = useCallback((event: StreamEvent) => {
     setFeed(prev => [...prev, { ...event, id: crypto.randomUUID() }])
+    if (event.kind === 'tool') setLivePhrase(event.text.slice(0, 72) || 'Building…')
+    if (event.kind === 'status') setLivePhrase(event.text)
     if (event.kind === 'preview' && event.previewHtml) {
       setPreviewHtml(event.previewHtml)
       setPreviewPath(event.previewPath ?? null)
+      setLivePhrase('Preview is live')
     }
+    if (event.kind === 'message') setLivePhrase('Finished')
+    if (event.kind === 'error') setLivePhrase('Something blocked the run')
   }, [])
 
   const selectProvider = (id: ProviderId) => {
@@ -225,36 +274,31 @@ export default function App() {
     updateVault({
       provider: id,
       model: def?.modelHint ?? vault.model,
-      baseUrl:
-        id === 'ollama-cloud'
-          ? ''
-          : id === 'ollama'
-            ? vault.baseUrl || 'http://127.0.0.1:11434/v1'
-            : vault.baseUrl,
+      baseUrl: id === 'ollama' ? vault.baseUrl || 'http://127.0.0.1:11434/v1' : id === 'custom' ? vault.baseUrl : '',
     })
-    if (def?.soon) {
-      pushEvent({
-        kind: 'status',
-        text: 'Prime V1 is on the pad — BostonAI\'s own model. Coming soon. Rack another provider to run tonight.',
-      })
-    }
   }
 
   const onRun = async () => {
     if (running) return
     if (vault.provider === 'prime') {
-      pushEvent({
-        kind: 'error',
-        text: 'Prime V1 is coming soon. Flip to Ollama Cloud, OpenAI, or Anthropic to run now.',
-      })
+      pushEvent({ kind: 'error', text: 'Prime V1 is almost ready. Pick OpenAI, Anthropic, or Ollama Cloud for now.' })
       return
     }
     if (providerNeedsKey(vault.provider) && !vault.apiKey.trim()) {
-      pushEvent({ kind: 'error', text: 'Jack in a BYOK key — sessionStorage only, never hits BostonAI servers.' })
+      pushEvent({ kind: 'error', text: 'Add your API key first. It stays in this browser tab only.' })
+      return
+    }
+    if (vault.useLocalProxy && !proxyUp) {
+      pushEvent({
+        kind: 'error',
+        text: 'Local proxy is off. Open the proxy helper below, run the command, then try again.',
+      })
+      setShowProxyHelp(true)
       return
     }
     setRunning(true)
     setFeed([])
+    setLivePhrase('Starting…')
     const ac = new AbortController()
     abortRef.current = ac
     try {
@@ -271,19 +315,19 @@ export default function App() {
     }
   }
 
-  const onStop = () => abortRef.current?.abort()
-
-  const onResetWorkspace = () => {
-    vfsRef.current.reset()
-    setPreviewHtml(null)
-    setPreviewPath(null)
-    setFeed([])
-    pushEvent({ kind: 'status', text: 'Virtual workspace wiped. Fresh asphalt.' })
+  const copyProxyCmd = async () => {
+    const cmd = 'npm run proxy'
+    try {
+      await navigator.clipboard.writeText(cmd)
+      pushEvent({ kind: 'status', text: 'Copied: npm run proxy' })
+    } catch {
+      pushEvent({ kind: 'status', text: 'Run this in the BostonAI folder: npm run proxy' })
+    }
   }
 
   return (
     <div className="stage">
-      <HarborParticles />
+      <HarborField building={running} />
       <div className="fx-grid" aria-hidden />
       <div className="fx-scan" aria-hidden />
       <div className="fx-vignette" aria-hidden />
@@ -293,40 +337,29 @@ export default function App() {
           <div className="chrome__sigil" aria-hidden>
             B
           </div>
-          <div className="chrome__titles">
-            <div className="chrome__name">BostonAI</div>
+          <div>
+            <LivingTitle text="BostonAI.io" />
             <div className="chrome__tag">
-              Night Harbor · <em>BYOK</em> · honest builds · evidence-gated
+              Aaron Grace · <strong>war room for builders</strong> · Boston blue
             </div>
           </div>
         </div>
         <div className="chrome__meta">
-          <span className="district district--hot">DISTRICT · {district}</span>
-          <span className="district">42.36°N 71.06°W</span>
-          <nav className="chrome__links">
-            <a href="/almanac/" target="_blank" rel="noreferrer">
-              Almanac
-            </a>
-            <a href="https://github.com/AaronGrace978/BostonAi.io" target="_blank" rel="noreferrer">
-              Source
-            </a>
-            <a href="/SECURITY.md" target="_blank" rel="noreferrer">
-              Security
-            </a>
-          </nav>
+          <span className={`pill${running ? ' pill--live' : ''}`}>{running ? 'Building' : 'Harbor calm'}</span>
+          <span className="pill">42.36°N 71.06°W</span>
         </div>
       </header>
 
       <div className="deck">
-        <section className="bay">
+        <section className={`bay${running ? ' is-building' : ''}`}>
           <div className="bay__head">
-            <span className="bay__label">Netrunner vault</span>
-            <span className="bay__sub">keys never leave this tab</span>
+            <span className="bay__label">Setup</span>
+            <span className="bay__sub">keys stay on your machine</span>
           </div>
           <div className="bay__body">
-            <p className="lore">
-              <b>Night Harbor lore:</b> Seaport chrome, Back Bay glass, Kendall wetware, fog off the
-              Charles. Not Night City — Boston. Build like the T still runs at 2am.
+            <p className="soul">
+              Built by <em>Aaron Grace</em> — Cursor Boston media, ActivatePrime heart,
+              late nights when the T was delayed. Not another toy. A place that ships.
             </p>
 
             <div className="rack" role="listbox" aria-label="Providers">
@@ -357,7 +390,7 @@ export default function App() {
             </div>
 
             {activeProvider.models && activeProvider.models.length > 0 && (
-              <div className="model-picks" aria-label="Quick models">
+              <div className="model-picks">
                 {activeProvider.models.map(m => (
                   <button
                     key={m}
@@ -374,12 +407,10 @@ export default function App() {
 
             {(vault.provider === 'custom' || vault.provider === 'ollama') && (
               <div className="field">
-                <label htmlFor="baseUrl">Base URL</label>
+                <label htmlFor="baseUrl">Address</label>
                 <input
                   id="baseUrl"
-                  placeholder={
-                    vault.provider === 'ollama' ? 'http://127.0.0.1:11434/v1' : 'https://…/v1'
-                  }
+                  placeholder={vault.provider === 'ollama' ? 'http://127.0.0.1:11434/v1' : 'https://…/v1'}
                   value={vault.baseUrl}
                   onChange={e => updateVault({ baseUrl: e.target.value })}
                   autoComplete="off"
@@ -389,24 +420,56 @@ export default function App() {
 
             {vault.provider !== 'prime' && vault.provider !== 'ollama' && (
               <div className="field">
-                <label htmlFor="apiKey">API key</label>
+                <label htmlFor="apiKey">Your API key</label>
                 <input
                   id="apiKey"
                   type="password"
                   value={vault.apiKey}
                   onChange={e => updateVault({ apiKey: e.target.value })}
-                  placeholder="jack in · sk-…"
+                  placeholder="Paste key here"
                   autoComplete="off"
                   spellCheck={false}
                 />
               </div>
             )}
 
-            {vault.provider === 'prime' && (
-              <p className="hint">
-                <strong>Prime V1</strong> is BostonAI&apos;s own model — rack reserved, engines warm.
-                Not live yet.
-              </p>
+            <label className="check">
+              <input
+                type="checkbox"
+                checked={vault.useLocalProxy}
+                onChange={e => {
+                  updateVault({ useLocalProxy: e.target.checked })
+                  if (e.target.checked) setShowProxyHelp(true)
+                }}
+              />
+              <span>
+                <span className={`status-dot${proxyUp ? ' on' : ''}`} />
+                Local proxy {proxyUp ? 'connected' : 'not running'}
+              </span>
+            </label>
+
+            <button type="button" className="btn btn--ghost" onClick={() => setShowProxyHelp(v => !v)}>
+              {showProxyHelp ? 'Hide proxy help' : 'Need the proxy? Easy setup'}
+            </button>
+
+            {showProxyHelp && (
+              <div className="proxy-box">
+                <h3>Make cloud models work in your browser</h3>
+                <ol>
+                  <li>Open a terminal in the BostonAI folder.</li>
+                  <li>Run the command below and leave it open.</li>
+                  <li>Turn on “Local proxy” above, then hit Build.</li>
+                </ol>
+                <div className="cmd-row">
+                  <code className="cmd">npm run proxy</code>
+                  <button type="button" className="btn" onClick={copyProxyCmd}>
+                    Copy
+                  </button>
+                </div>
+                <p className="hint" style={{ marginBottom: 0 }}>
+                  Listens on {LOCAL_PROXY_ORIGIN}. Your key still goes only to the model company — never to BostonAI servers.
+                </p>
+              </div>
             )}
 
             <label className="check">
@@ -415,7 +478,7 @@ export default function App() {
                 checked={vault.allowNetworkFetch}
                 onChange={e => updateVault({ allowNetworkFetch: e.target.checked })}
               />
-              Allow agent <code>fetch_url</code> (HTTPS · private IPs blocked)
+              Allow the agent to look up public web pages
             </label>
 
             <div className="row">
@@ -429,36 +492,53 @@ export default function App() {
               >
                 Clear key
               </button>
-              <button type="button" className="btn btn--ghost" onClick={onResetWorkspace}>
-                Reset deck
+              <button
+                type="button"
+                className="btn"
+                onClick={() => {
+                  vfsRef.current.reset()
+                  setPreviewHtml(null)
+                  setPreviewPath(null)
+                  setFeed([])
+                  setLivePhrase('Cleared — fresh start')
+                }}
+              >
+                Reset
               </button>
             </div>
 
             <div className="tree-wrap">
               <div className="bay__label" style={{ marginBottom: 8 }}>
-                Virtual files
+                Files
               </div>
               <pre className="tree">{tree}</pre>
             </div>
           </div>
         </section>
 
-        <section className="bay">
+        <section className={`bay${running ? ' is-building' : ''}`}>
           <div className="bay__head">
-            <span className="bay__label">Agent · evidence ReAct</span>
+            <span className="bay__label">Build</span>
             <span className="bay__sub">{activeProvider.label}</span>
           </div>
           <div className="bay__body">
+            {running && (
+              <div className="live-line">
+                <div className="wave" aria-hidden>
+                  <span /><span /><span /><span /><span />
+                </div>
+                <TypeStream text={livePhrase} />
+              </div>
+            )}
             <div className="feed">
-              {feed.length === 0 && (
+              {feed.length === 0 && !running && (
                 <p className="hint">
-                  One JSON decision per step. Completion gates kill false &quot;already built&quot;
-                  claims. Preview stays sandboxed — preview JS cannot read your key.
+                  Tell it what to make. Watch the harbor move while it builds. Honest finish — no fake “already done.”
                 </p>
               )}
               {feed.map(item => (
                 <article key={item.id} className={`event event--${item.kind}`}>
-                  <div className="event__kind">{item.kind}</div>
+                  <div className="event__kind">{KIND_LABEL[item.kind] ?? item.kind}</div>
                   <div className="event__text">{item.text}</div>
                 </article>
               ))}
@@ -469,41 +549,46 @@ export default function App() {
             <textarea
               value={goal}
               onChange={e => setGoal(e.target.value)}
-              placeholder="What should Night Harbor build?"
+              placeholder="What should we build?"
               disabled={running}
             />
             <div className="row">
               <button type="button" className="btn btn--primary" disabled={running} onClick={onRun}>
-                {running ? 'Running…' : 'Run goal'}
+                {running ? 'Building…' : 'Build'}
               </button>
-              <button type="button" className="btn" disabled={!running} onClick={onStop}>
+              <button
+                type="button"
+                className="btn"
+                disabled={!running}
+                onClick={() => abortRef.current?.abort()}
+              >
                 Stop
               </button>
             </div>
           </div>
         </section>
 
-        <section className="bay">
+        <section className={`bay${running ? ' is-building' : ''}`}>
           <div className="bay__head">
-            <span className="bay__label">
-              Preview {previewPath ? `· ${previewPath}` : '· sandboxed iframe'}
-            </span>
-            <span className="bay__sub">no allow-same-origin</span>
+            <span className="bay__label">{previewPath ? previewPath : 'Preview'}</span>
+            <span className="bay__sub">safe window</span>
           </div>
           <div className="bay__body">
             {previewHtml ? (
               <iframe
                 className="preview-frame"
-                title="Sandboxed preview"
+                title="Preview"
                 sandbox="allow-scripts"
                 srcDoc={previewHtml}
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <div className="empty-preview">
+              <div className={`empty-preview${running ? ' is-building' : ''}`}>
                 <div>
-                  <strong>Waiting on preview_html</strong>
-                  Harbor fog until the agent mounts a page. Sandbox keeps your vault sealed.
+                  <strong>{running ? 'Forming…' : 'Waiting'}</strong>
+                  {running
+                    ? 'The page is coming together. Stay with it.'
+                    : 'When the build is ready, it shows up here.'}
                 </div>
               </div>
             )}

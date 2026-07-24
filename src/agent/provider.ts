@@ -28,6 +28,14 @@ async function callOpenAICompatible(vault: VaultState, messages: ChatMessage[]):
       temperature: 0.2,
       messages,
     }),
+  }).catch((err: unknown) => {
+    const msg = err instanceof Error ? err.message : 'network error'
+    if (/failed to fetch|networkerror|load failed/i.test(msg)) {
+      throw new Error(
+        'Failed to reach the provider from this browser (usually CORS). On bostonai.io use OpenRouter, or run locally with `npm run dev` (proxied) for Ollama Cloud / OpenAI / Anthropic.',
+      )
+    }
+    throw err instanceof Error ? err : new Error(String(err))
   })
 
   const raw = await res.text()

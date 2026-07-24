@@ -80,7 +80,10 @@ export async function runGoal(options: RunOptions): Promise<RunOutcome> {
     try {
       raw = await callModel(options.vault, messages)
     } catch (err) {
-      const msg = redactSecrets(err instanceof Error ? err.message : 'Model call failed')
+      const raw = err instanceof Error ? err.message : 'Model call failed'
+      const msg = /failed to fetch|networkerror|load failed/i.test(raw)
+        ? 'Could not reach the model from the browser. Turn on Local proxy, run `npm run proxy`, then try again.'
+        : redactSecrets(raw)
       options.onEvent({ kind: 'error', text: msg })
       return { ok: false, message: msg, evidence }
     }

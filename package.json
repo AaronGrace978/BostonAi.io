@@ -12,6 +12,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "proxy": "node scripts/local-proxy.mjs",
     "typecheck": "tsc -b",
     "test:playbook": "npx tsx scripts/test-playbook.ts"
   },

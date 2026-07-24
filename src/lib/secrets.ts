@@ -1,4 +1,5 @@
-const KEY_STORAGE = 'bostonai.byok.v1'
+const KEY_STORAGE = 'bostonai.vault.v2'
+const PROXY_STORAGE = 'bostonai.proxy.v1'
 
 export type ProviderId =
   | 'openai'
@@ -13,21 +14,22 @@ export type ProviderId =
 
 export interface VaultState {
   provider: ProviderId
-  /** Only present in memory after load — never log this. */
   apiKey: string
   model: string
   baseUrl: string
   allowNetworkFetch: boolean
+  /** Route cloud calls through the user's local BostonAI proxy (CORS). */
+  useLocalProxy: boolean
 }
 
 const DEFAULTS: Omit<VaultState, 'apiKey'> = {
-  provider: 'openrouter',
-  model: 'anthropic/claude-sonnet-4',
+  provider: 'ollama-cloud',
+  model: 'glm-5.2',
   baseUrl: '',
   allowNetworkFetch: false,
+  useLocalProxy: false,
 }
 
-/** Patterns that look like secrets — scrub from UI / tool transcripts. */
 const SECRET_PATTERNS: RegExp[] = [
   /\bsk-[a-zA-Z0-9_-]{8,}\b/g,
   /\bsk-ant-[a-zA-Z0-9_-]{8,}\b/g,
@@ -40,7 +42,7 @@ const SECRET_PATTERNS: RegExp[] = [
 export function redactSecrets(text: string): string {
   let out = text
   for (const re of SECRET_PATTERNS) {
-    out = out.replace(re, '[REDACTED]')
+    out = out.replace(re, '[hidden]')
   }
   return out
 }
@@ -48,7 +50,8 @@ export function redactSecrets(text: string): string {
 export function loadVault(): VaultState {
   try {
     const raw = sessionStorage.getItem(KEY_STORAGE)
-    if (!raw) return { ...DEFAULTS, apiKey: '' }
+    const proxyFlag = sessionStorage.getItem(PROXY_STORAGE) === '1'
+    if (!raw) return { ...DEFAULTS, apiKey: '', useLocalProxy: proxyFlag }
     const parsed = JSON.parse(raw) as Partial<VaultState>
     return {
       ...DEFAULTS,
@@ -56,6 +59,7 @@ export function loadVault(): VaultState {
       model: parsed.model ?? DEFAULTS.model,
       baseUrl: typeof parsed.baseUrl === 'string' ? parsed.baseUrl : '',
       allowNetworkFetch: Boolean(parsed.allowNetworkFetch),
+      useLocalProxy: typeof parsed.useLocalProxy === 'boolean' ? parsed.useLocalProxy : proxyFlag,
       apiKey: typeof parsed.apiKey === 'string' ? parsed.apiKey : '',
     }
   } catch {
@@ -64,7 +68,6 @@ export function loadVault(): VaultState {
 }
 
 export function saveVault(state: VaultState): void {
-  // sessionStorage = tab-scoped; clears when the tab closes.
   sessionStorage.setItem(
     KEY_STORAGE,
     JSON.stringify({
@@ -72,9 +75,11 @@ export function saveVault(state: VaultState): void {
       model: state.model,
       baseUrl: state.baseUrl,
       allowNetworkFetch: state.allowNetworkFetch,
+      useLocalProxy: state.useLocalProxy,
       apiKey: state.apiKey,
     }),
   )
+  sessionStorage.setItem(PROXY_STORAGE, state.useLocalProxy ? '1' : '0')
 }
 
 export function clearVault(): void {
@@ -85,20 +90,78 @@ export function providerNeedsKey(provider: ProviderId): boolean {
   return provider !== 'ollama' && provider !== 'prime'
 }
 
+export const LOCAL_PROXY_ORIGIN = 'http://127.0.0.1:8787'
+
+function localProxyPrefix(provider: ProviderId): string | null {
+  switch (provider) {
+    case 'ollama-cloud':
+      return `${LOCAL_PROXY_ORIGIN}/ollama-cloud`
+    case 'openai':
+      return `${LOCAL_PROXY_ORIGIN}/openai`
+    case 'anthropic':
+      return `${LOCAL_PROXY_ORIGIN}/anthropic`
+    case 'groq':
+      return `${LOCAL_PROXY_ORIGIN}/groq`
+    case 'openrouter':
+      return `${LOCAL_PROXY_ORIGIN}/openrouter`
+    case 'gemini':
+      return `${LOCAL_PROXY_ORIGIN}/gemini`
+    default:
+      return null
+  }
+}
+
+function viteDevProxyPrefix(provider: ProviderId): string | null {
+  if (!import.meta.env.DEV) return null
+  switch (provider) {
+    case 'ollama-cloud':
+      return '/proxy/ollama-cloud'
+    case 'openai':
+      return '/proxy/openai'
+    case 'anthropic':
+      return '/proxy/anthropic'
+    case 'groq':
+      return '/proxy/groq'
+    case 'openrouter':
+      return '/proxy/openrouter'
+    default:
+      return null
+  }
+}
+
+function resolveBase(vault: VaultState, direct: string): string {
+  if (vault.useLocalProxy) {
+    const local = localProxyPrefix(vault.provider)
+    if (local) return local
+  }
+  const vite = viteDevProxyPrefix(vault.provider)
+  if (vite) return vite
+  return vault.baseUrl || direct
+}
+
+export async function pingLocalProxy(): Promise<boolean> {
+  try {
+    const res = await fetch(`${LOCAL_PROXY_ORIGIN}/health`, { method: 'GET' })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
 export function providerEndpoint(vault: VaultState): { url: string; headers: Record<string, string> } {
   if (vault.provider === 'prime') {
-    throw new Error('Prime V1 is coming soon — BostonAI\'s own model. Stay tuned.')
+    throw new Error('Prime V1 is almost here — pick another model for now.')
   }
 
   const key = vault.apiKey.trim()
   if (providerNeedsKey(vault.provider) && !key) {
-    throw new Error('Add an API key before running the agent.')
+    throw new Error('Add your API key first. It stays in this tab only.')
   }
 
   switch (vault.provider) {
     case 'openai':
       return {
-        url: (vault.baseUrl || 'https://api.openai.com/v1') + '/chat/completions',
+        url: `${resolveBase(vault, 'https://api.openai.com')}/v1/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -106,7 +169,7 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'openrouter':
       return {
-        url: (vault.baseUrl || 'https://openrouter.ai/api/v1') + '/chat/completions',
+        url: `${resolveBase(vault, 'https://openrouter.ai')}/api/v1/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -116,7 +179,7 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'groq':
       return {
-        url: (vault.baseUrl || 'https://api.groq.com/openai/v1') + '/chat/completions',
+        url: `${resolveBase(vault, 'https://api.groq.com')}/openai/v1/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -124,7 +187,7 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'ollama-cloud':
       return {
-        url: (vault.baseUrl || 'https://ollama.com') + '/v1/chat/completions',
+        url: `${resolveBase(vault, 'https://ollama.com')}/v1/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -132,7 +195,7 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'ollama':
       return {
-        url: (vault.baseUrl || 'http://127.0.0.1:11434/v1') + '/chat/completions',
+        url: `${vault.baseUrl || 'http://127.0.0.1:11434/v1'}/chat/completions`,
         headers: {
           Authorization: `Bearer ${key || 'ollama'}`,
           'Content-Type': 'application/json',
@@ -140,7 +203,7 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'custom':
       return {
-        url: (vault.baseUrl || '').replace(/\/$/, '') + '/chat/completions',
+        url: `${(vault.baseUrl || '').replace(/\/$/, '')}/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
@@ -148,19 +211,22 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
       }
     case 'anthropic':
       return {
-        url: (vault.baseUrl || 'https://api.anthropic.com/v1') + '/messages',
+        url: `${resolveBase(vault, 'https://api.anthropic.com')}/v1/messages`,
         headers: {
           'x-api-key': key,
           'anthropic-version': '2023-06-01',
           'Content-Type': 'application/json',
+          'anthropic-dangerous-direct-browser-access': 'true',
         },
       }
-    case 'gemini':
+    case 'gemini': {
+      const base = resolveBase(vault, 'https://generativelanguage.googleapis.com')
       return {
-        url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(vault.model)}:generateContent?key=${encodeURIComponent(key)}`,
+        url: `${base}/v1beta/models/${encodeURIComponent(vault.model)}:generateContent?key=${encodeURIComponent(key)}`,
         headers: { 'Content-Type': 'application/json' },
       }
+    }
     default:
-      throw new Error('Unsupported provider')
+      throw new Error('That provider is not supported yet.')
   }
 }

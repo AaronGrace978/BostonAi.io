@@ -25,6 +25,34 @@ export default defineConfig({
   plugins: [react()],
   server: {
     headers: securityHeaders,
+    proxy: {
+      // Browser CORS bypass for local `npm run dev` only — keys still go to the real provider.
+      '/proxy/ollama-cloud': {
+        target: 'https://ollama.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/ollama-cloud/, ''),
+      },
+      '/proxy/openai': {
+        target: 'https://api.openai.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/openai/, ''),
+      },
+      '/proxy/anthropic': {
+        target: 'https://api.anthropic.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/anthropic/, ''),
+      },
+      '/proxy/groq': {
+        target: 'https://api.groq.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/groq/, ''),
+      },
+      '/proxy/openrouter': {
+        target: 'https://openrouter.ai',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/openrouter/, ''),
+      },
+    },
   },
   preview: {
     headers: securityHeaders,
