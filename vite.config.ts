@@ -8,7 +8,7 @@ const securityHeaders = {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: blob:",
-    "connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com https://api.groq.com https://openrouter.ai https://api.together.xyz https://api.fireworks.ai https://api.deepseek.com https://ollama.com ws: wss: http://127.0.0.1:* http://localhost:*",
+    "connect-src 'self' https://api.openai.com https://api.anthropic.com https://api.moonshot.ai https://generativelanguage.googleapis.com https://api.groq.com https://openrouter.ai https://api.together.xyz https://api.fireworks.ai https://api.deepseek.com https://ollama.com ws: wss: http://127.0.0.1:* http://localhost:*",
     "frame-src 'self' blob: null",
     "object-src 'none'",
     "base-uri 'self'",
@@ -41,6 +41,11 @@ export default defineConfig({
         target: 'https://api.anthropic.com',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/proxy\/anthropic/, ''),
+      },
+      '/proxy/kimi': {
+        target: 'https://api.moonshot.ai',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy\/kimi/, ''),
       },
       '/proxy/groq': {
         target: 'https://api.groq.com',

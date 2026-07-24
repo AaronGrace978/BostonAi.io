@@ -29,23 +29,39 @@ const PROVIDERS: ProviderDef[] = [
   {
     id: 'ollama-cloud',
     label: 'Ollama Cloud',
-    meta: 'Cloud models',
-    modelHint: 'glm-5.2',
-    models: ['qwen3.5', 'glm-5.2', 'kimi-k2.7-code', 'gemma4', 'deepseek-v4-flash', 'deepseek-v4-pro', 'minimax-m2.7', 'kimi-k2.6'],
+    meta: 'Frontier cloud',
+    modelHint: 'kimi-k3',
+    models: [
+      'kimi-k3',
+      'glm-5.2',
+      'qwen3.5',
+      'kimi-k2.7-code',
+      'gemma4',
+      'deepseek-v4-pro',
+      'deepseek-v4-flash',
+      'minimax-m2.7',
+    ],
   },
   {
     id: 'openai',
     label: 'OpenAI',
-    meta: 'GPT family',
-    modelHint: 'gpt-4.1',
-    models: ['gpt-4.1', 'gpt-4.1-mini', 'gpt-4o', 'o3', 'o4-mini'],
+    meta: 'GPT-5.6 family',
+    modelHint: 'gpt-5.6',
+    models: ['gpt-5.6', 'gpt-5.6-pro', 'gpt-5.4', 'gpt-4.1', 'o4-mini'],
   },
   {
     id: 'anthropic',
     label: 'Anthropic',
-    meta: 'Claude family',
-    modelHint: 'claude-sonnet-4-20250514',
-    models: ['claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-3-5-haiku-latest'],
+    meta: 'Fable / Sonnet',
+    modelHint: 'claude-fable-5',
+    models: ['claude-fable-5', 'claude-sonnet-5', 'claude-opus-4-20250514', 'claude-sonnet-4-20250514'],
+  },
+  {
+    id: 'kimi',
+    label: 'Kimi',
+    meta: 'Moonshot · K3',
+    modelHint: 'kimi-k3',
+    models: ['kimi-k3', 'kimi-k2.7-code', 'kimi-k2.6'],
   },
   {
     id: 'prime',
@@ -59,8 +75,13 @@ const PROVIDERS: ProviderDef[] = [
     id: 'openrouter',
     label: 'OpenRouter',
     meta: 'Many models',
-    modelHint: 'anthropic/claude-sonnet-4',
-    models: ['anthropic/claude-sonnet-4', 'openai/gpt-4.1', 'google/gemini-2.5-pro'],
+    modelHint: 'anthropic/claude-fable-5',
+    models: [
+      'anthropic/claude-fable-5',
+      'openai/gpt-5.6',
+      'moonshotai/kimi-k3',
+      'google/gemini-3.1-pro',
+    ],
   },
   {
     id: 'ollama',
@@ -78,7 +99,8 @@ const PROVIDERS: ProviderDef[] = [
     id: 'gemini',
     label: 'Gemini',
     meta: 'Google',
-    modelHint: 'gemini-2.5-flash',
+    modelHint: 'gemini-3.1-pro',
+    models: ['gemini-3.1-pro', 'gemini-2.5-flash', 'gemini-2.5-pro'],
   },
   {
     id: 'custom',
@@ -161,11 +183,11 @@ function HarborField({ building }: { building: boolean }) {
         const x = d.x * window.innerWidth
         const y = d.y * window.innerHeight
         ctx.beginPath()
-        ctx.fillStyle = d.z > 0.55 ? 'rgba(184,224,255,0.55)' : 'rgba(58,160,255,0.28)'
+        ctx.fillStyle = d.z > 0.55 ? 'rgba(240,224,32,0.55)' : 'rgba(77,238,234,0.3)'
         ctx.arc(x, y, 0.7 + d.z * (building ? 2.2 : 1.6), 0, Math.PI * 2)
         ctx.fill()
       }
-      ctx.strokeStyle = building ? 'rgba(58,160,255,0.12)' : 'rgba(58,160,255,0.05)'
+      ctx.strokeStyle = building ? 'rgba(240,224,32,0.14)' : 'rgba(77,238,234,0.06)'
       for (let i = 0; i < dots.length; i += building ? 4 : 8) {
         const a = dots[i]
         const b = dots[(i + 9) % dots.length]
@@ -207,7 +229,7 @@ function TypeStream({ text }: { text: string }) {
 export default function App() {
   const [vault, setVault] = useState<VaultState>(() => loadVault())
   const [goal, setGoal] = useState(
-    'Build a Boston Harbor tide page — live Boston clock, calm blue cards, fog over the water.',
+    'Build a cyberpunk Boston Harbor game — neon yellow night, WASD + mouse, score on screen.',
   )
   const [running, setRunning] = useState(false)
   const [feed, setFeed] = useState<FeedItem[]>([])
@@ -215,6 +237,8 @@ export default function App() {
   const [previewPath, setPreviewPath] = useState<string | null>(null)
   const [proxyUp, setProxyUp] = useState(false)
   const [showProxyHelp, setShowProxyHelp] = useState(false)
+  const [previewMax, setPreviewMax] = useState(false)
+  const previewRef = useRef<HTMLIFrameElement | null>(null)
   const [livePhrase, setLivePhrase] = useState('Ready when you are')
   const vfsRef = useRef(new VirtualFS())
   const abortRef = useRef<AbortController | null>(null)
@@ -233,6 +257,15 @@ export default function App() {
   useEffect(() => {
     feedEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [feed])
+
+  useEffect(() => {
+    if (!previewMax) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPreviewMax(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [previewMax])
 
   useEffect(() => {
     let alive = true
@@ -263,7 +296,8 @@ export default function App() {
     if (event.kind === 'preview' && event.previewHtml) {
       setPreviewHtml(event.previewHtml)
       setPreviewPath(event.previewPath ?? null)
-      setLivePhrase('Preview is live')
+      setLivePhrase('Preview is live — click it to play')
+      window.setTimeout(() => previewRef.current?.focus(), 80)
     }
     if (event.kind === 'message') setLivePhrase('Finished')
     if (event.kind === 'error') setLivePhrase('Something blocked the run')
@@ -340,7 +374,7 @@ export default function App() {
           <div>
             <LivingTitle text="BostonAI.io" />
             <div className="chrome__tag">
-              Aaron Grace · <strong>war room for builders</strong> · Boston blue
+              Aaron Grace · <strong>war room for builders</strong> · Night Harbor
             </div>
           </div>
         </div>
@@ -358,8 +392,8 @@ export default function App() {
           </div>
           <div className="bay__body">
             <p className="soul">
-              Built by <em>Aaron Grace</em> — Cursor Boston media, ActivatePrime heart,
-              late nights when the T was delayed. Not another toy. A place that ships.
+              Built by <em>Aaron Grace</em> — ActivatePrime heart, late nights when the coffee
+              went cold. Not another toy. A war room that ships.
             </p>
 
             <div className="rack" role="listbox" aria-label="Providers">
@@ -571,24 +605,53 @@ export default function App() {
         <section className={`bay${running ? ' is-building' : ''}`}>
           <div className="bay__head">
             <span className="bay__label">{previewPath ? previewPath : 'Preview'}</span>
-            <span className="bay__sub">safe window</span>
+            <span className="bay__sub">click to play · keyboard + mouse</span>
           </div>
           <div className="bay__body">
             {previewHtml ? (
-              <iframe
-                className="preview-frame"
-                title="Preview"
-                sandbox="allow-scripts"
-                srcDoc={previewHtml}
-                referrerPolicy="no-referrer"
-              />
+              <div className={`preview-shell${previewMax ? ' is-max-wrap' : ''}`}>
+                <div className={`preview-stage${previewMax ? ' is-max' : ''}`}>
+                  <div className="preview-toolbar">
+                    <button
+                      type="button"
+                      className="btn btn--primary"
+                      onClick={() => {
+                        setPreviewMax(v => !v)
+                        window.setTimeout(() => previewRef.current?.focus(), 50)
+                      }}
+                    >
+                      {previewMax ? 'Exit full screen' : 'Maximize'}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn"
+                      onClick={() => previewRef.current?.focus()}
+                    >
+                      Focus game
+                    </button>
+                    <span className="preview-hint">Click inside to play · Esc exits full screen</span>
+                  </div>
+                  <iframe
+                    ref={previewRef}
+                    className="preview-frame"
+                    title="Game preview"
+                    sandbox="allow-scripts allow-pointer-lock allow-forms"
+                    allow="fullscreen; gamepad; autoplay"
+                    allowFullScreen
+                    tabIndex={0}
+                    srcDoc={previewHtml}
+                    referrerPolicy="no-referrer"
+                    onLoad={() => previewRef.current?.focus()}
+                  />
+                </div>
+              </div>
             ) : (
               <div className={`empty-preview${running ? ' is-building' : ''}`}>
                 <div>
                   <strong>{running ? 'Forming…' : 'Waiting'}</strong>
                   {running
                     ? 'The page is coming together. Stay with it.'
-                    : 'When the build is ready, it shows up here.'}
+                    : 'When the build is ready, it shows up here. Games get keyboard + mouse.'}
                 </div>
               </div>
             )}

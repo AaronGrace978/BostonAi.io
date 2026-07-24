@@ -15,6 +15,7 @@ const ROUTES = {
   '/ollama-cloud': 'https://ollama.com',
   '/openai': 'https://api.openai.com',
   '/anthropic': 'https://api.anthropic.com',
+  '/kimi': 'https://api.moonshot.ai',
   '/groq': 'https://api.groq.com',
   '/openrouter': 'https://openrouter.ai',
   '/gemini': 'https://generativelanguage.googleapis.com',

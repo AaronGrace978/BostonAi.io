@@ -9,6 +9,7 @@ export type ProviderId =
   | 'ollama'
   | 'groq'
   | 'gemini'
+  | 'kimi'
   | 'prime'
   | 'custom'
 
@@ -24,7 +25,7 @@ export interface VaultState {
 
 const DEFAULTS: Omit<VaultState, 'apiKey'> = {
   provider: 'ollama-cloud',
-  model: 'glm-5.2',
+  model: 'kimi-k3',
   baseUrl: '',
   allowNetworkFetch: false,
   useLocalProxy: false,
@@ -100,6 +101,8 @@ function localProxyPrefix(provider: ProviderId): string | null {
       return `${LOCAL_PROXY_ORIGIN}/openai`
     case 'anthropic':
       return `${LOCAL_PROXY_ORIGIN}/anthropic`
+    case 'kimi':
+      return `${LOCAL_PROXY_ORIGIN}/kimi`
     case 'groq':
       return `${LOCAL_PROXY_ORIGIN}/groq`
     case 'openrouter':
@@ -120,6 +123,8 @@ function viteDevProxyPrefix(provider: ProviderId): string | null {
       return '/proxy/openai'
     case 'anthropic':
       return '/proxy/anthropic'
+    case 'kimi':
+      return '/proxy/kimi'
     case 'groq':
       return '/proxy/groq'
     case 'openrouter':
@@ -188,6 +193,14 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
     case 'ollama-cloud':
       return {
         url: `${resolveBase(vault, 'https://ollama.com')}/v1/chat/completions`,
+        headers: {
+          Authorization: `Bearer ${key}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    case 'kimi':
+      return {
+        url: `${resolveBase(vault, 'https://api.moonshot.ai')}/v1/chat/completions`,
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',

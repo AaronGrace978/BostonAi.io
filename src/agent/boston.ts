@@ -21,7 +21,7 @@ const TOPICS: Record<string, string> = {
     'The archived bostonai.io almanac computed sun/moon/tide locally in-browser for these coordinates.',
   ].join('\n'),
   builders: [
-    'Local builder culture: Cursor Boston meetups, MIT/Harvard/Northeastern talent, Kendall Square labs, Seaport startups.',
+    'Local builder culture: hackathons, MIT/Harvard/Northeastern talent, Kendall Square labs, Seaport startups.',
     'BostonAI positioning: coding agent + local context — not a generic chat wrapper.',
   ].join('\n'),
 }
