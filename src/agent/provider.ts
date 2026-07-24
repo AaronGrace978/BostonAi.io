@@ -6,6 +6,9 @@ export interface ChatMessage {
 }
 
 export async function callModel(vault: VaultState, messages: ChatMessage[]): Promise<string> {
+  if (vault.provider === 'prime') {
+    throw new Error('Prime V1 is coming soon — BostonAI\'s own model is not live yet.')
+  }
   if (vault.provider === 'anthropic') return callAnthropic(vault, messages)
   if (vault.provider === 'gemini') return callGemini(vault, messages)
   return callOpenAICompatible(vault, messages)

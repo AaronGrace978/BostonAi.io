@@ -4,9 +4,11 @@ export type ProviderId =
   | 'openai'
   | 'anthropic'
   | 'openrouter'
+  | 'ollama-cloud'
+  | 'ollama'
   | 'groq'
   | 'gemini'
-  | 'ollama'
+  | 'prime'
   | 'custom'
 
 export interface VaultState {
@@ -79,9 +81,19 @@ export function clearVault(): void {
   sessionStorage.removeItem(KEY_STORAGE)
 }
 
+export function providerNeedsKey(provider: ProviderId): boolean {
+  return provider !== 'ollama' && provider !== 'prime'
+}
+
 export function providerEndpoint(vault: VaultState): { url: string; headers: Record<string, string> } {
+  if (vault.provider === 'prime') {
+    throw new Error('Prime V1 is coming soon — BostonAI\'s own model. Stay tuned.')
+  }
+
   const key = vault.apiKey.trim()
-  if (!key) throw new Error('Add an API key before running the agent.')
+  if (providerNeedsKey(vault.provider) && !key) {
+    throw new Error('Add an API key before running the agent.')
+  }
 
   switch (vault.provider) {
     case 'openai':
@@ -105,6 +117,14 @@ export function providerEndpoint(vault: VaultState): { url: string; headers: Rec
     case 'groq':
       return {
         url: (vault.baseUrl || 'https://api.groq.com/openai/v1') + '/chat/completions',
+        headers: {
+          Authorization: `Bearer ${key}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    case 'ollama-cloud':
+      return {
+        url: (vault.baseUrl || 'https://ollama.com') + '/v1/chat/completions',
         headers: {
           Authorization: `Bearer ${key}`,
           'Content-Type': 'application/json',
