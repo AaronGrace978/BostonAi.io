@@ -2,7 +2,7 @@
   "name": "bostonai",
   "private": true,
   "version": "0.1.0",
-  "description": "BostonAI.io — Boston's go-to coding agent. BYOK. Evidence-gated builds.",
+  "description": "BostonAI.io — Night Harbor coding agent. Paste a key and build.",
   "author": "BostonAi.io <hello@bostonai.io>",
   "homepage": "https://bostonai.io",
   "license": "UNLICENSED",

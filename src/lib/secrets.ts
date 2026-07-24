@@ -19,13 +19,13 @@ export interface VaultState {
   model: string
   baseUrl: string
   allowNetworkFetch: boolean
-  /** Route cloud calls through the user's local BostonAI proxy (CORS). */
+  /** Prefer the one-click local proxy (keys never leave this machine). */
   useLocalProxy: boolean
 }
 
 const DEFAULTS: Omit<VaultState, 'apiKey'> = {
   provider: 'ollama-cloud',
-  model: 'kimi-k3',
+  model: 'glm-5.2',
   baseUrl: '',
   allowNetworkFetch: false,
   useLocalProxy: false,
@@ -54,10 +54,19 @@ export function loadVault(): VaultState {
     const proxyFlag = sessionStorage.getItem(PROXY_STORAGE) === '1'
     if (!raw) return { ...DEFAULTS, apiKey: '', useLocalProxy: proxyFlag }
     const parsed = JSON.parse(raw) as Partial<VaultState>
+    let provider = parsed.provider ?? DEFAULTS.provider
+    let model = parsed.model ?? DEFAULTS.model
+    // Migrate: kimi-k3 is Moonshot, not Ollama Cloud
+    if (provider === 'ollama-cloud' && /^kimi-k3/i.test(model)) {
+      provider = 'kimi'
+    }
+    if (provider === 'ollama-cloud' && /^kimi-/i.test(model)) {
+      model = DEFAULTS.model
+    }
     return {
       ...DEFAULTS,
-      provider: parsed.provider ?? DEFAULTS.provider,
-      model: parsed.model ?? DEFAULTS.model,
+      provider,
+      model,
       baseUrl: typeof parsed.baseUrl === 'string' ? parsed.baseUrl : '',
       allowNetworkFetch: Boolean(parsed.allowNetworkFetch),
       useLocalProxy: typeof parsed.useLocalProxy === 'boolean' ? parsed.useLocalProxy : proxyFlag,
@@ -92,46 +101,49 @@ export function providerNeedsKey(provider: ProviderId): boolean {
 }
 
 export const LOCAL_PROXY_ORIGIN = 'http://127.0.0.1:8787'
+/** Production CORS relay — keys pass through to the provider only, not stored. */
+export const CLOUD_RELAY_ORIGIN =
+  (import.meta.env.VITE_CLOUD_RELAY_URL as string | undefined)?.replace(/\/$/, '') ||
+  'https://bostonai-relay.aarongrace978.workers.dev'
 
-function localProxyPrefix(provider: ProviderId): string | null {
-  switch (provider) {
+type RouteProvider = Exclude<ProviderId, 'ollama' | 'prime' | 'custom'>
+
+function routePrefix(provider: ProviderId): string | null {
+  switch (provider as RouteProvider | ProviderId) {
     case 'ollama-cloud':
-      return `${LOCAL_PROXY_ORIGIN}/ollama-cloud`
+      return 'ollama-cloud'
     case 'openai':
-      return `${LOCAL_PROXY_ORIGIN}/openai`
+      return 'openai'
     case 'anthropic':
-      return `${LOCAL_PROXY_ORIGIN}/anthropic`
+      return 'anthropic'
     case 'kimi':
-      return `${LOCAL_PROXY_ORIGIN}/kimi`
+      return 'kimi'
     case 'groq':
-      return `${LOCAL_PROXY_ORIGIN}/groq`
+      return 'groq'
     case 'openrouter':
-      return `${LOCAL_PROXY_ORIGIN}/openrouter`
+      return 'openrouter'
     case 'gemini':
-      return `${LOCAL_PROXY_ORIGIN}/gemini`
+      return 'gemini'
     default:
       return null
   }
 }
 
+function localProxyPrefix(provider: ProviderId): string | null {
+  const route = routePrefix(provider)
+  return route ? `${LOCAL_PROXY_ORIGIN}/${route}` : null
+}
+
+function cloudRelayPrefix(provider: ProviderId): string | null {
+  const route = routePrefix(provider)
+  return route ? `${CLOUD_RELAY_ORIGIN}/${route}` : null
+}
+
 function viteDevProxyPrefix(provider: ProviderId): string | null {
   if (!import.meta.env.DEV) return null
-  switch (provider) {
-    case 'ollama-cloud':
-      return '/proxy/ollama-cloud'
-    case 'openai':
-      return '/proxy/openai'
-    case 'anthropic':
-      return '/proxy/anthropic'
-    case 'kimi':
-      return '/proxy/kimi'
-    case 'groq':
-      return '/proxy/groq'
-    case 'openrouter':
-      return '/proxy/openrouter'
-    default:
-      return null
-  }
+  const route = routePrefix(provider)
+  if (!route || route === 'gemini') return null
+  return `/proxy/${route}`
 }
 
 function resolveBase(vault: VaultState, direct: string): string {
@@ -141,12 +153,23 @@ function resolveBase(vault: VaultState, direct: string): string {
   }
   const vite = viteDevProxyPrefix(vault.provider)
   if (vite) return vite
+  const cloud = cloudRelayPrefix(vault.provider)
+  if (cloud) return cloud
   return vault.baseUrl || direct
 }
 
 export async function pingLocalProxy(): Promise<boolean> {
   try {
     const res = await fetch(`${LOCAL_PROXY_ORIGIN}/health`, { method: 'GET' })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
+export async function pingCloudRelay(): Promise<boolean> {
+  try {
+    const res = await fetch(`${CLOUD_RELAY_ORIGIN}/health`, { method: 'GET' })
     return res.ok
   } catch {
     return false

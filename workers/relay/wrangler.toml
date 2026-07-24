@@ -1,0 +1,4 @@
+name = "bostonai-relay"
+account_id = "ddaf20237d10cea6549ea450b1f32912"
+main = "src/index.ts"
+compatibility_date = "2026-07-01"
