@@ -613,7 +613,7 @@ a:hover { color: var(--ice); }
 }
 
 .type-stream::after {
-  content: '▍
+  content: "|";
   animation: caret 0.8s steps(1) infinite;
   color: var(--blue);
 }
