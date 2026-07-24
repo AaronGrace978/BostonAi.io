@@ -2,13 +2,14 @@
 
 ## Threat model (v0.1)
 
-This is a **browser-only BYOK agent**. The model runs tools against an **in-memory virtual filesystem** and a **sandboxed HTML preview**. There is no BostonAI backend that stores your API key.
+This is a **browser-only BYOK agent**. The model runs tools against a **browser-local virtual filesystem** and a **sandboxed HTML preview**. There is no BostonAI backend that stores your API key.
 
 ### What we protect
 
 | Control | How |
 |---------|-----|
 | API key hygiene | Keys live in `sessionStorage` only (tab lifetime). Never written to the VFS, never appended to chat logs, never sent except as `Authorization` to the provider you chose. |
+| Workspace persistence | Generated files persist in **IndexedDB on your device only** so a refresh cannot destroy a build. Keys are never stored there, and “Reset deck” wipes it. |
 | Secret redaction | Tool results and errors pass through a redactor that strips `sk-…`, Bearer tokens, and common key shapes before UI display. |
 | Decision validation | Model output must be one Zod-validated JSON object: `{type:"tool"}` or `{type:"message"}`. Invalid JSON cannot invoke tools. |
 | Path traversal | VFS paths are normalized; `..`, absolute drives, and null bytes are rejected. |

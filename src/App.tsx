@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { runGoal, type StreamEvent } from './agent/runtime'
+import { DiffView } from './components/DiffView'
+import { QuestBoard } from './components/QuestBoard'
+import { clearWorkspaceSnapshot, loadWorkspaceSnapshot, saveWorkspaceSnapshot } from './lib/persist'
 import {
   clearVault,
   CLOUD_RELAY_ORIGIN,
@@ -13,6 +16,7 @@ import {
   type VaultState,
 } from './lib/secrets'
 import { VirtualFS } from './lib/vfs'
+import { downloadWorkspaceZip } from './lib/zip'
 
 interface FeedItem extends StreamEvent {
   id: string
@@ -198,6 +202,8 @@ export default function App() {
   const vfsRef = useRef(new VirtualFS())
   const abortRef = useRef<AbortController | null>(null)
   const feedEndRef = useRef<HTMLDivElement | null>(null)
+  const hydratedRef = useRef(false)
+  const restoreStartedRef = useRef(false)
 
   const activeProvider = useMemo(
     () => PROVIDERS.find(p => p.id === vault.provider) ?? PROVIDERS[0],
@@ -255,6 +261,38 @@ export default function App() {
       window.setTimeout(() => previewRef.current?.focus(), 80)
     }
   }, [])
+
+  // Restore the last workspace from IndexedDB, once, before any autosave may run.
+  useEffect(() => {
+    if (restoreStartedRef.current) return
+    restoreStartedRef.current = true
+    let alive = true
+    void loadWorkspaceSnapshot().then(snapshot => {
+      if (alive && snapshot) {
+        const files = vfsRef.current.restore(snapshot)
+        if (files > 0) {
+          pushEvent({
+            kind: 'status',
+            text: `Workspace restored — ${files} file${files === 1 ? '' : 's'} from your last session. “Reset deck” wipes it.`,
+          })
+        }
+      }
+      hydratedRef.current = true
+    })
+    return () => {
+      alive = false
+    }
+  }, [pushEvent])
+
+  // Autosave the workspace after activity settles. Skips until restore finished
+  // so an empty boot never clobbers a saved session.
+  useEffect(() => {
+    if (!hydratedRef.current || feed.length === 0) return
+    const id = window.setTimeout(() => {
+      void saveWorkspaceSnapshot(vfsRef.current.snapshot())
+    }, 600)
+    return () => window.clearTimeout(id)
+  }, [feed])
 
   const selectProvider = (id: ProviderId) => {
     const def = PROVIDERS.find(p => p.id === id)
@@ -321,11 +359,21 @@ export default function App() {
 
   const onResetWorkspace = () => {
     vfsRef.current.reset()
+    void clearWorkspaceSnapshot()
     setPreviewHtml(null)
     setPreviewPath(null)
     setFeed([])
     setPreviewMax(false)
     pushEvent({ kind: 'status', text: 'Virtual workspace wiped. Fresh asphalt.' })
+  }
+
+  const onDownloadZip = () => {
+    const count = downloadWorkspaceZip(vfsRef.current)
+    pushEvent(
+      count > 0
+        ? { kind: 'status', text: `Zipped ${count} file${count === 1 ? '' : 's'} — check your downloads.` }
+        : { kind: 'status', text: 'Nothing to zip yet — run a goal first.' },
+    )
   }
 
   return (
@@ -350,6 +398,9 @@ export default function App() {
         <div className="chrome__meta">
           <span className="district district--hot">DISTRICT · {district}</span>
           <span className="district">42.36°N 71.06°W</span>
+          <a className="district district--link" href="/almanac/" title="The quiet almanac — where this site began">
+            ALMANAC · OLD HARBOR
+          </a>
         </div>
       </header>
 
@@ -525,10 +576,16 @@ export default function App() {
             </div>
 
             <div className="tree-wrap">
-              <div className="bay__label" style={{ marginBottom: 8 }}>
-                Virtual files
+              <div className="tree-head">
+                <div className="bay__label">Virtual files</div>
+                <button type="button" className="btn btn--mini" onClick={onDownloadZip}>
+                  Download .zip
+                </button>
               </div>
               <pre className="tree">{tree}</pre>
+              <p className="hint" style={{ marginTop: 8, marginBottom: 0 }}>
+                Files persist in this browser between visits. Zip them to keep a build for good.
+              </p>
             </div>
           </div>
         </section>
@@ -541,15 +598,19 @@ export default function App() {
           <div className="bay__body">
             <div className="feed">
               {feed.length === 0 && (
-                <p className="hint">
-                  Tell it what to make. Honest finish — no fake “already done.” Preview stays
-                  sandboxed so preview JS cannot read your key.
-                </p>
+                <>
+                  <p className="hint">
+                    Tell it what to make. Honest finish — no fake “already done.” Preview stays
+                    sandboxed so preview JS cannot read your key.
+                  </p>
+                  <QuestBoard disabled={running} onPick={quest => setGoal(quest)} />
+                </>
               )}
               {feed.map(item => (
                 <article key={item.id} className={`event event--${item.kind}`}>
                   <div className="event__kind">{item.kind}</div>
                   <div className="event__text">{item.text}</div>
+                  {item.diff && <DiffView diff={item.diff} />}
                 </article>
               ))}
               <div ref={feedEndRef} />

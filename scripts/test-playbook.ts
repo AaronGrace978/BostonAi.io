@@ -49,7 +49,9 @@ const goal = 'Build a new HTML game about the T'
 }
 
 {
-  assert.match(redactSecrets('key sk-abc1234567890xyz'), /REDACTED/)
+  const redacted = redactSecrets('key sk-abc1234567890xyz')
+  assert.match(redacted, /\[hidden\]/)
+  assert.doesNotMatch(redacted, /sk-abc/)
 }
 
 {

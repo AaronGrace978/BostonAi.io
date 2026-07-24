@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal lost — BostonAI.io</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#07060a" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(240, 224, 32, 0.07), transparent 45%),
+        radial-gradient(ellipse at 80% 100%, rgba(77, 238, 234, 0.06), transparent 40%),
+        #05040a;
+      color: #f4f1e8;
+      font-family: 'Share Tech Mono', ui-monospace, monospace;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    .lost h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #f4f1e8, #f0e020 55%, #4deeea);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+    .lost p {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: #8b93a7;
+      margin-bottom: 2.2rem;
+    }
+    .lost nav { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .lost a {
+      font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #4deeea; text-decoration: none;
+      border: 1px solid rgba(77, 238, 234, 0.35);
+      padding: 0.7rem 1.3rem;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .lost a:hover { color: #f0e020; border-color: rgba(240, 224, 32, 0.5); }
+  </style>
+</head>
+<body>
+  <main class="lost">
+    <h1>Signal lost</h1>
+    <p>404 · This block of the grid was never built.</p>
+    <nav>
+      <a href="/">Night Harbor agent</a>
+      <a href="/almanac/">The quiet almanac</a>
+    </nav>
+  </main>
+</body>
+</html>

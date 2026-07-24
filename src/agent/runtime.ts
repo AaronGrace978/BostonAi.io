@@ -10,6 +10,7 @@ import {
 } from './playbook'
 import { callModel, type ChatMessage } from './provider'
 import { executeTool } from './tools'
+import type { FileDiff } from '../lib/diff'
 import { redactSecrets, type VaultState } from '../lib/secrets'
 import { VirtualFS } from '../lib/vfs'
 
@@ -20,6 +21,7 @@ export interface StreamEvent {
   text: string
   previewHtml?: string
   previewPath?: string
+  diff?: FileDiff
 }
 
 export interface RunOptions {
@@ -140,6 +142,7 @@ export async function runGoal(options: RunOptions): Promise<RunOutcome> {
       text: result.summary.slice(0, 4000),
       previewHtml: result.previewHtml,
       previewPath: result.previewPath,
+      diff: result.diff,
     })
 
     if (result.previewHtml) {

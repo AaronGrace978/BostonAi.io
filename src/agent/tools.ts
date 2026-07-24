@@ -3,6 +3,7 @@ import { bostonContext } from './boston'
 import type { ToolName } from './decisions'
 import type { RunEvidence } from './playbook'
 import { recordWrite } from './playbook'
+import { diffFile, type FileDiff } from '../lib/diff'
 import { redactSecrets } from '../lib/secrets'
 import { PathError, VirtualFS, normalizeVfsPath } from '../lib/vfs'
 
@@ -11,7 +12,10 @@ export interface ToolResult {
   summary: string
   previewHtml?: string
   previewPath?: string
+  diff?: FileDiff
 }
+
+const MAX_DIFF_INPUT = 200_000
 
 const writeSchema = z.object({
   path: z.string().min(1).max(512),
@@ -68,11 +72,30 @@ export async function executeTool(input: {
         if (/\b(sk-[a-zA-Z0-9_-]{12,}|AIza[0-9A-Za-z_-]{20,})\b/.test(content)) {
           return { ok: false, summary: 'Refused: content appears to contain an API key. Do not store keys in the VFS.' }
         }
+        const full = normalizeVfsPath(path)
+        let before = ''
+        try {
+          before = vfs.readFile(full)
+        } catch {
+          before = ''
+        }
         vfs.writeFile(path, content)
-        recordWrite(evidence, normalizeVfsPath(path), content)
+        recordWrite(evidence, full, content)
+        let diff: FileDiff | undefined
+        if (before.length <= MAX_DIFF_INPUT && content.length <= MAX_DIFF_INPUT) {
+          const computed = diffFile(before, content)
+          if (computed) {
+            diff = {
+              ...computed,
+              lines: computed.lines.map(l => ({ ...l, text: redactSecrets(l.text) })),
+            }
+          }
+        }
+        const stats = diff ? ` · +${diff.added} −${diff.removed} lines` : ''
         return {
           ok: true,
-          summary: `Wrote ${normalizeVfsPath(path)} (${content.length} chars)`,
+          summary: `Wrote ${full} (${content.length} chars${stats})`,
+          diff,
         }
       }
       case 'preview_html': {

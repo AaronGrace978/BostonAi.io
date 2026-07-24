@@ -12,6 +12,9 @@ A browser agent inspired by **DinoClaw v0.5.71** completion discipline:
 - Playbook nudges (mkdir → write → preview)
 - **Honest builds** — rejects “already built” with no this-run writes
 - Virtual filesystem + sandboxed HTML preview (no OS shell)
+- Workspace persists in IndexedDB across visits; export any build as a `.zip`
+- Red/green line diffs in the feed for every file the agent writes
+- Quest board of one-click starter goals for first-time visitors
 
 ## Security
 
