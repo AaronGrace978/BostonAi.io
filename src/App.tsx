@@ -35,9 +35,10 @@ const PROVIDERS: ProviderDef[] = [
   {
     id: 'ollama-cloud',
     label: 'Ollama Cloud',
-    meta: 'Frontier cloud · ollama.com',
-    modelHint: 'glm-5.2',
+    meta: 'Kimi K3 · ollama.com',
+    modelHint: 'kimi-k3',
     models: [
+      'kimi-k3',
       'glm-5.2',
       'qwen3.5',
       'gemma4',
@@ -64,7 +65,7 @@ const PROVIDERS: ProviderDef[] = [
   {
     id: 'kimi',
     label: 'Kimi',
-    meta: 'Moonshot · K3',
+    meta: 'Moonshot API · K3',
     modelHint: 'kimi-k3',
     models: ['kimi-k3', 'kimi-k2.7-code', 'kimi-k2.6'],
   },
@@ -80,11 +81,11 @@ const PROVIDERS: ProviderDef[] = [
     id: 'openrouter',
     label: 'OpenRouter',
     meta: 'Many models',
-    modelHint: 'anthropic/claude-fable-5',
+    modelHint: 'moonshotai/kimi-k3',
     models: [
+      'moonshotai/kimi-k3',
       'anthropic/claude-fable-5',
       'openai/gpt-5.6',
-      'moonshotai/kimi-k3',
       'google/gemini-3.1-pro',
     ],
   },
@@ -92,7 +93,8 @@ const PROVIDERS: ProviderDef[] = [
     id: 'ollama',
     label: 'Ollama Local',
     meta: '127.0.0.1 · deck-ready',
-    modelHint: 'llama3.2',
+    modelHint: 'kimi-k3:cloud',
+    models: ['kimi-k3:cloud', 'llama3.2', 'llama3.1', 'qwen2.5-coder'],
   },
   {
     id: 'groq',

@@ -25,7 +25,7 @@ export interface VaultState {
 
 const DEFAULTS: Omit<VaultState, 'apiKey'> = {
   provider: 'ollama-cloud',
-  model: 'glm-5.2',
+  model: 'kimi-k3',
   baseUrl: '',
   allowNetworkFetch: false,
   useLocalProxy: false,
@@ -54,15 +54,8 @@ export function loadVault(): VaultState {
     const proxyFlag = sessionStorage.getItem(PROXY_STORAGE) === '1'
     if (!raw) return { ...DEFAULTS, apiKey: '', useLocalProxy: proxyFlag }
     const parsed = JSON.parse(raw) as Partial<VaultState>
-    let provider = parsed.provider ?? DEFAULTS.provider
-    let model = parsed.model ?? DEFAULTS.model
-    // Migrate: kimi-k3 is Moonshot, not Ollama Cloud
-    if (provider === 'ollama-cloud' && /^kimi-k3/i.test(model)) {
-      provider = 'kimi'
-    }
-    if (provider === 'ollama-cloud' && /^kimi-/i.test(model)) {
-      model = DEFAULTS.model
-    }
+    const provider = parsed.provider ?? DEFAULTS.provider
+    const model = parsed.model ?? DEFAULTS.model
     return {
       ...DEFAULTS,
       provider,
