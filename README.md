@@ -43,4 +43,4 @@ Static archive: open `/almanac/` after `npm run dev` or on the deployed site.
 
 **Proprietary — All Rights Reserved.** See [`LICENSE`](./LICENSE).
 
-This project is **not** open source. Copying, forking, redistributing, mirroring, or creating derivative works is **strictly prohibited** without prior written permission from Aaron Grace / BostonAI.io (`hello@bostonai.io`).
+This project is **not** open source. Copying, forking, redistributing, mirroring, or creating derivative works is **strictly prohibited** without prior written permission from Aaron Grace / BostonAI.io (`AaronGrace978@gmail.com`).
