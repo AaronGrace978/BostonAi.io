@@ -5,6 +5,8 @@ import {
   emptyEvidence,
   falseCompleteNudge,
   leakedToolNudge,
+  nextStepHint,
+  playbookPhase,
   wantsFreshBuild,
   type RunEvidence,
 } from './playbook'
@@ -76,7 +78,8 @@ export async function runGoal(options: RunOptions): Promise<RunOutcome> {
       return { ok: false, message: 'Cancelled', evidence }
     }
 
-    options.onEvent({ kind: 'status', text: `Step ${step + 1}/${maxSteps}` })
+    const phase = playbookPhase(options.goal, evidence)
+    options.onEvent({ kind: 'status', text: `Step ${step + 1}/${maxSteps} · ${phase}` })
 
     let raw: string
     try {
@@ -154,9 +157,11 @@ export async function runGoal(options: RunOptions): Promise<RunOutcome> {
       })
     }
 
+    const hint = nextStepHint(options.goal, evidence, options.vfs)
+    const hintLine = hint ? `\n${hint}` : ''
     messages.push({
       role: 'user',
-      content: `TOOL RESULT (${decision.tool}) ok=${result.ok}\n${result.summary.slice(0, 12_000)}`,
+      content: `TOOL RESULT (${decision.tool}) ok=${result.ok}\n${result.summary.slice(0, 12_000)}${hintLine}`,
     })
   }
 

@@ -9,7 +9,9 @@ The quiet **almanac** that lived at the root through July 2026 is preserved at [
 A browser agent inspired by **DinoClaw v0.5.71** completion discipline:
 
 - One Zod-validated JSON decision per step (`tool` | `message`)
-- Playbook nudges (mkdir → write → preview)
+- Playbook phases: scaffold → author → expand → playable (games) → preview → ship
+- Goal-aware gates (chat vs build vs HTML vs game) with HTML quality + playability checks
+- Mid-run `NEXT:` hints after every tool so the loop stays on the critical path
 - **Honest builds** — rejects “already built” with no this-run writes
 - Virtual filesystem + sandboxed HTML preview (no OS shell)
 - Workspace persists in IndexedDB across visits; export any build as a `.zip`

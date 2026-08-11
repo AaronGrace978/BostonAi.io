@@ -93,14 +93,18 @@ export function buildSystemPrompt(input: {
     '- Do not leak tool JSON into message text. If a write truncates, rewrite.',
     '',
     '## Coding playbook (HTML/apps/games)',
-    'mkdir project folder → write_file complete index.html/css/js → preview_html that path.',
-    'Games MUST be playable in the preview: keyboard (WASD/arrows/space) AND mouse.',
+    'Phases: scaffold (mkdir) → author (write_file) → expand until substantial → preview_html → ship (type=message).',
+    'mkdir project folder → write_file complete index.html (inline CSS/JS is fine) → preview_html that path.',
+    'HTML pages need a real document shell: <!DOCTYPE html>, <html>, <body>, and working UI — not a stub headline.',
+    'Games MUST be playable in the preview: keyboard (WASD/arrows/space) AND mouse/pointer.',
     'Use requestAnimationFrame game loop, focus canvas/body for keys, pointer events for mouse.',
     'Do not require Flash plugins. Pure HTML5/Canvas/WebGL only.',
+    'Boston-flavored goals (MBTA, harbor, neighborhoods): call boston_context once before/while authoring.',
     'Scripts: write real files, then preview — do not fake execution.',
+    'Never claim done until THIS run wrote substantial files and previewed HTML when relevant.',
     '',
     input.freshBuild
-      ? '## Fresh build\nOperator asked for a NEW project. Create a new folder. Do not reuse prior artifact paths unless asked.'
+      ? '## Fresh build\nOperator asked for a NEW project. Create a new folder under /apps/. Do not reuse prior artifact paths unless asked.'
       : '',
     '',
     `## Current goal\n${input.goal}`,

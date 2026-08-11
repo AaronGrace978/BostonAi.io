@@ -16,7 +16,7 @@ This is a **browser-only BYOK agent**. The model runs tools against a **browser-
 | Code preview isolation | Preview uses `<iframe sandbox="allow-scripts">` **without** `allow-same-origin`, so preview JS cannot read the parent page or your key. |
 | No shell | There is no `execute_command` / Node spawn in the web agent. Scripts are “verified” by syntax checks and sandbox preview only. |
 | Network fetches | Optional `fetch_url` is off unless the operator enables it. Private/link-local IPs and non-HTTPS are blocked (SSRF basics). |
-| Completion honesty | Dino-style gates refuse `type=message` “done” claims when this run wrote no files / never previewed — stops false “already built” completions. |
+| Completion honesty | Dino-style gates refuse `type=message` “done” claims when this run wrote no files / never previewed — stops false “already built” completions. Goal-aware playbook also rejects thin stubs, missing HTML shells, and games without keyboard + pointer + animation loop. |
 | CSP | Strict Content-Security-Policy meta + Vite headers in preview/prod where possible. |
 
 ### What we do **not** claim

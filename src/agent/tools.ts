@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { bostonContext } from './boston'
 import type { ToolName } from './decisions'
 import type { RunEvidence } from './playbook'
-import { recordWrite } from './playbook'
+import { recordBostonContext, recordWrite } from './playbook'
 import { diffFile, type FileDiff } from '../lib/diff'
 import { redactSecrets } from '../lib/secrets'
 import { PathError, VirtualFS, normalizeVfsPath } from '../lib/vfs'
@@ -114,6 +114,7 @@ export async function executeTool(input: {
       }
       case 'boston_context': {
         const { query } = bostonSchema.parse(args)
+        recordBostonContext(evidence)
         return { ok: true, summary: bostonContext(query) }
       }
       case 'fetch_url': {
