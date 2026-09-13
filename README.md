@@ -1,8 +1,8 @@
-# BostonAI.io — coding agent
+# BostonAI Laboratory
 
-> Boston's go-to agentic coding workspace. **Bring your own API key.** Evidence-gated builds.
+> Aaron Grace’s AI lab and portfolio — plus Boston’s go-to **BYOK** coding console. Evidence-gated builds.
 
-The quiet **almanac** that lived at the root through July 2026 is preserved at [`/almanac/`](./public/almanac/) and [`archive/almanac/`](./archive/almanac/).
+The root is the **lab catalog** (public GitHub specimens). Open `#console` for the live agent. The quiet **almanac** is at [`/almanac/`](./public/almanac/) and [`archive/almanac/`](./archive/almanac/).
 
 ## What this is
 
