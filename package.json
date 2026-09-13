@@ -5,7 +5,7 @@
   "description": "BostonAI.io — Night Harbor coding agent. Paste a key and build.",
   "author": "BostonAi.io <hello@bostonai.io>",
   "homepage": "https://bostonai.io",
-  "license": "UNLICENSED",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "scripts": {
     "dev": "vite",
