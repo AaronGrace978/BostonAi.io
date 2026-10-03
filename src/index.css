@@ -1134,6 +1134,10 @@ a:hover { color: var(--amber); }
   color: var(--amber);
 }
 
+.akashic-band .lab-actions {
+  margin: 0;
+}
+
 .lab-close__panel {
   display: flex;
   justify-content: space-between;

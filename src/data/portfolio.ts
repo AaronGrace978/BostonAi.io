@@ -16,6 +16,27 @@ export type Bay = {
 
 const gh = (repo: string) => `https://github.com/AaronGrace978/${repo}`
 
+const akashicRelease = (file: string) =>
+  `https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/${file}`
+
+export const AKASHIC_DOWNLOADS = [
+  {
+    id: 'windows',
+    label: 'Windows',
+    href: akashicRelease('Akashic-Records-1.0.0-win-setup.exe'),
+  },
+  {
+    id: 'mac',
+    label: 'Mac',
+    href: akashicRelease('Akashic-Records-1.0.0-mac-universal.dmg'),
+  },
+  {
+    id: 'linux',
+    label: 'Linux',
+    href: akashicRelease('Akashic-Records-1.0.0-linux-amd64.deb'),
+  },
+]
+
 export const PROFILE = {
   name: 'Aaron Grace',
   handle: 'AaronGrace978',
@@ -325,6 +346,13 @@ export const BAYS: Bay[] = [
     title: 'Play & signal',
     thesis: 'Games, oracles, and odd instruments — still built like products.',
     specimens: [
+      {
+        name: 'Akashic Records',
+        href: '/akashic/',
+        lang: 'Electron',
+        blurb: 'Desktop oracle. One click downloads the Windows, Mac, or Linux installer from the v1.0.0 release.',
+        tags: ['desktop', 'download'],
+      },
       {
         name: 'VOIDRUNNER',
         href: gh('VOIDRUNNER'),
