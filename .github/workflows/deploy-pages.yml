@@ -30,6 +30,9 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Test download links
+        run: npm run test:downloads
+
       - name: Build
         run: npm run build
 

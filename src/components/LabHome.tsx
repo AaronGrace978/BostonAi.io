@@ -1,4 +1,4 @@
-import { ABILITIES, BAYS, PROFILE, SIGNALS } from '../data/portfolio'
+import { ABILITIES, AKASHIC_DOWNLOADS, BAYS, PROFILE, SIGNALS } from '../data/portfolio'
 
 function LabParticles() {
   return (
@@ -31,6 +31,7 @@ export function LabHome({ onEnterConsole }: { onEnterConsole: () => void }) {
         <nav className="lab-bar__nav">
           <a href="#bays">Catalog</a>
           <a href="#abilities">Capabilities</a>
+          <a href="/akashic/">Akashic</a>
           <a href={PROFILE.github} target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -75,6 +76,31 @@ export function LabHome({ onEnterConsole }: { onEnterConsole: () => void }) {
           </dl>
         </section>
 
+        <section id="akashic" className="lab-section lab-close">
+          <header className="lab-section__head">
+            <span className="bay__label">Desktop release</span>
+            <a className="bay__sub" href="/akashic/">
+              Install steps and other builds
+            </a>
+          </header>
+          <div className="lab-close__panel akashic-band">
+            <div>
+              <h2>Install Akashic Records.</h2>
+              <p>
+                Windows, Mac, and Linux. Each button downloads that computer’s installer from the
+                v1.0.0 release.
+              </p>
+            </div>
+            <div className="lab-actions">
+              {AKASHIC_DOWNLOADS.map(item => (
+                <a key={item.id} className="btn btn--primary" href={item.href}>
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="abilities" className="lab-section">
           <header className="lab-section__head">
             <span className="bay__label">Capability matrix</span>
@@ -104,23 +130,31 @@ export function LabHome({ onEnterConsole }: { onEnterConsole: () => void }) {
                 <p>{bay.thesis}</p>
               </div>
               <div className="specimen-grid">
-                {bay.specimens.map(s => (
-                  <a key={s.name} className="specimen" href={s.href} target="_blank" rel="noreferrer">
-                    <div className="specimen__top">
-                      <span className="specimen__lang">{s.lang}</span>
-                      <span className="specimen__arrow" aria-hidden>
-                        ↗
-                      </span>
-                    </div>
-                    <h3>{s.name}</h3>
-                    <p>{s.blurb}</p>
-                    <ul>
-                      {s.tags.map(t => (
-                        <li key={t}>{t}</li>
-                      ))}
-                    </ul>
-                  </a>
-                ))}
+                {bay.specimens.map(s => {
+                  const external = /^https?:/i.test(s.href)
+                  return (
+                    <a
+                      key={s.name}
+                      className="specimen"
+                      href={s.href}
+                      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    >
+                      <div className="specimen__top">
+                        <span className="specimen__lang">{s.lang}</span>
+                        <span className="specimen__arrow" aria-hidden>
+                          {external ? '↗' : '→'}
+                        </span>
+                      </div>
+                      <h3>{s.name}</h3>
+                      <p>{s.blurb}</p>
+                      <ul>
+                        {s.tags.map(t => (
+                          <li key={t}>{t}</li>
+                        ))}
+                      </ul>
+                    </a>
+                  )
+                })}
               </div>
             </article>
           ))}

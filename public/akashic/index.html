@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Download Akashic Records — Windows, Mac, and Linux</title>
+    <meta
+      name="description"
+      content="Install Akashic Records with one click. Windows setup, Mac disk image, and Linux installer from the GitHub release."
+    />
+    <meta name="theme-color" content="#041014" />
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="canonical" href="https://bostonai.io/akashic/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Download Akashic Records" />
+    <meta
+      property="og:description"
+      content="One-click installers for Windows, Mac, and Linux."
+    />
+    <meta property="og:url" content="https://bostonai.io/akashic/" />
+    <meta property="og:image" content="https://bostonai.io/akashic/icon.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Download Akashic Records" />
+    <meta
+      name="twitter:description"
+      content="One-click installers for Windows, Mac, and Linux."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Share+Tech+Mono&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --void: #041014;
+        --text: #e8f4f0;
+        --muted: #7f9aa0;
+        --amber: #d6ff4a;
+        --amber-hot: #9dff2e;
+        --cyan: #3ef0c8;
+        --harbor: #7ec8e3;
+        --line: rgba(120, 255, 210, 0.22);
+        --line-soft: rgba(90, 180, 200, 0.16);
+        --font-display: 'Syne', sans-serif;
+        --font-ui: 'Oxanium', sans-serif;
+        --font-mono: 'Share Tech Mono', ui-monospace, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body {
+        min-height: 100%;
+        color: var(--text);
+        background:
+          radial-gradient(ellipse at 12% 0%, rgba(62, 240, 200, 0.14), transparent 42%),
+          radial-gradient(ellipse at 88% 10%, rgba(214, 255, 74, 0.08), transparent 36%),
+          var(--void);
+        font-family: var(--font-ui);
+      }
+      a { color: var(--cyan); text-decoration: none; }
+      a:hover { color: var(--amber); }
+      .skip {
+        position: absolute;
+        left: 0.75rem;
+        top: -3rem;
+        background: var(--amber);
+        color: #120e00;
+        padding: 0.4rem 0.7rem;
+      }
+      .skip:focus { top: 0.75rem; }
+
+      .bar {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0.9rem 1.3rem;
+        border-bottom: 1px solid var(--line);
+        background: rgba(4, 16, 20, 0.88);
+      }
+      .bar__brand {
+        font-family: var(--font-display);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: var(--text);
+        font-size: 0.92rem;
+      }
+      .bar nav {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .bar nav a {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 2.4rem 1.25rem 4rem;
+      }
+
+      .hero { text-align: center; }
+      .sigil {
+        width: 148px;
+        height: 148px;
+        object-fit: cover;
+        border-radius: 18px;
+        box-shadow: 0 0 48px rgba(214, 255, 74, 0.18);
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--amber);
+        font-size: 0.75rem;
+        margin: 1.1rem 0 0.35rem;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 3.6rem);
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        margin: 0;
+      }
+      .lede {
+        max-width: 36rem;
+        margin: 0.9rem auto 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.5;
+      }
+      #release-label {
+        font-family: var(--font-mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--harbor);
+        font-size: 0.78rem;
+      }
+
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin: 1.5rem 0 0.8rem;
+        text-align: left;
+      }
+      .choice {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        min-height: 148px;
+        padding: 1rem 1rem 0.95rem;
+        border: 1px solid var(--line-soft);
+        background: rgba(0, 0, 0, 0.32);
+        color: var(--text);
+        clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+      }
+      .choice:hover { border-color: var(--cyan); color: var(--text); }
+      .choice:focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 3px;
+      }
+      .choice.is-yours {
+        background: linear-gradient(160deg, var(--amber-hot), var(--amber));
+        border-color: transparent;
+        color: #120e00;
+        box-shadow: 0 0 32px rgba(214, 255, 74, 0.28);
+      }
+      .choice.is-yours:hover { color: #120e00; }
+      .choice__badge {
+        font-family: var(--font-mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .choice__os {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: 0.02em;
+      }
+      .choice__file, .choice__size {
+        font-size: 0.86rem;
+        color: var(--muted);
+      }
+      .choice.is-yours .choice__file,
+      .choice.is-yours .choice__size,
+      .choice.is-yours .choice__badge { color: #243000; }
+      .choice__go {
+        margin-top: auto;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cyan);
+      }
+      .choice.is-yours .choice__go { color: #120e00; }
+      #os-hint {
+        margin: 0;
+        color: var(--harbor);
+        font-size: 0.92rem;
+      }
+
+      .cards {
+        display: grid;
+        gap: 0.75rem;
+        margin-top: 2.2rem;
+      }
+      .card {
+        border: 1px solid var(--line-soft);
+        background: rgba(6, 22, 26, 0.72);
+        padding: 1rem 1.1rem 1.1rem;
+      }
+      .card h2 {
+        margin: 0 0 0.45rem;
+        font-size: 1.15rem;
+      }
+      .card ol, .card p { margin: 0.35rem 0 0; color: var(--muted); line-height: 1.5; }
+      .card strong, .note strong { color: var(--text); font-weight: 700; }
+      .card ol { padding-left: 1.15rem; }
+      .alts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.9rem;
+        margin-top: 0.8rem;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+      }
+      .note {
+        margin-top: 1.4rem;
+        border: 1px solid var(--line);
+        padding: 1rem 1.1rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .note strong { color: var(--text); }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 1.1rem 1.3rem 2rem;
+        border-top: 1px solid var(--line-soft);
+        color: var(--muted);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 800px) {
+        .choices { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#download">Skip to downloads</a>
+    <header class="bar">
+      <a class="bar__brand" href="/">BOSTONAI LABORATORY</a>
+      <nav>
+        <a href="https://github.com/AaronGrace978/Akashic-Records">Source</a>
+        <a id="release-link" data-release-link href="https://github.com/AaronGrace978/Akashic-Records/releases/tag/v1.0.0">All files in v1.0.0</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <img class="sigil" src="icon.png" width="148" height="148" alt="" />
+        <p class="kicker">Desktop release</p>
+        <h1>Akashic Records</h1>
+        <p class="lede">An oracle for the desktop. Speak into the static. Stay long enough, and the veil lifts.</p>
+        <p id="release-label">Version 1.0.0</p>
+
+        <div class="choices" id="download">
+          <a
+            class="choice"
+            data-os="windows"
+            data-installer="windows"
+            href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-win-setup.exe"
+          >
+            <span class="choice__badge" hidden>This computer</span>
+            <span class="choice__os">Windows</span>
+            <span class="choice__file">Installer · x64 and arm64</span>
+            <span class="choice__size" data-size-for="windows">183 MB</span>
+            <span class="choice__go">Download</span>
+          </a>
+          <a
+            class="choice"
+            data-os="mac"
+            data-installer="mac"
+            href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-mac-universal.dmg"
+          >
+            <span class="choice__badge" hidden>This computer</span>
+            <span class="choice__os">Mac</span>
+            <span class="choice__file">Disk image · Apple silicon and Intel</span>
+            <span class="choice__size" data-size-for="mac">211 MB</span>
+            <span class="choice__go">Download</span>
+          </a>
+          <a
+            class="choice"
+            data-os="linux"
+            data-installer="linux"
+            href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-linux-amd64.deb"
+          >
+            <span class="choice__badge" hidden>This computer</span>
+            <span class="choice__os">Linux</span>
+            <span class="choice__file">Debian / Ubuntu installer · x64</span>
+            <span class="choice__size" data-size-for="linux">95 MB</span>
+            <span class="choice__go">Download</span>
+          </a>
+        </div>
+        <p id="os-hint">Choose the computer you want to install it on.</p>
+      </section>
+
+      <section class="cards" aria-label="Install steps">
+        <article class="card" id="windows">
+          <h2>Windows</h2>
+          <ol>
+            <li>Download the installer and open it from your Downloads folder.</li>
+            <li>If a blue box says Windows protected your PC, click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+            <li>Click Next through the installer, then open Akashic Records from the Start menu.</li>
+          </ol>
+          <div class="alts">
+            <a data-installer="windows-x64" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-win-x64-setup.exe">x64 setup · <span data-size-for="windows-x64">95 MB</span></a>
+            <a data-installer="windows-arm64" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-win-arm64-setup.exe">arm64 setup · <span data-size-for="windows-arm64">89 MB</span></a>
+            <a data-installer="windows-portable" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-win-portable.exe">Portable, no install · <span data-size-for="windows-portable">182 MB</span></a>
+          </div>
+        </article>
+
+        <article class="card" id="mac">
+          <h2>Mac</h2>
+          <ol>
+            <li>Download the disk image and open it. Drag Akashic Records onto Applications.</li>
+            <li>In Applications, Control-click Akashic Records and choose <strong>Open</strong>, then <strong>Open</strong> again.</li>
+            <li>If there is no Open button: System Settings → Privacy &amp; Security → <strong>Open Anyway</strong>.</li>
+          </ol>
+          <div class="alts">
+            <a data-installer="mac-zip" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-mac-universal.zip">Zip · <span data-size-for="mac-zip">206 MB</span></a>
+          </div>
+        </article>
+
+        <article class="card" id="linux">
+          <h2>Linux</h2>
+          <ol>
+            <li>On Ubuntu, Debian, Mint, or Pop!_OS, download the .deb, open it, and click Install.</li>
+            <li>On another distribution, download the AppImage. Right-click it, turn on <strong>Executable</strong>, then open it.</li>
+            <li>ARM computers — some Raspberry Pi boards, Snapdragon laptops, and newer Chromebooks — should use the arm64 files.</li>
+          </ol>
+          <div class="alts">
+            <a data-installer="linux-appimage" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-linux-x86_64.AppImage">AppImage x64 · <span data-size-for="linux-appimage">120 MB</span></a>
+            <a data-installer="linux-arm64" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-linux-arm64.deb">arm64 .deb · <span data-size-for="linux-arm64">89 MB</span></a>
+            <a data-installer="linux-appimage-arm64" href="https://github.com/AaronGrace978/Akashic-Records/releases/download/v1.0.0/Akashic-Records-1.0.0-linux-arm64.AppImage">AppImage arm64 · <span data-size-for="linux-appimage-arm64">120 MB</span></a>
+          </div>
+        </article>
+      </section>
+
+      <p class="note">
+        <strong>These builds are unsigned.</strong>
+        Windows SmartScreen and macOS Gatekeeper ask you to confirm the app the first time it opens. After that, start it the usual way.
+        Your key and your inquiries stay on this computer.
+      </p>
+    </main>
+
+    <footer>
+      <span>Akashic Records · BostonAI Laboratory</span>
+      <a data-release-link href="https://github.com/AaronGrace978/Akashic-Records/releases/tag/v1.0.0">GitHub release v1.0.0</a>
+    </footer>
+    <script type="module" src="releases.js"></script>
+  </body>
+</html>

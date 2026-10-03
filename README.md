@@ -4,6 +4,8 @@
 
 The root is the **lab catalog** (public GitHub specimens). Open `#console` for the live agent. The quiet **almanac** is at [`/almanac/`](./public/almanac/) and [`archive/almanac/`](./archive/almanac/).
 
+Desktop installers for **Akashic Records** — Windows, Mac, and Linux — are at [`/akashic/`](./public/akashic/). Each button downloads that platform’s file from the [v1.0.0 release](https://github.com/AaronGrace978/Akashic-Records/releases/tag/v1.0.0).
+
 ## What this is
 
 A browser agent inspired by **DinoClaw v0.5.71** completion discipline:
