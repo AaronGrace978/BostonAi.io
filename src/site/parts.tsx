@@ -599,6 +599,15 @@ export function MissionSection() {
         <h2 className="mission__headline">
           AI that works for <em>you</em>.
         </h2>
+        <figure className="mission__banner">
+          <img
+            src="/img/founder-banner.webp"
+            alt="Illustration of Aaron Grace coding at night in a cozy study, with DinoBuddy perched on a stack of books and Robo waving from the desk"
+            width="1400"
+            height="349"
+            loading="lazy"
+          />
+        </figure>
         <div className="mission__letter">
           <p className="mission__lead">
             BostonAI builds artificial intelligence for regular people. Not for a quarterly report, not for a leaderboard.

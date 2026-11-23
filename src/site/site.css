@@ -3589,3 +3589,30 @@ a:focus-visible {
   border-radius: 50%;
   box-shadow: 0 4px 12px -4px rgba(11, 24, 48, 0.45);
 }
+
+.mission__banner {
+  margin: 0 0 -28px;
+  position: relative;
+  z-index: 1;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -36px rgba(21, 19, 15, 0.45);
+}
+
+.mission__banner img {
+  width: 100%;
+  height: auto;
+}
+
+.mission__banner + .mission__letter {
+  padding-top: calc(clamp(28px, 5vw, 56px) + 28px);
+}
+
+@media (max-width: 640px) {
+  .mission__banner img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: 58% 50%;
+  }
+}
