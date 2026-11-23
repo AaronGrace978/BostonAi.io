@@ -160,10 +160,9 @@ export const WORKBOT: Product = {
       { label: 'Resume & cover-letter engine built in', cells: [true, '—', '—', '—', '—', '—', '—'] },
       { label: 'Animated companion you can watch work', cells: ['Robo', '—', '—', '—', '—', '—', '—'] },
       { label: 'Built to be Deck Ready', cells: [true, false, false, false, '—', '—', '—'] },
-      { label: 'Keeps working after you close the lid', cells: ['While your machine is on', true, true, true, false, false, false] },
     ],
     honest:
-      'Where they win: the cloud agents (Dots, Grok Bot, Muse) keep running while your laptop sleeps, and Comet is free. WorkBot is the only one that lets you pick any model, run local models, keep every key, login and document on your own machine, and work outside the browser.',
+      'Why WorkBot: Dots, Grok Bot and Muse run on their company’s cloud computers, so your logins and browsing pass through someone else’s servers, and each one locks you into a single company’s models. Comet, Chrome + Gemini and Claude in Chrome stay inside one browser and one vendor. WorkBot runs on your own machine, works with any model including free local ones, keeps your keys and documents with you, and finishes jobs on the hostile pages where other agents give up.',
     footnote:
       'Based on publicly documented features and pricing as of November 2026; prices change, check each vendor. “—” means not publicly documented. All product names are trademarks of their respective owners, none of whom are affiliated with BostonAI.',
   },
@@ -267,15 +266,16 @@ export const DINOCLAW: Product = {
       { label: 'Animated 3D companion with moods', cells: ['DinoBuddy', false, false] },
       { label: 'Plays games with you (Game Buddy)', cells: [true, false, false] },
       { label: 'Persistent memory & personality', cells: ['Creed + Temporal Continuity', 'SOUL.md + memory', 'Varies'] },
-      { label: 'Approval modals, risk tiers, audit log', cells: [true, 'Partial', 'Strong isolation (NanoClaw, IronClaw)'] },
+      { label: 'Approval modals, risk tiers, audit log', cells: [true, 'Partial', 'Varies by project'] },
       { label: 'Local models via Ollama', cells: [true, true, true] },
-      { label: 'Chat channels', cells: ['Telegram, Discord, webhooks', 'Widest ecosystem', 'Fewer integrations'] },
+      { label: 'Chat channels', cells: ['Telegram, Discord, webhooks', 'Community-maintained plugins', 'Fewer integrations'] },
+      { label: 'Open issues on GitHub (Nov 23, 2026)', cells: ['Curated, verified releases', '5,200+', 'IronClaw 1,370+ · ZeroClaw 750+ · NanoClaw 320+'] },
       { label: 'Built to be Deck Ready (gamepad UI)', cells: [true, false, false] },
     ],
     honest:
-      'Where they win: OpenClaw has the largest channel and skill ecosystem, and PicoClaw / ZeroClaw run on tiny boards with megabytes of RAM. DinoClaw wins for people who want a finished product: a real app, proven builds and a companion they actually like.',
+      'Why DinoClaw: OpenClaw, ZeroClaw and the other claw projects are developer toolkits. You install them from a terminal, configure them yourself and work around open bugs: as of November 23, 2026 their public trackers list 5,200+ open issues for OpenClaw, 1,370+ for IronClaw, 750+ for ZeroClaw and 320+ for NanoClaw. DinoClaw is a finished product: one-click installers, builds that must prove they run before they are called done, approval prompts for anything risky, and DinoBuddy, a companion people genuinely love.',
     footnote:
-      'Based on publicly documented features as of November 2026. OpenClaw and the listed variants are independent open-source projects and are not affiliated with BostonAI.',
+      'Based on publicly documented features as of November 2026. Open-issue counts are from GitHub search on November 23, 2026 (open issues only, pull requests excluded). OpenClaw and the listed projects are independent open-source projects and are not affiliated with BostonAI.',
   },
   pitch: {
     title: 'The AI agent your whole family can actually use.',
