@@ -232,7 +232,7 @@ export function HarvardFeature() {
         {hasPhoto && (
           <figure className="harvard__photo">
             <img
-              src="/img/harvard-demo.webp"
+              src="/img/harvard-demo-wide.webp"
               alt="The BostonAI team and attendees in a Harvard lecture hall in front of DinoBuddy on the projector screen"
               loading="lazy"
               onError={() => setHasPhoto(false)}

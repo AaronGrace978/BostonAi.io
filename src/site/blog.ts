@@ -47,7 +47,7 @@ export const POSTS: Post[] = [
     slug: 'dinobuddy-at-harvard',
     title: 'DinoBuddy went to Harvard',
     tag: 'Event',
-    image: '/img/dinobuddy.webp',
+    image: '/img/harvard-demo-wide.webp',
     excerpt:
       'I put DinoClaw and DinoBuddy on the big screen in a Harvard lecture hall and let them run live: Talk Mode, a freshly built 3D game and a passing smoke check.',
     body: [
