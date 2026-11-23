@@ -14,9 +14,10 @@ Both ship on Windows, macOS, Linux, Steam Deck, iOS and Android.
 | `/` | `index.html` → `src/site/pages.tsx` `HomePage` |
 | `/workbot/` | `workbot/index.html` → `WorkBotPage` |
 | `/dinoclaw/` | `dinoclaw/index.html` → `DinoClawPage` |
+| `/blog/` | `blog/index.html` → `BlogPage` (posts in `src/site/blog.ts`, one post per `#slug`) |
 | `/#console` | Builder console (`src/Workbench.tsx`), unlinked |
 
-Product copy, stats and competitor comparisons live in `src/site/data.ts`. Images live in `public/img/`.
+Product copy, stats and competitor comparisons live in `src/site/data.ts`. Images live in `public/img/`; favicons, app icons and the web manifest live in `public/icons/` and `public/`.
 To show the Harvard demo photo, add `public/img/harvard-demo.webp`.
 
 ## Develop

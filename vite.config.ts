@@ -30,6 +30,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         workbot: resolve(import.meta.dirname, 'workbot/index.html'),
         dinoclaw: resolve(import.meta.dirname, 'dinoclaw/index.html'),
+        blog: resolve(import.meta.dirname, 'blog/index.html'),
       },
     },
   },

@@ -71,7 +71,7 @@ export const WORKBOT: Product = {
   href: '/workbot/',
   repo: 'https://github.com/AaronGrace978/WorkBot',
   releases: 'https://github.com/AaronGrace978/WorkBot/releases',
-  icon: '/img/workbot-icon.webp',
+  icon: '/icons/workbot.svg',
   kicker: 'Autonomous browser agent',
   headline: 'Describe the outcome. WorkBot clicks, reads, fills and finishes it.',
   lede:
@@ -193,7 +193,7 @@ export const DINOCLAW: Product = {
   href: '/dinoclaw/',
   repo: 'https://github.com/AaronGrace978/DinoClaw',
   releases: 'https://github.com/AaronGrace978/DinoClaw/releases/latest',
-  icon: '/img/dinoclaw-icon.webp',
+  icon: '/icons/dinoclaw.svg',
   kicker: 'Desktop AI agent + DinoBuddy',
   headline: 'The claw agent for everyone who never wanted a terminal.',
   lede:
@@ -253,7 +253,7 @@ export const DINOCLAW: Product = {
   },
   steamDeck:
     'Built on and for the Deck. One script installs from the tarball, then add DinoClaw to Steam as a non-Steam game. Gamepad and touch controls, a Deck OLED theme, and Game Buddy works in both Game Mode and Desktop Mode.',
-  mobile: 'The DinoBuddy app puts your 3D buddy, chat and model picker in your pocket, and Dino Link pairs your phone with DinoClaw at home to text missions and approve risky steps.',
+  mobile: 'The DinoBuddy app puts your 3D buddy, chat and model picker in your pocket. Its Nest tab pairs your phone with DinoClaw at home, so you can send missions and review actions from anywhere.',
   compare: {
     columns: ['DinoClaw', 'OpenClaw', 'NanoClaw · ZeroClaw · PicoClaw · IronClaw'],
     rows: [
@@ -293,7 +293,6 @@ export const DINOCLAW: Product = {
   mobileShots: [
     { src: '/img/m-dinobuddy.webp', caption: 'DinoBuddy in your pocket: tap to boop', h: 1199 },
     { src: '/img/m-dino-nest.webp', caption: 'The Nest: send missions to DinoClaw at home', h: 1109 },
-    { src: '/img/m-dino-link.webp', caption: 'Dino Link: approve risky steps on the go' },
   ],
 }
 

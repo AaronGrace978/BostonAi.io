@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { AUTHOR, POSTS, formatDate, sortedPosts, type Post } from './blog'
 import { ALL_PLATFORMS, DINOCLAW, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
 import {
   CompareTable,
@@ -186,6 +187,8 @@ export function HomePage() {
 
       <HarvardFeature />
 
+      <BlogTeaser />
+
       <InvestorBand />
     </Shell>
   )
@@ -286,7 +289,7 @@ function ProductPage({
           <div className="mobile__copy">
             <p className="eyebrow">iOS &amp; Android</p>
             <h2>
-              {p.name} in your <em>pocket</em>.
+              {p.id === 'dinoclaw' ? 'Dino' : p.name} in your <em>pocket</em>.
             </h2>
             <p>{p.mobile}</p>
             <div className="mobile__stores">
@@ -411,5 +414,170 @@ export function DinoClawPage() {
         </div>
       </section>
     </ProductPage>
+  )
+}
+
+/* ───────────────────────── Blog ───────────────────────── */
+
+function PostCard({ post, big }: { post: Post; big?: boolean }) {
+  return (
+    <a className={`post-card reveal${big ? ' post-card--big' : ''}`} href={`/blog/#${post.slug}`}>
+      <div className="post-card__img">
+        <img src={post.image} alt="" loading="lazy" />
+      </div>
+      <div className="post-card__body">
+        <p className="post-meta">
+          <span className="post-tag">{post.tag}</span>
+          <span>{formatDate(post.date)}</span>
+        </p>
+        <h3>{post.title}</h3>
+        <p className="post-card__excerpt">{post.excerpt}</p>
+        <span className="post-card__more">Read the post →</span>
+      </div>
+    </a>
+  )
+}
+
+export function BlogTeaser() {
+  const posts = sortedPosts().slice(0, 3)
+  return (
+    <section id="blog" className="section blog-teaser">
+      <div className="wrap">
+        <div className="blog-teaser__head">
+          <SectionHead
+            eyebrow="The Aaron Grace Blog"
+            title={
+              <>
+                Notes from the <em>bench</em>.
+              </>
+            }
+            sub="Release stories, demos and research from the founder of BostonAI."
+          />
+          <a className="btn btn--ghost" href="/blog/">
+            All posts
+          </a>
+        </div>
+        <div className="post-grid">
+          {posts.map(p => (
+            <PostCard key={p.slug} post={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Byline() {
+  return (
+    <div className="byline">
+      <span className="byline__avatar" aria-hidden>
+        AG
+      </span>
+      <span>
+        <b>{AUTHOR.name}</b>
+        <small>{AUTHOR.role}</small>
+      </span>
+    </div>
+  )
+}
+
+function Article({ post }: { post: Post }) {
+  const all = sortedPosts()
+  const i = all.findIndex(p => p.slug === post.slug)
+  const next = all[(i + 1) % all.length]
+  useEffect(() => {
+    document.title = `${post.title} | Aaron Grace`
+    window.scrollTo(0, 0)
+  }, [post])
+  return (
+    <article className="article">
+      <div className="wrap article__wrap">
+        <a className="article__back" href="/blog/">
+          ← All posts
+        </a>
+        <p className="post-meta">
+          <span className="post-tag">{post.tag}</span>
+          <span>{formatDate(post.date)}</span>
+        </p>
+        <h1>{post.title}</h1>
+        <p className="article__lede">{post.excerpt}</p>
+        <Byline />
+        <figure className="article__hero">
+          <img src={post.image} alt="" />
+        </figure>
+        <div className="article__body">
+          {post.body.map((b, k) =>
+            typeof b === 'string' ? (
+              <p key={k}>{b}</p>
+            ) : 'h' in b ? (
+              <h2 key={k}>{b.h}</h2>
+            ) : 'quote' in b ? (
+              <blockquote key={k}>{b.quote}</blockquote>
+            ) : (
+              <ul key={k}>
+                {b.list.map(x => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            ),
+          )}
+        </div>
+        <div className="article__foot">
+          <Byline />
+          <a className="next-post" href={`/blog/#${next.slug}`}>
+            <small>Next post</small>
+            <b>{next.title} →</b>
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export function BlogPage() {
+  const read = () => POSTS.find(p => p.slug === window.location.hash.slice(1))
+  const [post, setPost] = useState(read)
+  useEffect(() => {
+    const on = () => setPost(read())
+    window.addEventListener('hashchange', on)
+    return () => window.removeEventListener('hashchange', on)
+  }, [])
+  useEffect(() => {
+    if (!post) document.title = 'Blog | Aaron Grace, BostonAI'
+    requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach(e => e.classList.add('is-in')))
+  }, [post])
+  const [first, ...rest] = sortedPosts()
+  return (
+    <Shell page="blog">
+      {post ? (
+        <Article post={post} />
+      ) : (
+        <>
+          <section className="hero hero--blog">
+            <div className="hero__bg" aria-hidden />
+            <div className="wrap hero__inner">
+              <p className="eyebrow">The Aaron Grace Blog</p>
+              <h1>
+                Notes from building <em>BostonAI</em>.
+              </h1>
+              <p className="hero__lede">
+                Release stories, demos and research behind WorkBot, DinoClaw and DinoBuddy, written by founder Aaron Grace.
+              </p>
+            </div>
+          </section>
+          <section className="section section--blog-list">
+            <div className="wrap">
+              <PostCard post={first} big />
+              <div className="post-grid">
+                {rest.map(p => (
+                  <PostCard key={p.slug} post={p} />
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+      <InvestorBand />
+    </Shell>
   )
 }

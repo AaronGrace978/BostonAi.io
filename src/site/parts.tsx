@@ -16,16 +16,12 @@ import {
   type Product,
 } from './data'
 
-export type PageId = 'home' | 'workbot' | 'dinoclaw'
+export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog'
 
 export function Logo() {
   return (
     <a className="logo" href="/" aria-label="BostonAI home">
-      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden>
-        <rect x="1" y="1" width="30" height="30" rx="9" fill="var(--ink)" />
-        <path d="M9 22V10h7.2a3.4 3.4 0 0 1 0 6.8H9m7.2 0a2.6 2.6 0 0 1 0 5.2H9" fill="none" stroke="var(--bg)" strokeWidth="2.4" strokeLinejoin="round" />
-        <circle cx="23" cy="21" r="2.2" fill="var(--accent)" />
-      </svg>
+      <img src="/favicon.svg" alt="" width="30" height="30" />
       <span>
         Boston<b>AI</b>
       </span>
@@ -50,8 +46,11 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/dinoclaw/" aria-current={page === 'dinoclaw' ? 'page' : undefined}>
             DinoClaw
           </a>
-          <a href="#platforms">Platforms</a>
+          <a href={page === 'home' || page === 'blog' ? '/#platforms' : '#platforms'}>Platforms</a>
           <a href="/#research">Research</a>
+          <a href="/blog/" aria-current={page === 'blog' ? 'page' : undefined}>
+            Blog
+          </a>
           <a href="#investors">Investors</a>
           <a className="btn btn--sm btn--light" href={mail('BostonAI sales inquiry')}>
             Talk to sales
@@ -362,6 +361,7 @@ export function Footer() {
         <div className="footer__col">
           <h4>Company</h4>
           <a href="/#research">Research</a>
+          <a href="/blog/">Blog</a>
           <a href="#investors">Investors</a>
           <a href={mail('BostonAI sales inquiry')}>Sales</a>
           <a href={COMPANY.github} target="_blank" rel="noreferrer">
