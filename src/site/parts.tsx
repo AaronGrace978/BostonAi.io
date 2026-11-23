@@ -479,6 +479,16 @@ export function DeviceShowcase({ shots, products }: { shots: DeviceShots; produc
             <li>Game Mode or Desktop Mode</li>
           </ul>
         </div>
+        <figure className="deck-photo">
+          <img
+            src="/img/workbot-on-deck.webp"
+            alt="WorkBot with Robo running on Aaron's own handheld gaming PC"
+            width="1080"
+            height="510"
+            loading="lazy"
+          />
+          <figcaption>WorkBot running on Aaron&rsquo;s Steam Deck. A real photo, not a mockup.</figcaption>
+        </figure>
       </article>
 
       <div className="avail reveal">
