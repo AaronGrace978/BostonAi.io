@@ -2,6 +2,10 @@ import { useState, type ReactNode } from 'react'
 import {
   ALL_PLATFORMS,
   COMPANY,
+  FEATURED_RESEARCH,
+  GITHUB_STATS,
+  RECOGNITION,
+  RESEARCH,
   PLATFORM_LABEL,
   PRODUCTS,
   mail,
@@ -46,9 +50,10 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/dinoclaw/" aria-current={page === 'dinoclaw' ? 'page' : undefined}>
             DinoClaw
           </a>
-          <a href={page === 'home' ? '#platforms' : '/#platforms'}>Platforms</a>
-          <a href={page === 'home' ? '#investors' : '#investors'}>Investors</a>
-          <a className="btn btn--sm btn--dark" href={mail('BostonAI sales inquiry')}>
+          <a href="#platforms">Platforms</a>
+          <a href="/#research">Research</a>
+          <a href="#investors">Investors</a>
+          <a className="btn btn--sm btn--light" href={mail('BostonAI sales inquiry')}>
             Talk to sales
           </a>
         </nav>
@@ -143,7 +148,8 @@ function CellView({ c }: { c: Cell }) {
     return (
       <span className="cell cell--no">
         <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden>
-          <path d="M6.5 10h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="10" cy="10" r="9" fill="currentColor" opacity=".14" />
+          <path d="m7.2 7.2 5.6 5.6m0-5.6-5.6 5.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
         </svg>
         <span className="sr">No</span>
       </span>
@@ -306,11 +312,11 @@ export function SalesBand({ product }: { product: Product }) {
           ))}
         </div>
         <div className="sales__cta">
-          <a className="btn btn--dark" href={mail(`Sales: ${product.name} for business`)}>
+          <a className="btn btn--light" href={mail(`Sales: ${product.name} for business`)}>
             Contact sales
           </a>
           <a className="btn btn--ghost" href={product.releases} target="_blank" rel="noreferrer">
-            Download free
+            Download {product.name}
           </a>
         </div>
       </div>
@@ -346,6 +352,7 @@ export function Footer() {
         </div>
         <div className="footer__col">
           <h4>Company</h4>
+          <a href="/#research">Research</a>
           <a href="#investors">Investors</a>
           <a href={mail('BostonAI sales inquiry')}>Sales</a>
           <a href={COMPANY.github} target="_blank" rel="noreferrer">
@@ -361,5 +368,194 @@ export function Footer() {
         <span>Steam Deck is a trademark of Valve Corporation. Other names are trademarks of their respective owners.</span>
       </div>
     </footer>
+  )
+}
+
+export function RecognitionStrip() {
+  const items = [...RECOGNITION, ...RECOGNITION]
+  return (
+    <section className="recog" aria-label="Recognition">
+      <p className="recog__label">Demoed, shortlisted and built at</p>
+      <div className="recog__track">
+        <ul>
+          {items.map((r, i) => (
+            <li key={i} aria-hidden={i >= RECOGNITION.length || undefined}>
+              <a href={r.href} target={r.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" tabIndex={i >= RECOGNITION.length ? -1 : undefined}>
+                <b>{r.label}</b>
+                <span>{r.detail}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+export type DeviceShots = {
+  laptop: { src: string; pos?: string; label: string }
+  deck: { src: string; pos?: string; label: string }
+  ios: { src: string; pos?: string; label: string }
+  android: { src: string; pos?: string; label: string }
+}
+
+function Screen({ src, pos, label }: { src: string; pos?: string; label: string }) {
+  return <img className="screen" src={src} alt={label} loading="lazy" style={pos ? { objectPosition: pos } : undefined} />
+}
+
+export function DeviceShowcase({ shots, products }: { shots: DeviceShots; products: { name: string; href: string }[] }) {
+  return (
+    <div className="devices">
+      <article className="dev-card dev-card--desktop reveal">
+        <div className="dev-card__copy">
+          <div className="dev-card__icons">
+            <PlatformIcon p="windows" />
+            <PlatformIcon p="macos" />
+            <PlatformIcon p="linux" />
+          </div>
+          <h3>Desktop</h3>
+          <p>Native installers for Windows, macOS (Apple Silicon &amp; Intel) and Linux.</p>
+        </div>
+        <div className="laptop" aria-hidden>
+          <div className="laptop__lid">
+            <Screen {...shots.laptop} />
+          </div>
+          <div className="laptop__base" />
+        </div>
+      </article>
+
+      <article className="dev-card dev-card--mobile reveal">
+        <div className="dev-card__copy">
+          <div className="dev-card__icons">
+            <PlatformIcon p="ios" />
+            <PlatformIcon p="android" />
+          </div>
+          <h3>iOS &amp; Android</h3>
+          <p>Your agent in your pocket: check on tasks, approve steps and chat with your companion.</p>
+        </div>
+        <div className="phones" aria-hidden>
+          <div className="phone phone--ios">
+            <span className="phone__island" />
+            <Screen {...shots.ios} />
+          </div>
+          <div className="phone phone--android">
+            <span className="phone__cam" />
+            <Screen {...shots.android} />
+          </div>
+        </div>
+      </article>
+
+      <article className="dev-card dev-card--deck reveal">
+        <div className="dev-card__copy">
+          <div className="dev-card__icons">
+            <PlatformIcon p="steamdeck" />
+          </div>
+          <h3>Steam Deck</h3>
+          <p>Add to Steam, launch from Game Mode or Desktop Mode. Gamepad, trackpad and touch ready.</p>
+        </div>
+        <div className="deck" aria-hidden>
+          <span className="deck__stick deck__stick--l" />
+          <span className="deck__pad deck__pad--l" />
+          <div className="deck__screen">
+            <Screen {...shots.deck} />
+          </div>
+          <span className="deck__stick deck__stick--r" />
+          <span className="deck__pad deck__pad--r" />
+          <span className="deck__abxy" />
+        </div>
+      </article>
+
+      <div className="avail reveal">
+        {products.map(p => (
+          <a key={p.name} className="avail__row" href={p.href}>
+            <b>{p.name}</b>
+            <span className="avail__chips">
+              {ALL_PLATFORMS.map(pl => (
+                <span key={pl} className="avail__chip" title={PLATFORM_LABEL[pl]}>
+                  <PlatformIcon p={pl} />
+                  <span>{PLATFORM_LABEL[pl]}</span>
+                </span>
+              ))}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function ResearchSection() {
+  const f = FEATURED_RESEARCH
+  return (
+    <section id="research" className="section research">
+      <div className="wrap">
+        <SectionHead
+          eyebrow="Research & open source"
+          title={
+            <>
+              The lab behind the <em>products</em>.
+            </>
+          }
+          sub="WorkBot and DinoClaw sit on top of a deep bench of public research into agents that stay continuous, honest and cheap to run."
+        />
+        <article className="featured reveal">
+          <div className="featured__art">
+            <img src={f.image} alt="ChronoSoul: a glowing mind suspended in a glass chamber surrounded by drifting memories" loading="lazy" />
+            <span className="featured__tag">Featured research</span>
+          </div>
+          <div className="featured__copy">
+            <p className="featured__repo">
+              github.com/AaronGrace978/<b>{f.repo}</b>
+            </p>
+            <h3>
+              {f.name}: {f.title}
+            </h3>
+            <p>{f.body}</p>
+            <ul className="checks">
+              {f.points.map(x => (
+                <li key={x}>{x}</li>
+              ))}
+            </ul>
+            <div className="featured__cta">
+              <a className="btn btn--accent" href={f.href} target="_blank" rel="noreferrer">
+                View on GitHub
+              </a>
+              <a className="btn btn--ghost" href={f.colab} target="_blank" rel="noreferrer">
+                Open in Colab
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <div className="repo-grid">
+          {RESEARCH.map(r => (
+            <a key={r.name} className="repo reveal" href={r.href} target="_blank" rel="noreferrer">
+              <span className="repo__top">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden>
+                  <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.06A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8zM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.09a.25.25 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2z" />
+                </svg>
+                <span className="repo__lang">{r.lang}</span>
+              </span>
+              <b>{r.name}</b>
+              <span className="repo__blurb">{r.blurb}</span>
+            </a>
+          ))}
+        </div>
+
+        <div className="gh-band reveal">
+          <dl>
+            {GITHUB_STATS.map(s => (
+              <div key={s.k}>
+                <dt>{s.v}</dt>
+                <dd>{s.k}</dd>
+              </div>
+            ))}
+          </dl>
+          <a className="btn btn--light" href={COMPANY.github} target="_blank" rel="noreferrer">
+            See everything on GitHub →
+          </a>
+        </div>
+      </div>
+    </section>
   )
 }

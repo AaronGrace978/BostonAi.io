@@ -57,6 +57,10 @@ export type Product = {
   steamDeck: string
   mobile: string
   compare: Comparison
+  pitch: { title: string; body: string }
+  useCases: { title: string; body: string }[]
+  reasons: { title: string; body: string }[]
+  steps: string[]
 }
 
 export const WORKBOT: Product = {
@@ -128,25 +132,52 @@ export const WORKBOT: Product = {
     'Runs as an AppImage in Desktop Mode. The default 1180×720 window fits the Deck’s 1280×800 screen, Flatpak Chrome and Chromium are found automatically, and touch targets scale up.',
   mobile: 'Start tasks, follow Robo and approve steps from your phone with WorkBot for iOS and Android.',
   compare: {
-    columns: ['WorkBot', 'OpenAI Dots', 'Grok Bot'],
+    columns: ['WorkBot', 'OpenAI Dots', 'Grok Bot', 'Meta Muse', 'Perplexity Comet', 'Chrome + Gemini', 'Claude in Chrome'],
     rows: [
-      { label: 'Runs on your own machine', cells: [true, 'OpenAI cloud computer', 'SpaceXAI cloud computer'] },
-      { label: 'Your logins stay in a local browser profile', cells: [true, false, 'Shared cloud browser'] },
-      { label: 'Pick any model vendor', cells: ['OpenAI, Anthropic, Gemini, Ollama, OpenRouter', 'OpenAI only', 'Grok only'] },
-      { label: 'Local / offline models', cells: ['Ollama specialists', false, false] },
-      { label: 'Pricing', cells: ['Bring your own key, no subscription', 'ChatGPT Pro / Business Premium', 'SpaceXAI beta access'] },
-      { label: 'Learns workflows', cells: ['Gold Standard playbooks + instant replay', '—', 'Teach by demonstration'] },
-      { label: 'Pre-click spatial hit-testing', cells: [true, '—', '—'] },
-      { label: 'Friction detection & automatic pivots', cells: [true, '—', 'Hands blocked steps back'] },
-      { label: 'Hard limits enforced in code', cells: ['No payments, credentials or CAPTCHA bypass', '—', '—'] },
-      { label: 'Native Steam Deck app', cells: [true, false, false] },
-      { label: 'Keeps working after you close the lid', cells: ['While your machine is on', true, true] },
+      {
+        label: 'Where it runs',
+        cells: ['Your machine', 'OpenAI cloud computer', 'SpaceXAI cloud computer', 'Meta cloud computer', 'Comet browser', 'Chrome browser', 'Chrome extension'],
+      },
+      {
+        label: 'Choose any model vendor',
+        cells: ['OpenAI, Anthropic, Gemini, Ollama, OpenRouter + custom', 'OpenAI only', 'Grok only', 'Meta Muse only', 'Perplexity picks', 'Gemini only', 'Claude only'],
+      },
+      { label: 'Local / offline models', cells: ['Ollama specialists', false, false, false, false, false, false] },
+      {
+        label: 'Price',
+        cells: ['Bring your own key, no subscription', 'ChatGPT Pro / Business Premium', 'SpaceXAI beta', '—', 'Free', 'Google AI Pro ($20/mo) and up', 'Claude Pro ($20/mo) and up'],
+      },
+      { label: 'Works in desktop apps, not just the browser', cells: ['Yes, with a review gate', 'Inside its cloud VM', 'Inside its cloud computer', 'Inside its cloud computer', false, false, false] },
+      { label: 'Turns runs into reusable playbooks + instant replay', cells: [true, '—', 'Teach by demonstration', '—', '—', '—', '—'] },
+      { label: 'Five-point hit-test before every click', cells: [true, '—', '—', '—', '—', '—', '—'] },
+      { label: 'Detects site friction and pivots on its own', cells: [true, '—', 'Hands blocked steps back', '—', '—', '—', '—'] },
+      { label: 'Hard limits in code: no payments, credentials or CAPTCHA bypass', cells: [true, '—', '—', 'Sentinel guard agent', '—', '—', '—'] },
+      { label: 'Resume & cover-letter engine built in', cells: [true, '—', '—', '—', '—', '—', '—'] },
+      { label: 'Animated companion you can watch work', cells: ['Robo', '—', '—', '—', '—', '—', '—'] },
+      { label: 'Native Steam Deck app', cells: [true, false, false, false, '—', '—', '—'] },
+      { label: 'Keeps working after you close the lid', cells: ['While your machine is on', true, true, true, false, false, false] },
     ],
     honest:
-      'Where they win: Dots and Grok Bot keep running in the cloud after your laptop sleeps, and Grok Bot ships first-party connectors. WorkBot wins on privacy, model choice, cost and reliability on hostile pages.',
+      'Where they win: the cloud agents (Dots, Grok Bot, Muse) keep running while your laptop sleeps, and Comet is free. WorkBot is the only one that lets you pick any model, run local models, keep every key, login and document on your own machine, and work outside the browser.',
     footnote:
-      'Based on publicly documented features as of November 2026. “—” means not publicly documented. Dots is a product of OpenAI; Grok Bot is a product of SpaceXAI. Both are trademarks of their owners.',
+      'Based on publicly documented features and pricing as of November 2026; prices change, check each vendor. “—” means not publicly documented. All product names are trademarks of their respective owners, none of whom are affiliated with BostonAI.',
   },
+  pitch: {
+    title: 'Stop babysitting tabs. Hand WorkBot the boring part.',
+    body: 'Forms, applications, research, data entry, comparisons: the work that eats your afternoon is exactly the work WorkBot was built to finish. You describe the outcome, Robo does the clicking, and you approve before anything gets submitted.',
+  },
+  useCases: [
+    { title: 'Job seekers', body: 'Tailored cover letters from your real resume, attached and filled into every application form, reviewed before you hit submit.' },
+    { title: 'Operations & admin', body: 'Fill the same portal forms, vendor sites and CRMs every week. Second-nature replay finishes repeat jobs in seconds.' },
+    { title: 'Research & sales', body: 'Open ten tabs, extract the facts, and get a side-by-side comparison or lead list without copying a single cell.' },
+    { title: 'Founders & freelancers', body: 'One assistant for the web chores across every tool you use, on the model you already pay for.' },
+  ],
+  reasons: [
+    { title: 'Your keys. Your logins. Your machine.', body: 'Cloud agents need your passwords on their servers. WorkBot keeps sessions in a local Chrome profile and keys on your disk.' },
+    { title: 'No new subscription', body: 'Bring the API key you already have, or run local models through Ollama. You pay your model provider, not us.' },
+    { title: 'It finishes on hostile pages', body: 'Hit-testing, friction detection and Gold Standard playbooks are why WorkBot completes tasks other agents abandon.' },
+  ],
+  steps: ['Download WorkBot for desktop or Steam Deck', 'Paste an API key, or point it at Ollama', 'Describe the outcome and watch Robo work'],
 }
 
 export const DINOCLAW: Product = {
@@ -237,6 +268,73 @@ export const DINOCLAW: Product = {
     footnote:
       'Based on publicly documented features as of November 2026. OpenClaw and the listed variants are independent open-source projects and are not affiliated with BostonAI.',
   },
+  pitch: {
+    title: 'The AI agent your whole family can actually use.',
+    body: 'DinoClaw is double-click, run, done. It builds the app you described and proves it works, cleans up your files, runs your errands on a schedule and plays co-op with you on the couch. DinoBuddy makes it the AI people want to open every day.',
+  },
+  useCases: [
+    { title: 'Makers & students', body: 'Describe a game, a web app or a script. Dino builds it, runs it, fixes what fails and opens it for you.' },
+    { title: 'Small businesses', body: 'Scheduled reports, tidy folders, Telegram and Discord bots, webhooks: an operations assistant that never clocks out.' },
+    { title: 'Gamers & Steam Deck owners', body: 'A buddy that plays for you, joins as player 2, or watches and commentates, right inside Game Mode.' },
+    { title: 'Everyone who hates terminals', body: 'A real app with 17 themes, voice in and out, and memory that remembers how you like things done.' },
+  ],
+  reasons: [
+    { title: 'Finished, not “probably done”', body: 'P.R.I.M.E. makes every build pass a real run before Dino can call it complete. Most agents just take the model’s word for it.' },
+    { title: 'A product, not a project', body: 'Installers for Windows, macOS, Linux and Steam Deck. No npm, no Docker, no config files required.' },
+    { title: 'A character people love', body: 'DinoBuddy turns an agent into a companion. Harvard got to meet him in person.' },
+  ],
+  steps: ['Download DinoClaw for your device', 'Pick Ollama for free local AI, or paste a cloud key', 'Give Dino a mission and watch him work'],
 }
 
 export const PRODUCTS = [WORKBOT, DINOCLAW]
+
+export const RECOGNITION = [
+  { label: 'Harvard University', detail: 'DinoBuddy live demo', href: '/dinoclaw/#harvard' },
+  {
+    label: 'Hack-Nation 2026',
+    detail: 'Mozilla Challenge · Top 7 Finalist',
+    href: 'https://github.com/AaronGrace978/Hack-Nation-2026-Mozilla-Challenge-TOP-7-Finalist',
+  },
+  {
+    label: 'Mistral Worldwide Hackathon',
+    detail: 'SecurityPrime, 2026',
+    href: 'https://github.com/AaronGrace978/2026-Mistral-Worldwide-Hackathon---SecurityPrime-Mistral-Edition',
+  },
+  { label: 'Gemini Live Agent Challenge', detail: 'Prism', href: 'https://github.com/AaronGrace978/Prism---Gemini-Live-Agent-Challenge' },
+  { label: 'Cursor Boston', detail: 'Community builder', href: 'https://CursorBoston.com' },
+]
+
+const gh = (repo: string) => `https://github.com/AaronGrace978/${repo}`
+
+export const FEATURED_RESEARCH = {
+  name: 'ChronoSoul',
+  repo: 'continuous-emotional-substrate',
+  href: gh('continuous-emotional-substrate'),
+  colab:
+    'https://colab.research.google.com/github/AaronGrace978/continuous-emotional-substrate/blob/main/Persistent_Emotional_Memory_Substrate.ipynb',
+  image: '/img/chronosoul.webp',
+  title: 'A mind that keeps running between messages.',
+  body: 'ChronoSoul is a continuous emotional and memory substrate for LLMs. Instead of cold-starting on every turn, it keeps a live PAD mood, decaying synaptic memories and a daydream loop running in the background, then steers the model’s residual stream with that mood when it speaks.',
+  points: [
+    'Mood steering via contrastive activation directions',
+    'Memory recall weighted by meaning, recency and mood',
+    'Senses elapsed time and catches up after dormancy',
+    '20 voice providers, or fully local 1.5B–14B models',
+  ],
+}
+
+export const RESEARCH = [
+  { name: 'Continuous-motion-substrate', href: gh('Continuous-motion-substrate'), lang: 'Python', blurb: 'Persistent, always-in-motion state for agents that never freeze between frames.' },
+  { name: 'Swarm-Soul', href: gh('Swarm-Soul'), lang: 'JavaScript', blurb: 'One identity, many bodies: the same soul-state running across models and machines.' },
+  { name: 'tokenburn-governor', href: gh('tokenburn-governor'), lang: 'Python', blurb: 'Entropy-gated thinking budgets that stop frontier models burning tokens on redundant thought.' },
+  { name: 'The-Ai', href: gh('The-Ai'), lang: 'Notebook', blurb: 'Fine-tunes a small execution model. It is the local “muscle” behind WorkBot’s routine clicks.' },
+  { name: 'LLM-Canary', href: gh('LLM-Canary'), lang: 'Rust', blurb: 'Plants canary secrets in your repos and tells you if an AI service ever regurgitates them.' },
+  { name: 'composable-lora', href: gh('composable-lora'), lang: 'Python', blurb: 'Measures and removes interference when stacking LoRA adapters on SDXL and Flux.' },
+]
+
+export const GITHUB_STATS = [
+  { v: '130+', k: 'repositories built' },
+  { v: '2', k: 'shipping products' },
+  { v: '4', k: 'hackathons & challenges' },
+  { v: '1', k: 'Harvard demo' },
+]

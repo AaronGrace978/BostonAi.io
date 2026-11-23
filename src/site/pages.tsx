@@ -2,6 +2,10 @@ import { useEffect } from 'react'
 import { ALL_PLATFORMS, DINOCLAW, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
 import {
   CompareTable,
+  DeviceShowcase,
+  RecognitionStrip,
+  ResearchSection,
+  type DeviceShots,
   FeatureGrid,
   Footer,
   HarvardBadge,
@@ -48,6 +52,27 @@ function Shell({ page, children }: { page: PageId; children: React.ReactNode }) 
   )
 }
 
+const HOME_SHOTS: DeviceShots = {
+  laptop: { src: '/img/workbot-app.webp', label: 'WorkBot on a laptop' },
+  deck: { src: '/img/dinoclaw-projects.webp', pos: 'left top', label: 'DinoClaw on Steam Deck' },
+  ios: { src: '/img/dinobuddy.webp', pos: '50% 40%', label: 'DinoBuddy on iPhone' },
+  android: { src: '/img/workbot-app.webp', pos: '92% 50%', label: 'Robo on Android' },
+}
+
+const WORKBOT_SHOTS: DeviceShots = {
+  laptop: { src: '/img/workbot-console.webp', label: 'WorkBot console on a laptop' },
+  deck: { src: '/img/workbot-app.webp', pos: 'left top', label: 'WorkBot on Steam Deck' },
+  ios: { src: '/img/workbot-app.webp', pos: '92% 50%', label: 'Robo on iPhone' },
+  android: { src: '/img/workbot-hero.webp', pos: '22% 50%', label: 'WorkBot on Android' },
+}
+
+const DINO_SHOTS: DeviceShots = {
+  laptop: { src: '/img/dinoclaw-projects.webp', label: 'DinoClaw Project Home on a laptop' },
+  deck: { src: '/img/dinobuddy.webp', label: 'DinoBuddy on Steam Deck' },
+  ios: { src: '/img/dinobuddy.webp', pos: '50% 40%', label: 'DinoBuddy on iPhone' },
+  android: { src: '/img/dinoclaw-projects.webp', pos: '60% 50%', label: 'DinoClaw on Android' },
+}
+
 /* ───────────────────────── Home ───────────────────────── */
 
 export function HomePage() {
@@ -62,11 +87,10 @@ export function HomePage() {
           </h1>
           <p className="hero__lede">
             BostonAI builds two agents that run on hardware you already own. <b>WorkBot</b> does your browser work.{' '}
-            <b>DinoClaw</b> builds, organizes and plays alongside you, with DinoBuddy at his side. Desktop, Steam Deck, iOS and
-            Android.
+            <b>DinoClaw</b> builds, organizes and plays alongside you, with DinoBuddy at his side.
           </p>
           <div className="hero__actions">
-            <a className="btn btn--dark btn--lg" href="#products">
+            <a className="btn btn--accent btn--lg" href="#products">
               Explore the products
             </a>
             <a className="btn btn--ghost btn--lg" href="#investors">
@@ -75,7 +99,15 @@ export function HomePage() {
           </div>
           <PlatformRow />
         </div>
+        <div className="wrap hero-stage" aria-hidden>
+          <div className="hero-stage__glow" />
+          <img className="hero-stage__shot hero-stage__shot--left" src="/img/workbot-app.webp" alt="" />
+          <img className="hero-stage__shot hero-stage__shot--right" src="/img/dinoclaw-projects.webp" alt="" />
+          <img className="hero-stage__shot hero-stage__shot--center" src="/img/dinobuddy.webp" alt="" />
+        </div>
       </section>
+
+      <RecognitionStrip />
 
       <section id="products" className="section">
         <div className="wrap">
@@ -134,54 +166,23 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="platforms" className="section">
+      <section id="platforms" className="section platforms">
         <div className="wrap">
-          <SectionHead eyebrow="Everywhere you are" title="Every product. Every screen." sub="Both WorkBot and DinoClaw ship on all six platforms." center />
-          <div className="plat-matrix reveal">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <span className="sr">Product</span>
-                  </th>
-                  {ALL_PLATFORMS.map(p => (
-                    <th key={p} scope="col">
-                      <PlatformIcon p={p} />
-                      <span>{PLATFORM_LABEL[p]}</span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {PRODUCTS.map(p => (
-                  <tr key={p.id}>
-                    <th scope="row">
-                      <a href={p.href}>{p.name}</a>
-                    </th>
-                    {ALL_PLATFORMS.map(pl => (
-                      <td key={pl}>
-                        <span className="dot-yes" aria-label="Available" />
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="deck-callout reveal">
-            <div className="deck-callout__icon">
-              <PlatformIcon p="steamdeck" />
-            </div>
-            <div>
-              <h3>Made for Steam Deck</h3>
-              <p>
-                WorkBot and DinoClaw both run natively on Steam Deck, with handheld-sized layouts, touch and gamepad input. Add
-                them to Steam and launch them like any other game.
-              </p>
-            </div>
-          </div>
+          <SectionHead
+            eyebrow="Everywhere you are"
+            title={
+              <>
+                Every product. <em>Every screen.</em>
+              </>
+            }
+            sub="WorkBot and DinoClaw both ship on Windows, macOS, Linux, Steam Deck, iOS and Android."
+            center
+          />
+          <DeviceShowcase shots={HOME_SHOTS} products={PRODUCTS} />
         </div>
       </section>
+
+      <ResearchSection />
 
       <HarvardFeature />
 
@@ -192,11 +193,21 @@ export function HomePage() {
 
 /* ───────────────────────── Product pages ───────────────────────── */
 
-function ProductPage({ product, rivalsTitle, children }: { product: Product; rivalsTitle: string; children?: React.ReactNode }) {
+function ProductPage({
+  product,
+  rivalsTitle,
+  shots,
+  children,
+}: {
+  product: Product
+  rivalsTitle: string
+  shots: DeviceShots
+  children?: React.ReactNode
+}) {
   const p = product
   return (
     <Shell page={p.id}>
-      <section className={`hero hero--product hero--${p.id}`}>
+      <section id="top" className={`hero hero--product hero--${p.id}`}>
         <div className="hero__bg" aria-hidden />
         <div className="wrap hero__split">
           <div className="hero__copy">
@@ -231,6 +242,20 @@ function ProductPage({ product, rivalsTitle, children }: { product: Product; riv
         </div>
       </section>
 
+      <section className="section pitch">
+        <div className="wrap">
+          <SectionHead eyebrow={`Why ${p.name}`} title={p.pitch.title} sub={p.pitch.body} />
+          <div className="usecases">
+            {p.useCases.map(u => (
+              <article key={u.title} className="usecase reveal">
+                <h3>{u.title}</h3>
+                <p>{u.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section">
         <div className="wrap">
           <SectionHead eyebrow="Features" title={`What ${p.name} can do`} />
@@ -261,30 +286,55 @@ function ProductPage({ product, rivalsTitle, children }: { product: Product; riv
       <section id="compare" className="section">
         <div className="wrap">
           <SectionHead eyebrow="Compare" title={rivalsTitle} />
+          <div className="reasons">
+            {p.reasons.map((r, i) => (
+              <article key={r.title} className="reason reveal">
+                <span className="reason__n">{i + 1}</span>
+                <h3>{r.title}</h3>
+                <p>{r.body}</p>
+              </article>
+            ))}
+          </div>
           <CompareTable data={p.compare} />
         </div>
       </section>
 
-      <section id="platforms" className="section section--tint">
+      <section id="platforms" className="section platforms">
         <div className="wrap">
-          <SectionHead eyebrow="Platforms" title={`${p.name} runs everywhere you do`} />
-          <PlatformRow />
-          <div className="plat-cards">
-            <article className="plat-card reveal">
-              <PlatformIcon p="windows" />
-              <h3>Desktop</h3>
-              <p>Native installers for Windows, macOS (Apple Silicon and Intel) and Linux.</p>
-            </article>
-            <article className="plat-card plat-card--deck reveal">
-              <PlatformIcon p="steamdeck" />
-              <h3>Steam Deck</h3>
-              <p>{p.steamDeck}</p>
-            </article>
-            <article className="plat-card reveal">
-              <PlatformIcon p="ios" />
-              <h3>iOS &amp; Android</h3>
-              <p>{p.mobile}</p>
-            </article>
+          <SectionHead
+            eyebrow="Platforms"
+            title={`${p.name} runs everywhere you do`}
+            sub={
+              <>
+                <b>Steam Deck:</b> {p.steamDeck} <br />
+                <b>Mobile:</b> {p.mobile}
+              </>
+            }
+          />
+          <DeviceShowcase shots={shots} products={[{ name: p.name, href: '#top' }]} />
+        </div>
+      </section>
+
+      <section className="section start">
+        <div className="wrap start__inner reveal">
+          <div>
+            <p className="eyebrow">Get started</p>
+            <h2>
+              Up and running in <em>three steps</em>.
+            </h2>
+          </div>
+          <ol className="steps">
+            {p.steps.map(st => (
+              <li key={st}>{st}</li>
+            ))}
+          </ol>
+          <div className="start__cta">
+            <a className="btn btn--accent btn--lg" href={p.releases} target="_blank" rel="noreferrer">
+              Download {p.name}
+            </a>
+            <a className="btn btn--ghost btn--lg" href={p.repo} target="_blank" rel="noreferrer">
+              View on GitHub
+            </a>
           </div>
         </div>
       </section>
@@ -297,7 +347,7 @@ function ProductPage({ product, rivalsTitle, children }: { product: Product; riv
 
 export function WorkBotPage() {
   return (
-    <ProductPage product={WORKBOT} rivalsTitle="WorkBot vs. OpenAI Dots and Grok Bot">
+    <ProductPage product={WORKBOT} rivalsTitle="WorkBot vs. every big-lab agent" shots={WORKBOT_SHOTS}>
       <section className="section">
         <div className="wrap shot-band reveal">
           <div>
@@ -317,7 +367,7 @@ export function WorkBotPage() {
 
 export function DinoClawPage() {
   return (
-    <ProductPage product={DINOCLAW} rivalsTitle="DinoClaw vs. OpenClaw and the other claws">
+    <ProductPage product={DINOCLAW} rivalsTitle="DinoClaw vs. OpenClaw and the other claws" shots={DINO_SHOTS}>
       <HarvardFeature />
       <section className="section">
         <div className="wrap manifesto reveal">
