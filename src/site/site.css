@@ -3824,3 +3824,20 @@ html[data-theme='dark'] .nav {
 .site {
   color: var(--ink);
 }
+
+.harvard-badge__shield {
+  width: 28px;
+  height: 33px;
+  margin-left: 4px;
+  flex: none;
+  filter: drop-shadow(0 3px 6px rgba(125, 16, 34, 0.35));
+}
+
+.harvard .eyebrow::before {
+  display: none;
+}
+
+.harvard-eyebrow-shield {
+  width: 18px;
+  height: 21px;
+}

@@ -226,12 +226,28 @@ export function CompareTable({ data }: { data: Comparison }) {
   )
 }
 
+/** A small generic crimson shield with a serif H. Deliberately not Harvard's official shield. */
+function CrimsonShield({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 28" aria-hidden>
+      <defs>
+        <linearGradient id="crimson-shield" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#c9364c" />
+          <stop offset="1" stopColor="#7d1022" />
+        </linearGradient>
+      </defs>
+      <path d="M12 1 22.5 4v9.4c0 6.6-4.4 11.2-10.5 13.6C5.9 24.6 1.5 20 1.5 13.4V4Z" fill="url(#crimson-shield)" stroke="#e6ad34" strokeWidth="1.2" />
+      <text x="12" y="18.2" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="13" fill="#fbf3e2">
+        H
+      </text>
+    </svg>
+  )
+}
+
 export function HarvardBadge({ compact }: { compact?: boolean }) {
   return (
     <a className={`harvard-badge${compact ? ' harvard-badge--compact' : ''}`} href="/dinoclaw/#harvard">
-      <span className="harvard-badge__seal" aria-hidden>
-        H
-      </span>
+      <CrimsonShield className="harvard-badge__shield" />
       <span>
         <b>Demoed at Harvard University</b>
         {!compact && <small>DinoBuddy, live on the big screen</small>}
@@ -246,7 +262,9 @@ export function HarvardFeature() {
     <section id="harvard" className="section harvard">
       <div className={`wrap harvard__inner${hasPhoto ? '' : ' harvard__inner--solo'}`}>
         <div className="harvard__copy">
-          <p className="eyebrow">In the room</p>
+          <p className="eyebrow">
+            <CrimsonShield className="harvard-eyebrow-shield" /> In the room · Harvard University
+          </p>
           <h2>DinoBuddy went to Harvard.</h2>
           <p>
             DinoClaw and DinoBuddy were demoed live at Harvard University. Up on the lecture-hall screen, DinoBuddy talked with
