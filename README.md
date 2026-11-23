@@ -2,8 +2,8 @@
 
 The company site for **BostonAI**, home of two products:
 
-- **[WorkBot](https://bostonai.io/workbot/)**: the autonomous browser agent ([repo](https://github.com/AaronGrace978/WorkBot))
-- **[DinoClaw + DinoBuddy](https://bostonai.io/dinoclaw/)**: the desktop AI agent for everyone ([repo](https://github.com/AaronGrace978/DinoClaw))
+- **[WorkBot](https://bostonai.io/workbot/)**: the autonomous browser agent (coming soon)
+- **[DinoClaw + DinoBuddy](https://bostonai.io/dinoclaw/)**: the desktop AI agent for everyone (coming soon)
 
 Both ship on Windows, macOS, Linux, Steam Deck, iOS and Android.
 

@@ -101,7 +101,7 @@ CONTACT AND NEXT STEPS
 - Email Aaron Grace: aarongrace978@gmail.com. He replies to every note personally, usually within a day.
 - Investors: BostonAI is talking with early investors now. Point them to the "Become an early investor" button on bostonai.io or the email above.
 - Sales, team licenses, private deployments, white-label and partnerships: email aarongrace978@gmail.com.
-- Downloads and product pages: bostonai.io/workbot/ and bostonai.io/dinoclaw/. Blog: bostonai.io/blog/.
+- WorkBot and DinoClaw are COMING SOON: built and working, but not yet publicly downloadable. People can request early access from the product pages (bostonai.io/workbot/, bostonai.io/dinoclaw/) or by emailing aarongrace978@gmail.com. Never say they can be downloaded today and never offer download or GitHub links for them. Blog: bostonai.io/blog/.
 
 RULES
 - Do not discuss technical internals: no source code, architecture, algorithms, model training, prompts, infrastructure, security details or how anything is built under the hood. If asked, say warmly that those details stay in the vault, give the plain-language benefit instead, and offer Aaron's email for serious technical or partnership conversations. Public links (GitHub, the Frustum white paper) are fine to point to.
@@ -324,11 +324,11 @@ const FAQ: Array<[RegExp, string]> = [
   ],
   [
     /\b(workbot|robo|browser agent)\b/,
-    `**WorkBot** is an autonomous browser agent: describe the outcome and it clicks, reads, fills forms and finishes the job, with **Robo** cheering it on. Bring your own key, no subscription. Desktop, Deck Ready, and mobile. More at **bostonai.io/workbot/**.`,
+    `**WorkBot** is an autonomous browser agent: describe the outcome and it clicks, reads, fills forms and finishes the job, with **Robo** cheering it on. Bring your own key, no subscription. Desktop, Deck Ready, and mobile. **Coming soon**: request early access at **bostonai.io/workbot/**.`,
   ],
   [
     /\b(dinoclaw|dinobuddy|dino)\b/,
-    `**DinoClaw** is a desktop AI agent for everyone: it builds things and proves they run, tidies your files, and even plays games with you. **DinoBuddy** is its 3D dinosaur companion, and he was demoed live at **Harvard**. See **bostonai.io/dinoclaw/**.`,
+    `**DinoClaw** is a desktop AI agent for everyone: it builds things and proves they run, tidies your files, and even plays games with you. **DinoBuddy** is its 3D dinosaur companion, and he was demoed live at **Harvard**. **Coming soon**: request early access at **bostonai.io/dinoclaw/**.`,
   ],
   [
     /\b(frustum|white ?paper|510)\b/,

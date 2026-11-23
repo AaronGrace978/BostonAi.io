@@ -304,13 +304,13 @@ export function InvestorBand({ product }: { product?: Product }) {
           <h2>{product ? `Back ${product.name} early.` : 'Two shipping products. One small, fast team.'}</h2>
           <p>
             {product
-              ? `${product.name} is built, released and in users’ hands on desktop, Steam Deck, iOS and Android. The product risk is behind us. We are now opening a small early-investor round to fund growth, mobile and go-to-market.`
-              : 'WorkBot and DinoClaw are built, released and running on Windows, macOS, Linux, Steam Deck, iOS and Android. We are opening a small early-investor round to fund growth, mobile and go-to-market.'}
+              ? `${product.name} is built and running on desktop, Steam Deck, iOS and Android, and was demoed live. We are opening a small early-investor round to fund the public launch, mobile and go-to-market.`
+              : 'WorkBot and DinoClaw are built and running on Windows, macOS, Linux, Steam Deck, iOS and Android. We are opening a small early-investor round to fund the public launch, mobile and go-to-market.'}
           </p>
           <ul className="investors__points">
             <li>
-              <b>Shipping today</b>
-              <span>Public releases, installers and changelogs, not slideware</span>
+              <b>Built, not slideware</b>
+              <span>Working apps with real releases, demoed live at Harvard</span>
             </li>
             <li>
               <b>Capital-light</b>
@@ -369,8 +369,8 @@ export function SalesBand({ product }: { product: Product }) {
           <a className="btn btn--light" href={mail(`Sales: ${product.name} for business`)}>
             Contact sales
           </a>
-          <a className="btn btn--ghost" href={product.releases} target="_blank" rel="noreferrer">
-            Download {product.name}
+          <a className="btn btn--ghost" href={product.earlyAccess}>
+            Request early access
           </a>
         </div>
       </div>
@@ -404,10 +404,10 @@ export function Footer() {
           <a href="/entity/">The Entity</a>
         </div>
         <div className="footer__col">
-          <h4>Download</h4>
+          <h4>Early access</h4>
           {PRODUCTS.map(p => (
-            <a key={p.id} href={p.releases} target="_blank" rel="noreferrer">
-              {p.name} releases
+            <a key={p.id} href={p.earlyAccess}>
+              {p.name} early access
             </a>
           ))}
         </div>

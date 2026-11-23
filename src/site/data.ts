@@ -10,6 +10,12 @@ export const COMPANY = {
 export const mail = (subject: string, body = '') =>
   `mailto:${COMPANY.email}?subject=${encodeURIComponent(subject)}${body ? `&body=${encodeURIComponent(body)}` : ''}`
 
+const earlyAccessMail = (name: string) =>
+  mail(
+    `Early access: ${name}`,
+    `Hi Aaron,\n\nI'd love early access to ${name}.\n\nName:\nWhat I'd use it for:\nDevice (Windows / Mac / Linux / Steam Deck / iPhone / Android):\n\nThanks!`,
+  )
+
 export type Platform = 'windows' | 'macos' | 'linux' | 'steamdeck' | 'ios' | 'android'
 
 export const PLATFORM_LABEL: Record<Platform, string> = {
@@ -42,8 +48,8 @@ export type Product = {
   name: string
   version: string
   href: string
-  repo: string
-  releases: string
+  /** Opens an email to join the early-access list. The apps are private until launch. */
+  earlyAccess: string
   icon: string
   kicker: string
   headline: string
@@ -68,8 +74,7 @@ export const WORKBOT: Product = {
   name: 'WorkBot',
   version: '2.5',
   href: '/workbot/',
-  repo: 'https://github.com/AaronGrace978/WorkBot',
-  releases: 'https://github.com/AaronGrace978/WorkBot/releases',
+  earlyAccess: earlyAccessMail('WorkBot'),
   icon: '/icons/workbot.svg',
   kicker: 'Autonomous browser agent',
   headline: 'Describe the outcome. WorkBot clicks, reads, fills and finishes it.',
@@ -177,7 +182,7 @@ export const WORKBOT: Product = {
     { title: 'No new subscription', body: 'Bring the API key you already have, or run local models through Ollama. You pay your model provider, not us.' },
     { title: 'It finishes on hostile pages', body: 'Hit-testing, friction detection and Gold Standard playbooks are why WorkBot completes tasks other agents abandon.' },
   ],
-  steps: ['Download WorkBot for desktop or Steam Deck', 'Paste an API key, or point it at Ollama', 'Describe the outcome and watch Robo work'],
+  steps: ['Request early access and get on the list', 'Paste an API key, or point it at Ollama', 'Describe the outcome and watch Robo work'],
   mobileShots: [
     { src: '/img/m-workbot-chat.webp', caption: 'Chat with Robo and hand off a task' },
     { src: '/img/m-workbot-robo.webp', caption: 'Character mode with Robo’s moves' },
@@ -190,8 +195,7 @@ export const DINOCLAW: Product = {
   name: 'DinoClaw',
   version: '0.6.84',
   href: '/dinoclaw/',
-  repo: 'https://github.com/AaronGrace978/DinoClaw',
-  releases: 'https://github.com/AaronGrace978/DinoClaw/releases/latest',
+  earlyAccess: earlyAccessMail('DinoClaw'),
   icon: '/icons/dinoclaw.svg',
   kicker: 'Desktop AI agent + DinoBuddy',
   headline: 'The claw agent for everyone who never wanted a terminal.',
@@ -288,7 +292,7 @@ export const DINOCLAW: Product = {
     { title: 'A product, not a project', body: 'Installers for Windows, macOS, Linux and Steam Deck. No npm, no Docker, no config files required.' },
     { title: 'A character people love', body: 'DinoBuddy turns an agent into a companion. Harvard got to meet him in person.' },
   ],
-  steps: ['Download DinoClaw for your device', 'Pick Ollama for free local AI, or paste a cloud key', 'Give Dino a mission and watch him work'],
+  steps: ['Request early access and get on the list', 'Pick Ollama for free local AI, or paste a cloud key', 'Give Dino a mission and watch him work'],
   mobileShots: [
     { src: '/img/m-dinobuddy.webp', caption: 'DinoBuddy in your pocket: tap to boop', h: 1199 },
     { src: '/img/m-dino-nest.webp', caption: 'The Nest: send missions to DinoClaw at home', h: 1109 },

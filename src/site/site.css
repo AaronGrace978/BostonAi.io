@@ -3841,3 +3841,24 @@ html[data-theme='dark'] .nav {
   width: 18px;
   height: 21px;
 }
+
+/* Coming soon */
+.soon-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: -0.2rem 0 1.2rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ver--soon {
+  background: var(--accent-soft);
+  color: var(--accent);
+}

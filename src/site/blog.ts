@@ -89,7 +89,7 @@ export const POSTS: Post[] = [
           'Opt-in desktop control behind a review gate, with payments, credentials and CAPTCHA bypasses refused in code.',
         ],
       },
-      'WorkBot ships for Windows, macOS and Linux, and it runs on Steam Deck. Bring the API key you already have, or run local models through Ollama.',
+      'WorkBot is built for Windows, macOS and Linux, and it runs on Steam Deck. It is coming soon to the public: request early access on the WorkBot page.',
     ],
   },
   {
@@ -123,7 +123,7 @@ export const POSTS: Post[] = [
       { h: 'Built on proof' },
       'This is the same rule behind P.R.I.M.E., DinoClaw’s build harness: intake, research, plan, guard, execute, verify. Every step names its tool and its expected outcome before it runs. An untested result cannot be reported as complete.',
       'Project Home shows the evidence: build verification, visual checks, blockers and exactly where Dino left off. Honest status is how you build trust with people who are not engineers.',
-      'v0.6.84 ships for Windows, macOS (Apple Silicon and Intel) and Linux, and Steam Deck installs from the Linux tarball.',
+      'DinoClaw runs on Windows, macOS (Apple Silicon and Intel), Linux and Steam Deck. It is coming soon to the public: request early access on the DinoClaw page.',
     ],
   },
   {
@@ -171,7 +171,7 @@ export const POSTS: Post[] = [
         ],
       },
       'WorkBot and DinoClaw are two answers to the same question: what does a genuinely helpful agent look like for a normal person? One does your browser work. The other builds, organizes and plays alongside you. Both run on your desktop, your Steam Deck and your phone.',
-      'If that resonates, try them, tell me what breaks, and if you invest in early-stage companies, my inbox is open.',
+      'If that resonates, request early access, tell me what you would use them for, and if you invest in early-stage companies, my inbox is open.',
     ],
   },
 ]

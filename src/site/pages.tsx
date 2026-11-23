@@ -121,7 +121,7 @@ export function HomePage() {
                   <img src={p.icon} alt="" width="48" height="48" />
                   <div>
                     <h3>
-                      {p.name} <span className="ver">v{p.version}</span>
+                      {p.name} <span className="ver ver--soon">Coming soon</span>
                     </h3>
                     <p className="product-card__kicker">{p.kicker}</p>
                   </div>
@@ -218,13 +218,16 @@ function ProductPage({
         <div className="wrap hero__split">
           <div className="hero__copy">
             <p className="eyebrow">
-              <img src={p.icon} alt="" width="22" height="22" /> {p.name} v{p.version} · {p.kicker}
+              <img src={p.icon} alt="" width="22" height="22" /> {p.name} · {p.kicker}
             </p>
+            <span className="soon-pill">
+              <span className="pulse" aria-hidden /> Coming soon · early access open
+            </span>
             <h1>{p.headline}</h1>
             <p className="hero__lede">{p.lede}</p>
             <div className="hero__actions">
-              <a className="btn btn--accent btn--lg" href={p.releases} target="_blank" rel="noreferrer">
-                Download {p.name}
+              <a className="btn btn--accent btn--lg" href={p.earlyAccess}>
+                Request early access
               </a>
               <a className="btn btn--ghost btn--lg" href="#investors">
                 Early investors
@@ -357,7 +360,7 @@ function ProductPage({
           <div>
             <p className="eyebrow">Get started</p>
             <h2>
-              Up and running in <em>three steps</em>.
+              Coming soon. <em>Get on the list</em>.
             </h2>
           </div>
           <ol className="steps">
@@ -366,11 +369,11 @@ function ProductPage({
             ))}
           </ol>
           <div className="start__cta">
-            <a className="btn btn--accent btn--lg" href={p.releases} target="_blank" rel="noreferrer">
-              Download {p.name}
+            <a className="btn btn--accent btn--lg" href={p.earlyAccess}>
+              Request early access
             </a>
-            <a className="btn btn--ghost btn--lg" href={p.repo} target="_blank" rel="noreferrer">
-              View on GitHub
+            <a className="btn btn--ghost btn--lg" href="#investors">
+              Investor relations
             </a>
           </div>
         </div>
