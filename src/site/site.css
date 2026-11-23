@@ -3423,3 +3423,119 @@ a:focus-visible {
     columns: 1;
   }
 }
+
+/* ── Mission ── */
+.mission {
+  position: relative;
+  background:
+    radial-gradient(50% 60% at 50% 0%, rgba(0, 122, 51, 0.07), transparent 70%),
+    var(--bg);
+}
+
+.mission__inner {
+  max-width: 900px;
+  text-align: center;
+}
+
+.mission .eyebrow::after {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+
+.mission__headline {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  letter-spacing: -0.045em;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.mission__headline em {
+  background: linear-gradient(100deg, #007a33, #1f9d55);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mission__letter {
+  text-align: left;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 28px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(21, 19, 15, 0.04), 0 30px 70px -40px rgba(21, 19, 15, 0.3);
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+.mission__letter p + p {
+  margin-top: 1.1rem;
+}
+
+.mission__lead {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.mission__close {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.mission__sign {
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.mission__signature {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.mission__pillars {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+
+.mission__pillar {
+  padding: 1.5rem 1.6rem;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px solid #007a33;
+}
+
+.mission__pillar h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.mission__pillar p {
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 760px) {
+  .mission__pillars {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mission .eyebrow {
+  color: #007a33;
+}

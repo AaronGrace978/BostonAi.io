@@ -46,6 +46,7 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/dinoclaw/" aria-current={page === 'dinoclaw' ? 'page' : undefined}>
             DinoClaw
           </a>
+          <a href="/#mission">Mission</a>
           <a href="/frustum/" aria-current={page === 'frustum' ? 'page' : undefined}>
             Frustum
           </a>
@@ -363,6 +364,7 @@ export function Footer() {
         </div>
         <div className="footer__col">
           <h4>Company</h4>
+          <a href="/#mission">Our mission</a>
           <a href="/#research">Research</a>
           <a href="/frustum/#whitepaper">Frustum white paper</a>
           <a href="/blog/">Blog</a>
@@ -592,6 +594,58 @@ export function ResearchSection() {
           <a className="btn btn--light" href={COMPANY.github} target="_blank" rel="noreferrer">
             See everything on GitHub →
           </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function MissionSection() {
+  return (
+    <section id="mission" className="section mission">
+      <div className="wrap mission__inner">
+        <p className="eyebrow">Our mission</p>
+        <h2 className="mission__headline">
+          AI that works for <em>you</em>.
+        </h2>
+        <div className="mission__letter">
+          <p className="mission__lead">
+            BostonAI builds artificial intelligence for regular people. Not for a quarterly report, not for a leaderboard.
+            For you.
+          </p>
+          <p>
+            You have heard the headlines about AI taking over the world. Relax. Around here, the only thing taking over the
+            world is the Celtics, and they have the banners hanging from the rafters to prove it.
+          </p>
+          <p>
+            The real story is quieter, and more urgent. Too much of this industry is racing to push out the next model and
+            move the next metric, while the people who could gain the most are left behind: the parent working two jobs,
+            the student without a tutor, the neighbor who cannot afford one more subscription, the communities the market
+            rarely stops to notice. Technology this powerful should lift up the people who need it most, not only the people
+            who can pay the most.
+          </p>
+          <p>
+            So we build differently. Our products run on hardware you already own. Your data stays with you. You choose the
+            model, and you never need a subscription just to get help. And because help should feel human, our agents come
+            with a little heart: a robot named Robo and a dinosaur named DinoBuddy, both firmly on your side.
+          </p>
+          <p className="mission__close">AI should work for you, and be your buddy. That is the whole idea.</p>
+          <div className="mission__sign">
+            <span className="mission__signature">Aaron Grace</span>
+            <span>Founder, BostonAI · Boston, Massachusetts</span>
+          </div>
+        </div>
+        <div className="mission__pillars">
+          {[
+            { t: 'People over metrics', d: 'We measure success by the people we help, not the benchmarks we top.' },
+            { t: 'Yours, not rented', d: 'Your machine, your data, your choice of model. No lock-in, no surprise bills.' },
+            { t: 'Everyone, first', d: 'Built for regular people, with those who are overlooked most at the front of the line.' },
+          ].map(x => (
+            <article key={x.t} className="mission__pillar reveal">
+              <h3>{x.t}</h3>
+              <p>{x.d}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -12,6 +12,7 @@ import {
   HarvardBadge,
   HarvardFeature,
   InvestorBand,
+  MissionSection,
   Nav,
   PlatformIcon,
   PlatformRow,
@@ -109,6 +110,8 @@ export function HomePage() {
       </section>
 
       <RecognitionStrip />
+
+      <MissionSection />
 
       <section id="products" className="section">
         <div className="wrap">
