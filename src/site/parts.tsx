@@ -283,7 +283,11 @@ export function InvestorBand({ product }: { product?: Product }) {
           <a className="btn btn--ghost-light btn--block" href={mail(product ? `Sales / licensing: ${product.name}` : 'Sales / licensing: BostonAI')}>
             Sales &amp; licensing
           </a>
-          <p className="investors__fine">We reply to every note personally, usually within a day.</p>
+          <p className="investors__fine">
+            We reply to every note personally, usually within a day.
+            <br />
+            <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+          </p>
         </div>
       </div>
     </section>
@@ -332,6 +336,11 @@ export function Footer() {
           <Logo />
           <p>{COMPANY.tagline}</p>
           <p className="footer__small">Built in Boston, MA.</p>
+          <p>
+            <a className="footer__email" href={`mailto:${COMPANY.email}`}>
+              {COMPANY.email}
+            </a>
+          </p>
         </div>
         <div className="footer__col">
           <h4>Products</h4>

@@ -2865,3 +2865,19 @@ a:focus-visible {
 .site[data-page='workbot'] .footer {
   background: var(--bg-2);
 }
+
+.investors__fine a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.footer__email {
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.footer__email:hover {
+  border-color: var(--accent);
+}
