@@ -54,23 +54,23 @@ function Shell({ page, children }: { page: PageId; children: React.ReactNode }) 
 
 const HOME_SHOTS: DeviceShots = {
   laptop: { src: '/img/workbot-app.webp', label: 'WorkBot on a laptop' },
-  deck: { src: '/img/dinoclaw-projects.webp', pos: 'left top', label: 'DinoClaw on Steam Deck' },
-  ios: { src: '/img/dinobuddy.webp', pos: '50% 40%', label: 'DinoBuddy on iPhone' },
-  android: { src: '/img/workbot-app.webp', pos: '92% 50%', label: 'Robo on Android' },
+  deck: { src: '/img/dinobuddy.webp', pos: '50% 30%', label: 'DinoBuddy on Steam Deck' },
+  ios: { src: '/img/m-dinobuddy.webp', pos: 'top', label: 'DinoBuddy app on a phone' },
+  android: { src: '/img/m-workbot-robo.webp', pos: 'top', label: 'WorkBot Mobile on Android' },
 }
 
 const WORKBOT_SHOTS: DeviceShots = {
   laptop: { src: '/img/workbot-console.webp', label: 'WorkBot console on a laptop' },
   deck: { src: '/img/workbot-app.webp', pos: 'left top', label: 'WorkBot on Steam Deck' },
-  ios: { src: '/img/workbot-app.webp', pos: '92% 50%', label: 'Robo on iPhone' },
-  android: { src: '/img/workbot-hero.webp', pos: '22% 50%', label: 'WorkBot on Android' },
+  ios: { src: '/img/m-workbot-chat.webp', pos: 'top', label: 'WorkBot Mobile chat' },
+  android: { src: '/img/m-workbot-robo.webp', pos: 'top', label: 'Robo on WorkBot Mobile' },
 }
 
 const DINO_SHOTS: DeviceShots = {
   laptop: { src: '/img/dinoclaw-projects.webp', label: 'DinoClaw Project Home on a laptop' },
-  deck: { src: '/img/dinobuddy.webp', label: 'DinoBuddy on Steam Deck' },
-  ios: { src: '/img/dinobuddy.webp', pos: '50% 40%', label: 'DinoBuddy on iPhone' },
-  android: { src: '/img/dinoclaw-projects.webp', pos: '60% 50%', label: 'DinoClaw on Android' },
+  deck: { src: '/img/dinobuddy.webp', pos: '50% 30%', label: 'DinoBuddy on Steam Deck' },
+  ios: { src: '/img/m-dinobuddy.webp', pos: 'top', label: 'DinoBuddy app on a phone' },
+  android: { src: '/img/m-dino-link.webp', pos: 'top', label: 'Dino Link on Android' },
 }
 
 /* ───────────────────────── Home ───────────────────────── */
@@ -277,6 +277,37 @@ function ProductPage({
                 <li key={x}>{x}</li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="mobile" className="section mobile">
+        <div className="wrap mobile__inner">
+          <div className="mobile__copy">
+            <p className="eyebrow">iOS &amp; Android</p>
+            <h2>
+              {p.name} in your <em>pocket</em>.
+            </h2>
+            <p>{p.mobile}</p>
+            <div className="mobile__stores">
+              <span className="store">
+                <PlatformIcon p="ios" /> iPhone
+              </span>
+              <span className="store">
+                <PlatformIcon p="android" /> Android
+              </span>
+            </div>
+          </div>
+          <div className={`mobile__phones mobile__phones--${p.mobileShots.length}`}>
+            {p.mobileShots.map((m, i) => (
+              <figure key={m.src} className={`mphone reveal mphone--${i}`}>
+                <div className="mphone__body">
+                  <span className="mphone__cam" />
+                  <img src={m.src} alt={m.caption} loading="lazy" width={540} height={m.src.includes('dinobuddy') ? 1199 : 1099} />
+                </div>
+                <figcaption>{m.caption}</figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>

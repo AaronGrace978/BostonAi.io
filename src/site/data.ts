@@ -61,6 +61,7 @@ export type Product = {
   useCases: { title: string; body: string }[]
   reasons: { title: string; body: string }[]
   steps: string[]
+  mobileShots: { src: string; caption: string }[]
 }
 
 export const WORKBOT: Product = {
@@ -130,7 +131,7 @@ export const WORKBOT: Product = {
   },
   steamDeck:
     'Runs as an AppImage in Desktop Mode. The default 1180×720 window fits the Deck’s 1280×800 screen, Flatpak Chrome and Chromium are found automatically, and touch targets scale up.',
-  mobile: 'Start tasks, follow Robo and approve steps from your phone with WorkBot for iOS and Android.',
+  mobile: 'WorkBot Mobile runs the agent on the phone itself, with its own private in-app browser, Robo in 3D, voice dictation and spoken replies.',
   compare: {
     columns: ['WorkBot', 'OpenAI Dots', 'Grok Bot', 'Meta Muse', 'Perplexity Comet', 'Chrome + Gemini', 'Claude in Chrome'],
     rows: [
@@ -178,6 +179,11 @@ export const WORKBOT: Product = {
     { title: 'It finishes on hostile pages', body: 'Hit-testing, friction detection and Gold Standard playbooks are why WorkBot completes tasks other agents abandon.' },
   ],
   steps: ['Download WorkBot for desktop or Steam Deck', 'Paste an API key, or point it at Ollama', 'Describe the outcome and watch Robo work'],
+  mobileShots: [
+    { src: '/img/m-workbot-chat.webp', caption: 'Chat with Robo and hand off a task' },
+    { src: '/img/m-workbot-robo.webp', caption: 'Character mode with Robo’s moves' },
+    { src: '/img/m-workbot-light.webp', caption: 'Light theme, same Robo' },
+  ],
 }
 
 export const DINOCLAW: Product = {
@@ -247,7 +253,7 @@ export const DINOCLAW: Product = {
   },
   steamDeck:
     'Built on and for the Deck. One script installs from the tarball, then add DinoClaw to Steam as a non-Steam game. Gamepad and touch controls, a Deck OLED theme, and Game Buddy works in both Game Mode and Desktop Mode.',
-  mobile: 'Dino Link on iOS and Android: approve risky actions from push notifications, check missions and chat with DinoBuddy away from your desk.',
+  mobile: 'The DinoBuddy app puts your 3D buddy, chat and model picker in your pocket, and Dino Link pairs your phone with DinoClaw at home to text missions and approve risky steps.',
   compare: {
     columns: ['DinoClaw', 'OpenClaw', 'NanoClaw · ZeroClaw · PicoClaw · IronClaw'],
     rows: [
@@ -284,6 +290,10 @@ export const DINOCLAW: Product = {
     { title: 'A character people love', body: 'DinoBuddy turns an agent into a companion. Harvard got to meet him in person.' },
   ],
   steps: ['Download DinoClaw for your device', 'Pick Ollama for free local AI, or paste a cloud key', 'Give Dino a mission and watch him work'],
+  mobileShots: [
+    { src: '/img/m-dinobuddy.webp', caption: 'DinoBuddy in your pocket: tap to boop' },
+    { src: '/img/m-dino-link.webp', caption: 'Dino Link pairs your phone with your Nest' },
+  ],
 }
 
 export const PRODUCTS = [WORKBOT, DINOCLAW]

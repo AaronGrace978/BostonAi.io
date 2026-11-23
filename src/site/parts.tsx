@@ -454,14 +454,24 @@ export function DeviceShowcase({ shots, products }: { shots: DeviceShots; produc
           <p>Add to Steam, launch from Game Mode or Desktop Mode. Gamepad, trackpad and touch ready.</p>
         </div>
         <div className="deck" aria-hidden>
+          <span className="deck__dpad" />
           <span className="deck__stick deck__stick--l" />
           <span className="deck__pad deck__pad--l" />
+          <span className="deck__btn deck__btn--steam">STEAM</span>
+          <span className="deck__grille deck__grille--l" />
           <div className="deck__screen">
             <Screen {...shots.deck} />
           </div>
+          <span className="deck__abxy">
+            <i>Y</i>
+            <i>X</i>
+            <i>B</i>
+            <i>A</i>
+          </span>
           <span className="deck__stick deck__stick--r" />
           <span className="deck__pad deck__pad--r" />
-          <span className="deck__abxy" />
+          <span className="deck__btn deck__btn--dots">•••</span>
+          <span className="deck__grille deck__grille--r" />
         </div>
       </article>
 
