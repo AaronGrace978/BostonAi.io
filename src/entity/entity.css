@@ -750,3 +750,67 @@ a {
     bottom: 0.6rem;
   }
 }
+
+/* model dropdown */
+.ent-model {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ent-field .ent-model select,
+.ent-field .ent-model input {
+  width: 100%;
+}
+
+.ent-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #3effaa 50%), linear-gradient(135deg, #3effaa 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.4rem;
+  cursor: pointer;
+}
+
+.ent-model--compact {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.ent-model--compact select,
+.ent-model--compact input {
+  padding: 0.2rem 1.8rem 0.2rem 0.5rem;
+  border: 1px solid var(--e-line-2);
+  background: #010402;
+  color: #eafff4;
+  font-size: 0.8rem;
+  max-width: 220px;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #3effaa 50%), linear-gradient(135deg, #3effaa 50%, transparent 50%);
+  background-position: calc(100% - 12px) 50%, calc(100% - 7px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.ent-model--compact input {
+  background-image: none;
+  padding-right: 0.5rem;
+  cursor: text;
+}
+
+.ent-model select option {
+  background: #020504;
+  color: #eafff4;
+}
+
+.ent-link {
+  overflow: visible;
+}
+
+.ent-field span.ent-model {
+  font-family: var(--e-mono);
+  font-size: 1rem;
+  letter-spacing: normal;
+  color: #eafff4;
+}

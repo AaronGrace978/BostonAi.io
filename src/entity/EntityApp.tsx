@@ -4,7 +4,7 @@ import Markdown from './Markdown'
 import { PROVIDERS, streamChat, type ProviderId, type Turn } from './providers'
 import { signal, type StreamEvent } from './signal'
 
-type Msg = { id: number; role: 'user' | 'assistant'; content: string; reasoning: string; meta?: string; error?: string }
+type Msg = { id: number; role: 'user' | 'assistant'; content: string; reasoning: string; meta?: string; error?: string; model?: string }
 
 const PHASE_LABEL: Record<string, string> = {
   idle: 'DORMANT',
@@ -67,6 +67,64 @@ function Telemetry() {
   )
 }
 
+const CUSTOM = '__custom__'
+
+/** A real dropdown of the provider's models, with a "Custom model ID" escape hatch. */
+function ModelSelect({
+  models,
+  value,
+  onChange,
+  compact,
+  disabled,
+}: {
+  models: string[]
+  value: string
+  onChange: (m: string) => void
+  compact?: boolean
+  disabled?: boolean
+}) {
+  const [custom, setCustom] = useState(!models.includes(value))
+  useEffect(() => {
+    if (models.includes(value)) setCustom(false)
+  }, [models, value])
+  return (
+    <span className={`ent-model${compact ? ' ent-model--compact' : ''}`}>
+      <select
+        aria-label="Model"
+        value={custom ? CUSTOM : value}
+        disabled={disabled}
+        onChange={e => {
+          if (e.target.value === CUSTOM) {
+            setCustom(true)
+            onChange('')
+          } else {
+            setCustom(false)
+            onChange(e.target.value)
+          }
+        }}
+      >
+        {models.map(m => (
+          <option key={m} value={m}>
+            {m}
+          </option>
+        ))}
+        <option value={CUSTOM}>Custom model ID…</option>
+      </select>
+      {custom && (
+        <input
+          aria-label="Custom model ID"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          placeholder="e.g. qwen3-coder:480b"
+          spellCheck={false}
+          disabled={disabled}
+          autoFocus
+        />
+      )}
+    </span>
+  )
+}
+
 export default function EntityApp() {
   const [provider, setProvider] = useState<ProviderId>('ollama-cloud')
   const def = PROVIDERS.find(p => p.id === provider)!
@@ -106,7 +164,7 @@ export default function EntityApp() {
 
   const start = (e: FormEvent) => {
     e.preventDefault()
-    if (def.needsKey && !keyDraft.trim()) return
+    if ((def.needsKey && !keyDraft.trim()) || !model.trim()) return
     keyRef.current = keyDraft.trim()
     setKeyDraft('')
     setLive(true)
@@ -139,7 +197,7 @@ export default function EntityApp() {
     if (!text || busy) return
     setInput('')
     const user: Msg = { id: idRef.current++, role: 'user', content: text, reasoning: '' }
-    const reply: Msg = { id: idRef.current++, role: 'assistant', content: '', reasoning: '' }
+    const reply: Msg = { id: idRef.current++, role: 'assistant', content: '', reasoning: '', model }
     const history: Turn[] = [...msgs.filter(m => !m.meta && !m.error), user].map(m => ({ role: m.role, content: m.content }))
     setMsgs(prev => [...prev, user, reply])
     setBusy(true)
@@ -185,7 +243,8 @@ export default function EntityApp() {
         {live && (
           <div className="ent-link">
             <span className="ent-micro">LINK</span> <span className="ent-dot" /> {def.label}
-            <span className="ent-micro"> MODEL</span> {model}
+            <span className="ent-micro"> MODEL</span>
+            <ModelSelect models={def.models} value={model} onChange={setModel} compact disabled={busy} />
             <span className="ent-keychip" title="Your key is held in this tab's memory only">
               KEY · MEMORY ONLY
             </span>
@@ -249,12 +308,7 @@ export default function EntityApp() {
               </label>
               <label className="ent-field">
                 <span>MODEL</span>
-                <input value={model} onChange={e => setModel(e.target.value)} list="ent-models" spellCheck={false} />
-                <datalist id="ent-models">
-                  {def.models.map(m => (
-                    <option key={m} value={m} />
-                  ))}
-                </datalist>
+                <ModelSelect models={def.models} value={model} onChange={setModel} />
               </label>
               {def.needsKey && (
                 <label className="ent-field">
@@ -277,7 +331,7 @@ export default function EntityApp() {
                   Get your {def.label} key ↗
                 </a>
               )}
-              <button className="ent-go" type="submit" disabled={def.needsKey && !keyDraft.trim()}>
+              <button className="ent-go" type="submit" disabled={(def.needsKey && !keyDraft.trim()) || !model.trim()}>
                 {def.needsKey ? 'OPEN THE LINK' : 'WAKE THE ENTITY'}
               </button>
               <div className="ent-privacy">
@@ -305,7 +359,7 @@ export default function EntityApp() {
                   <article key={m.id} className={`ent-msg ent-msg--${m.role}${m.error ? ' is-error' : ''}`}>
                     <header>
                       <span>{m.role === 'user' ? '▸ YOU' : '◆ ENTITY'}</span>
-                      {m.role === 'assistant' && <small>{model}</small>}
+                      {m.role === 'assistant' && <small>{m.model ?? model}</small>}
                     </header>
                     {m.reasoning && (
                       <details className="ent-reason">
