@@ -14,8 +14,12 @@ window.addEventListener('hashchange', () => {
 async function boot() {
   let view: ReactNode
   if (page === 'entity') {
+    const { bootStage } = await import('./entity/boot')
+    bootStage('loading interface', 22)
     await import('./entity/entity.css')
+    bootStage('downloading neural renderer', 48)
     const { default: EntityApp } = await import('./entity/EntityApp')
+    bootStage('waking the entity', 72)
     view = <EntityApp />
   } else if (isConsole) {
     await import('./index.css')

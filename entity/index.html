@@ -32,7 +32,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
   </head>
-  <body data-page="entity">
+  <body data-page="entity" style="margin:0;background:#020504">
+    <div id="ent-boot" role="status" aria-live="polite" aria-label="Loading The Entity">
+      <style>
+        #ent-boot{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:radial-gradient(60% 50% at 50% 45%,rgba(62,255,170,.08),transparent 70%),#020504;color:#c6f7df;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;overflow:hidden;transition:opacity .6s ease,filter .6s ease}
+        #ent-boot::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);pointer-events:none}
+        #ent-boot::after{content:'';position:absolute;left:0;right:0;height:120px;top:-120px;background:linear-gradient(transparent,rgba(62,255,170,.07),transparent);animation:eb-sweep 3.2s linear infinite;pointer-events:none}
+        #ent-boot .eb{position:relative;width:min(560px,calc(100% - 40px));display:grid;justify-items:center;gap:18px;text-align:center}
+        #ent-boot .eb-mark{width:92px;height:92px;filter:drop-shadow(0 0 18px rgba(62,255,170,.6));animation:eb-pulse 1.8s ease-in-out infinite}
+        #ent-boot .eb-mark .ring{transform-origin:50% 50%;animation:eb-spin 6s linear infinite}
+        #ent-boot .eb-title{font-family:'Orbitron','JetBrains Mono',sans-serif;font-weight:700;letter-spacing:.42em;font-size:clamp(18px,4vw,26px);color:#eafff4;text-shadow:0 0 18px rgba(62,255,170,.5);animation:eb-glitch 2.8s steps(1) infinite;padding-left:.42em}
+        #ent-boot .eb-sub{font-size:12px;letter-spacing:.32em;color:#3effaa;text-transform:uppercase}
+        #ent-boot .eb-dots{display:inline-block;width:3.2ch;text-align:left;overflow:hidden;vertical-align:bottom;animation:eb-dots 1.2s steps(4) infinite}
+        #ent-boot .eb-bar{width:100%;height:3px;background:rgba(62,255,170,.12);overflow:hidden}
+        #ent-boot .eb-bar i{display:block;height:100%;width:8%;background:#3effaa;box-shadow:0 0 12px #3effaa;transition:width .5s ease}
+        #ent-boot .eb-meta{width:100%;display:flex;justify-content:space-between;font-size:11px;color:#5f9c82;letter-spacing:.12em}
+        #ent-boot .eb-log{width:100%;margin:0;padding:12px 14px;list-style:none;text-align:left;font-size:12px;line-height:1.75;color:#5f9c82;border:1px solid rgba(62,255,170,.16);background:rgba(2,8,6,.6);min-height:150px}
+        #ent-boot .eb-log li{opacity:0;animation:eb-line .25s ease forwards}
+        #ent-boot .eb-log li b{color:#3effaa;font-weight:500}
+        #ent-boot .eb-log li:nth-child(1){animation-delay:.05s}#ent-boot .eb-log li:nth-child(2){animation-delay:.3s}#ent-boot .eb-log li:nth-child(3){animation-delay:.55s}#ent-boot .eb-log li:nth-child(4){animation-delay:.8s}#ent-boot .eb-log li:nth-child(5){animation-delay:1.05s}
+        #ent-boot.is-done{opacity:0;filter:blur(6px) brightness(1.8);pointer-events:none}
+        #ent-boot.is-done .eb{animation:eb-tear .5s steps(2) forwards}
+        @keyframes eb-sweep{to{top:100%}}
+        @keyframes eb-pulse{50%{transform:scale(1.06);filter:drop-shadow(0 0 28px rgba(62,255,170,.85))}}
+        @keyframes eb-spin{to{transform:rotate(360deg)}}
+        @keyframes eb-dots{from{width:0}to{width:4ch}}
+        @keyframes eb-line{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+        @keyframes eb-glitch{0%,86%,100%{text-shadow:0 0 18px rgba(62,255,170,.5);transform:none}88%{text-shadow:-3px 0 #ff4d6a,3px 0 #3effaa;transform:translateX(2px)}92%{text-shadow:3px 0 #ff4d6a,-3px 0 #4fd6ff;transform:translateX(-2px) skewX(-6deg)}}
+        @keyframes eb-tear{0%{transform:none}50%{transform:translateX(-14px) skewX(12deg)}100%{transform:translateX(10px) scaleY(.2)}}
+        @media (prefers-reduced-motion:reduce){#ent-boot *,#ent-boot::after{animation:none!important}#ent-boot .eb-log li{opacity:1}}
+      </style>
+      <div class="eb">
+        <svg class="eb-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <g class="ring"><circle cx="32" cy="32" r="29" fill="none" stroke="rgba(62,255,170,.35)" stroke-width="1" stroke-dasharray="4 6"/></g>
+          <path d="M32 8 52 32 32 56 12 32Z" fill="none" stroke="#3effaa" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M32 18 44 32 32 46 20 32Z" fill="#3effaa" opacity=".85"/>
+          <circle cx="27.5" cy="30" r="1.8" fill="#020504"/><circle cx="36.5" cy="30" r="1.8" fill="#020504"/>
+        </svg>
+        <div class="eb-title">THE ENTITY</div>
+        <div class="eb-sub">Loading entity<span class="eb-dots">....</span></div>
+        <div class="eb-bar"><i id="ent-boot-bar"></i></div>
+        <div class="eb-meta"><span id="ent-boot-stage">linking interface</span><span id="ent-boot-pct">8%</span></div>
+        <ul class="eb-log" aria-hidden="true">
+          <li>&gt; handshake <b>bostonai.io</b> ............ ok</li>
+          <li>&gt; allocating glyph ramp <b>&nbsp;.:-=+*S%#@</b></li>
+          <li>&gt; shrink-wrapping SDF lattice ........ <b>run</b></li>
+          <li>&gt; calibrating u_model_confidence ..... <b>1.000</b></li>
+          <li>&gt; key vault: <b>memory only</b> · nothing stored</li>
+        </ul>
+      </div>
+    </div>
+    <noscript><p style="color:#c6f7df;font-family:monospace;padding:24px">The Entity needs JavaScript to wake up.</p></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

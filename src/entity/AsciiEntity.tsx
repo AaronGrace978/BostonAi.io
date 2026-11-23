@@ -3,6 +3,7 @@
 // stream signal, rendered into a tiny target and converted to a glyph ramp.
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { bootDone, bootStage } from './boot'
 import { surfaceAlong } from './face'
 import { hash1, perlin3 } from './noise'
 import { signal } from './signal'
@@ -26,6 +27,7 @@ export default function AsciiEntity() {
       renderer = new THREE.WebGLRenderer({ antialias: false })
     } catch {
       out.textContent = '\n\n   [ WebGL unavailable: the entity is speaking without a face ]'
+      bootDone()
       return
     }
     const scene = new THREE.Scene()
@@ -33,6 +35,7 @@ export default function AsciiEntity() {
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 20)
     camera.position.set(0, -0.25, 6.4)
 
+    bootStage('shrink-wrapping SDF lattice', 86)
     const geo = new THREE.SphereGeometry(1, small ? 56 : 84, small ? 40 : 64)
     const pos = geo.attributes.position as THREE.BufferAttribute
     const base = new Float32Array(pos.count * 3)
@@ -104,6 +107,7 @@ export default function AsciiEntity() {
     let twitchShift = 0
     let last = performance.now()
     let raf = 0
+    let booted = false
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame)
@@ -181,6 +185,10 @@ export default function AsciiEntity() {
         lines[r] = line
       }
       out.textContent = lines.join('\n')
+      if (!booted) {
+        booted = true
+        bootDone()
+      }
 
       const hue = 150 - Math.min(1, o.error * 1.6) * 150 + o.success * 45
       out.style.color = `hsl(${hue} 100% ${62 + o.success * 18}%)`
