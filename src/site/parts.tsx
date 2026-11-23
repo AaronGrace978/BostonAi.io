@@ -20,10 +20,10 @@ export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum'
 
 export function Logo() {
   return (
-    <a className="logo" href="/" aria-label="BostonAI home">
-      <img src="/favicon.svg?v=3" alt="" width="32" height="32" />
+    <a className="logo" href="/" aria-label="BostonAi.io home">
+      <img src="/img/emblem-160.png?v=4" alt="" width="40" height="40" />
       <span>
-        Boston<b>AI</b>
+        Boston<b>Ai</b>.io
       </span>
     </a>
   )

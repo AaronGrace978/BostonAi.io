@@ -3578,3 +3578,14 @@ a:focus-visible {
   -webkit-text-fill-color: #0f6b46;
   color: #0f6b46;
 }
+
+/* BostonAi.io wordmark: "Ai" in harbor-sunset gold */
+.logo b {
+  -webkit-text-fill-color: #d98a26;
+  color: #d98a26;
+}
+
+.logo img {
+  border-radius: 50%;
+  box-shadow: 0 4px 12px -4px rgba(11, 24, 48, 0.45);
+}
