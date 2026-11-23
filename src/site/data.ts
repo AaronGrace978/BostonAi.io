@@ -61,7 +61,7 @@ export type Product = {
   useCases: { title: string; body: string }[]
   reasons: { title: string; body: string }[]
   steps: string[]
-  mobileShots: { src: string; caption: string }[]
+  mobileShots: { src: string; caption: string; h?: number }[]
 }
 
 export const WORKBOT: Product = {
@@ -291,8 +291,9 @@ export const DINOCLAW: Product = {
   ],
   steps: ['Download DinoClaw for your device', 'Pick Ollama for free local AI, or paste a cloud key', 'Give Dino a mission and watch him work'],
   mobileShots: [
-    { src: '/img/m-dinobuddy.webp', caption: 'DinoBuddy in your pocket: tap to boop' },
-    { src: '/img/m-dino-link.webp', caption: 'Dino Link pairs your phone with your Nest' },
+    { src: '/img/m-dinobuddy.webp', caption: 'DinoBuddy in your pocket: tap to boop', h: 1199 },
+    { src: '/img/m-dino-nest.webp', caption: 'The Nest: send missions to DinoClaw at home', h: 1109 },
+    { src: '/img/m-dino-link.webp', caption: 'Dino Link: approve risky steps on the go' },
   ],
 }
 

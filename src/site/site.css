@@ -1,39 +1,38 @@
-/* BostonAI marketing site — dark product theme */
+/* BostonAI marketing site — warm cream theme */
 :root {
-  --bg: #07080c;
-  --bg-2: #0b0d13;
-  --card: #10131b;
-  --ink: #f3f4f7;
-  --ink-2: #b3b9c6;
-  --muted: #7d8494;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-2: rgba(255, 255, 255, 0.14);
-  --accent: #8b7bff;
-  --accent-2: #3fe0c0;
-  --accent-ink: #0a0716;
-  --accent-soft: rgba(139, 123, 255, 0.12);
-  --yes: #3fe0a0;
+  --bg: #fbf8f1;
+  --bg-2: #f3eee3;
+  --card: #ffffff;
+  --ink: #15130f;
+  --ink-2: #4a463f;
+  --muted: #7a7469;
+  --line: rgba(21, 19, 15, 0.09);
+  --line-2: rgba(21, 19, 15, 0.16);
+  --accent: #5b4cf0;
+  --accent-2: #12a58a;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(91, 76, 240, 0.09);
+  --yes: #14915f;
   --radius: 20px;
   --font: 'Inter Tight', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --serif: 'Instrument Serif', Georgia, serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 .site[data-page='workbot'] {
-  --accent: #8f7dff;
-  --accent-2: #44e2c4;
-  --accent-soft: rgba(143, 125, 255, 0.12);
+  --accent: #6450f2;
+  --accent-2: #1fae93;
+  --accent-soft: rgba(100, 80, 242, 0.09);
 }
 
 .site[data-page='dinoclaw'] {
-  --accent: #5ee08a;
-  --accent-2: #ffb36b;
-  --accent-ink: #04150a;
-  --accent-soft: rgba(94, 224, 138, 0.11);
-  --bg: #070a08;
-  --bg-2: #0a0e0b;
-  --card: #0f1511;
+  --accent: #b4532a;
+  --accent-2: #3f9b57;
+  --accent-soft: rgba(180, 83, 42, 0.09);
+  --bg: #f8f3e9;
+  --bg-2: #efe7d6;
+  --card: #fffdf8;
 }
 
 *,
@@ -45,12 +44,12 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 84px;
-  background: #07080c;
+  background: #fbf8f1;
 }
 
 body {
   margin: 0;
-  background: #07080c;
+  background: #fbf8f1;
   color: var(--ink);
   font-family: var(--font);
   font-size: 17px;
@@ -190,36 +189,35 @@ a:focus-visible {
 .btn--accent {
   background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, var(--accent-2)));
   color: var(--accent-ink);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset, 0 10px 30px -10px var(--accent);
+  box-shadow: 0 10px 26px -12px var(--accent);
 }
 
 .btn--accent:hover {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 16px 40px -10px var(--accent);
+  box-shadow: 0 16px 34px -12px var(--accent);
 }
 
 .btn--light,
 .btn--dark {
-  background: #f3f4f7;
-  color: #07080c;
+  background: var(--ink);
+  color: #fff;
 }
 
 .btn--light:hover,
 .btn--dark:hover {
-  background: #fff;
-  box-shadow: 0 12px 30px -12px rgba(255, 255, 255, 0.45);
+  box-shadow: 0 12px 30px -12px rgba(21, 19, 15, 0.55);
 }
 
 .btn--ghost,
 .btn--ghost-light {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--card);
   border-color: var(--line-2);
   color: var(--ink);
 }
 
 .btn--ghost:hover,
 .btn--ghost-light:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--ink);
+  background: rgba(21, 19, 15, 0.07);
 }
 
 /* ── Nav ── */
@@ -281,7 +279,7 @@ a:focus-visible {
 .nav__links a:not(.btn):hover,
 .nav__links a[aria-current='page'] {
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(21, 19, 15, 0.06);
 }
 
 .nav__links .btn {
@@ -293,7 +291,7 @@ a:focus-visible {
   width: 44px;
   height: 44px;
   border: 1px solid var(--line-2);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(21, 19, 15, 0.04);
   border-radius: 12px;
   cursor: pointer;
   position: relative;
@@ -416,8 +414,8 @@ a:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(21, 19, 15, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.05) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(70% 60% at 50% 20%, #000 10%, transparent 75%);
   -webkit-mask-image: radial-gradient(70% 60% at 50% 20%, #000 10%, transparent 75%);
@@ -441,7 +439,7 @@ a:focus-visible {
   line-height: 0.98;
   max-width: 14ch;
   margin-top: 1.6rem;
-  background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, 0.62));
+  background: linear-gradient(180deg, var(--ink) 40%, color-mix(in srgb, var(--ink) 72%, var(--accent)));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -549,7 +547,7 @@ a:focus-visible {
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line-2);
-  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.03), 0 60px 120px -40px rgba(0, 0, 0, 0.9),
+  box-shadow: 0 0 0 8px rgba(21, 19, 15, 0.03), 0 60px 120px -40px rgba(0, 0, 0, 0.9),
     0 0 90px -30px color-mix(in srgb, var(--accent) 70%, transparent);
   transform: perspective(1600px) rotateY(-6deg) rotateX(2deg);
   transition: transform 0.7s var(--ease);
@@ -566,7 +564,7 @@ a:focus-visible {
   gap: 0.7rem;
   padding: 0.35rem 1rem 0.35rem 0.35rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(21, 19, 15, 0.05);
   border: 1px solid var(--line-2);
   text-decoration: none;
   text-align: left;
@@ -624,7 +622,7 @@ a:focus-visible {
   gap: 0.45rem;
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(21, 19, 15, 0.03);
   border-radius: 999px;
   font-size: 0.86rem;
   font-weight: 500;
@@ -681,7 +679,7 @@ a:focus-visible {
   padding: 0.85rem 1.4rem;
   border-radius: 14px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(21, 19, 15, 0.025);
   text-decoration: none;
   white-space: nowrap;
   transition: border-color 0.2s, background 0.2s;
@@ -689,7 +687,7 @@ a:focus-visible {
 
 .recog__track a:hover {
   border-color: var(--line-2);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(21, 19, 15, 0.05);
 }
 
 .recog__track b {
@@ -715,7 +713,7 @@ a:focus-visible {
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(21, 19, 15, 0.02);
   overflow: hidden;
 }
 
@@ -732,7 +730,7 @@ a:focus-visible {
   font-size: clamp(2rem, 3.4vw, 2.8rem);
   font-weight: 600;
   letter-spacing: -0.04em;
-  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.6));
+  background: linear-gradient(180deg, var(--ink), color-mix(in srgb, var(--ink) 65%, transparent));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -752,8 +750,9 @@ a:focus-visible {
 .dev-card,
 .featured,
 .compare__scroll {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+  background: var(--card);
   border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(21, 19, 15, 0.04), 0 18px 40px -24px rgba(21, 19, 15, 0.18);
 }
 
 /* ── Product cards (home) ── */
@@ -787,11 +786,11 @@ a:focus-visible {
 }
 
 .product-card--workbot::before {
-  background: radial-gradient(closest-side, rgba(143, 125, 255, 0.45), transparent);
+  background: radial-gradient(closest-side, rgba(100, 80, 242, 0.18), transparent);
 }
 
 .product-card--dinoclaw::before {
-  background: radial-gradient(closest-side, rgba(94, 224, 138, 0.32), transparent);
+  background: radial-gradient(closest-side, rgba(63, 155, 87, 0.18), transparent);
 }
 
 .product-card:hover {
@@ -824,7 +823,7 @@ a:focus-visible {
   font-weight: 600;
   padding: 0.18rem 0.5rem;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(21, 19, 15, 0.08);
   color: var(--ink-2);
   vertical-align: middle;
   letter-spacing: 0;
@@ -879,11 +878,11 @@ a:focus-visible {
 .product-card__link {
   margin-top: auto;
   font-weight: 600;
-  color: #b3a8ff;
+  color: var(--accent);
 }
 
 .product-card--dinoclaw .product-card__link {
-  color: #7ee8a3;
+  color: #2f8a4a;
 }
 
 /* Pillars */
@@ -959,7 +958,7 @@ a:focus-visible {
   min-height: 0;
   background:
     radial-gradient(60% 90% at 75% 50%, rgba(26, 159, 255, 0.18), transparent 70%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+    linear-gradient(180deg, rgba(21, 19, 15, 0.035), rgba(21, 19, 15, 0.012));
 }
 
 .dev-card__copy {
@@ -983,7 +982,7 @@ a:focus-visible {
   height: 34px;
   padding: 7px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(21, 19, 15, 0.06);
   border: 1px solid var(--line);
   color: var(--ink);
 }
@@ -1054,7 +1053,7 @@ a:focus-visible {
   border-radius: 13% / 30%;
   background: linear-gradient(180deg, #2a2d33 0%, #1b1d21 55%, #141518 100%);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.07), inset 0 -10px 30px rgba(0, 0, 0, 0.5),
+  box-shadow: inset 0 2px 0 rgba(21, 19, 15, 0.07), inset 0 -10px 30px rgba(0, 0, 0, 0.5),
     0 40px 80px -30px rgba(0, 0, 0, 0.9), 0 0 110px -30px rgba(26, 159, 255, 0.45);
   transition: transform 0.7s var(--ease);
   container-type: inline-size;
@@ -1074,7 +1073,7 @@ a:focus-visible {
   overflow: hidden;
   background: #000;
   border: 2.4cqw solid #0b0c0e;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 1px rgba(21, 19, 15, 0.06);
 }
 
 .deck__dpad {
@@ -1086,7 +1085,7 @@ a:focus-visible {
   background:
     linear-gradient(#0e0f11, #0e0f11) center / 34% 100% no-repeat,
     linear-gradient(#0e0f11, #0e0f11) center / 100% 34% no-repeat;
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.08));
+  filter: drop-shadow(0 1px 0 rgba(21, 19, 15, 0.08));
 }
 
 .deck__stick {
@@ -1114,7 +1113,7 @@ a:focus-visible {
   top: 45%;
   border-radius: 1.4cqw;
   background: linear-gradient(160deg, #24262b, #1a1b1f);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(21, 19, 15, 0.05);
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
@@ -1173,7 +1172,7 @@ a:focus-visible {
   padding: 0.5cqw 1.1cqw;
   border-radius: 99px;
   background: #0e0f11;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(21, 19, 15, 0.08);
   color: #d9dbe0;
   font: 700 1cqw/1 var(--font);
   letter-spacing: 0.08em;
@@ -1234,8 +1233,8 @@ a:focus-visible {
   gap: 0.5rem;
   padding: 0.7rem 1.1rem;
   border-radius: 14px;
-  background: #f3f4f7;
-  color: #07080c;
+  background: var(--ink);
+  color: #fff;
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -1430,7 +1429,7 @@ a:focus-visible {
   padding: 1rem 1.2rem 1rem 1.5rem;
   border-radius: 18px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(21, 19, 15, 0.02);
   text-decoration: none;
   transition: border-color 0.2s;
 }
@@ -1480,13 +1479,13 @@ a:focus-visible {
 
 .feature {
   position: relative;
-  background: var(--bg);
+  background: var(--card);
   padding: 2rem 1.85rem;
   transition: background 0.3s;
 }
 
 .feature:hover {
-  background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+  background: color-mix(in srgb, var(--accent) 4%, var(--card));
 }
 
 .feature__n {
@@ -1630,7 +1629,7 @@ a:focus-visible {
 
 .compare tbody tr:hover th,
 .compare tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(21, 19, 15, 0.02);
 }
 
 .compare thead th {
@@ -1665,8 +1664,8 @@ a:focus-visible {
 }
 
 .cell--no {
-  color: #e2667a;
-  opacity: 0.75;
+  color: #c2414f;
+  opacity: 0.7;
 }
 
 .cell--text {
@@ -1868,7 +1867,7 @@ a:focus-visible {
 }
 
 .harvard .eyebrow {
-  color: #ff6b80;
+  color: #a51c30;
 }
 
 .harvard h2 {
@@ -1886,7 +1885,7 @@ a:focus-visible {
 }
 
 .harvard .checks li::after {
-  border-color: #ff6b80;
+  border-color: #a51c30;
 }
 
 .harvard__photo {
@@ -1917,7 +1916,7 @@ a:focus-visible {
   font-family: var(--serif);
   font-size: clamp(2.4rem, 5.6vw, 4.4rem);
   line-height: 1.05;
-  background: linear-gradient(100deg, #fff, var(--accent) 120%);
+  background: linear-gradient(100deg, var(--ink), var(--accent) 120%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1959,7 +1958,13 @@ a:focus-visible {
 
 /* ── Investors ── */
 .investors {
-  background: #040507;
+  --ink: #f4f1ea;
+  --ink-2: #c8c1b4;
+  --muted: #9a9387;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-2: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+  background: #15130f;
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--line);
@@ -2017,7 +2022,7 @@ a:focus-visible {
 .investors__card {
   padding: 2rem;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(14px);
   display: grid;
@@ -2068,7 +2073,7 @@ a:focus-visible {
 
 /* ── Footer ── */
 .footer {
-  background: #040507;
+  background: var(--bg-2);
   border-top: 1px solid var(--line);
   padding: 64px 0 28px;
   font-size: 0.95rem;
@@ -2358,7 +2363,7 @@ a:focus-visible {
   border: 1px solid var(--line);
   background:
     radial-gradient(120% 80% at 0% 0%, var(--accent-soft), transparent 60%),
-    rgba(255, 255, 255, 0.015);
+    rgba(21, 19, 15, 0.015);
   transition: border-color 0.3s, transform 0.4s var(--ease);
 }
 
@@ -2469,7 +2474,7 @@ a:focus-visible {
   gap: 1rem;
   padding: 1rem 1.2rem;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(21, 19, 15, 0.04);
   border: 1px solid var(--line);
   font-weight: 500;
 }
@@ -2522,5 +2527,172 @@ a:focus-visible {
 }
 
 .compare tbody tr:hover th {
-  background: color-mix(in srgb, #fff 3%, var(--card));
+  background: color-mix(in srgb, var(--ink) 3%, var(--card));
+}
+
+.investors .btn--ghost,
+.investors .btn--ghost-light {
+  background: transparent;
+  color: #f4f1ea;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.investors .btn--ghost:hover,
+.investors .btn--ghost-light:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.product-card,
+.pillar,
+.sales__card,
+.repo,
+.dev-card,
+.featured,
+.usecase,
+.avail__row,
+.recog__track a {
+  background: var(--card);
+  box-shadow: 0 1px 2px rgba(21, 19, 15, 0.04), 0 18px 40px -26px rgba(21, 19, 15, 0.22);
+}
+
+.usecase {
+  background:
+    radial-gradient(120% 80% at 0% 0%, var(--accent-soft), transparent 60%),
+    var(--card);
+}
+
+.dev-card--deck {
+  background:
+    radial-gradient(60% 90% at 75% 50%, rgba(26, 159, 255, 0.12), transparent 70%),
+    var(--card);
+}
+
+.platform-row li,
+.harvard-badge {
+  background: var(--card);
+}
+
+.site::before {
+  opacity: 0.025;
+}
+
+.hero__bg::after {
+  background-image: linear-gradient(rgba(21, 19, 15, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 19, 15, 0.06) 1px, transparent 1px);
+}
+
+.hero__bg {
+  background:
+    radial-gradient(50% 60% at 20% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 85% 5%, color-mix(in srgb, var(--accent-2) 14%, transparent), transparent 70%);
+}
+
+.hero-stage__shot--left,
+.hero-stage__shot--right {
+  opacity: 1;
+}
+
+.hero-stage__shot {
+  box-shadow: 0 40px 80px -30px rgba(21, 19, 15, 0.45);
+}
+
+.hero__shot {
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.7), 0 50px 100px -40px rgba(21, 19, 15, 0.45);
+}
+
+.companion__img,
+.shot-band img,
+.harvard__photo img {
+  box-shadow: 0 40px 80px -40px rgba(21, 19, 15, 0.45);
+}
+
+.mphone__body,
+.phone,
+.deck,
+.laptop__lid {
+  box-shadow: 0 40px 70px -34px rgba(21, 19, 15, 0.55);
+}
+
+.mphone figcaption {
+  color: var(--ink-2);
+}
+
+.featured__tag {
+  color: #ffe2bd;
+}
+
+.gh-band {
+  background: linear-gradient(110deg, color-mix(in srgb, var(--accent) 12%, var(--card)), color-mix(in srgb, var(--accent-2) 10%, var(--card)));
+}
+
+.start__inner {
+  box-shadow: 0 30px 70px -40px rgba(21, 19, 15, 0.3);
+}
+
+.nav__links a:not(.btn):hover,
+.nav__links a[aria-current='page'] {
+  background: var(--accent-soft);
+}
+
+.dev-card__icons svg {
+  background: var(--bg);
+}
+
+.ver {
+  background: var(--bg-2);
+}
+
+.product-card__top img {
+  background: #15130f;
+}
+
+/* upright, fully visible phones in the platforms card */
+.phones {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 1.6rem 1.4rem 1.8rem;
+}
+
+.phone,
+.phone--ios,
+.phone--android {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 46%;
+  max-width: 180px;
+  aspect-ratio: 1 / 2.12;
+  border-radius: 30px;
+  transform: none;
+}
+
+.phone--android {
+  margin-bottom: 18px;
+}
+
+.phone .screen {
+  object-position: top center;
+  border-radius: 23px;
+}
+
+.dev-card:hover .phone--ios {
+  transform: translateY(-6px);
+}
+
+.dev-card:hover .phone--android {
+  transform: translateY(-6px);
+}
+
+@media (max-width: 820px) {
+  .phone,
+  .phone--ios,
+  .phone--android {
+    width: 42%;
+    max-width: 190px;
+  }
 }

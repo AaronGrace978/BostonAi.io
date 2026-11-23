@@ -70,7 +70,7 @@ const DINO_SHOTS: DeviceShots = {
   laptop: { src: '/img/dinoclaw-projects.webp', label: 'DinoClaw Project Home on a laptop' },
   deck: { src: '/img/dinobuddy.webp', pos: '50% 30%', label: 'DinoBuddy on Steam Deck' },
   ios: { src: '/img/m-dinobuddy.webp', pos: 'top', label: 'DinoBuddy app on a phone' },
-  android: { src: '/img/m-dino-link.webp', pos: 'top', label: 'Dino Link on Android' },
+  android: { src: '/img/m-dino-nest.webp', pos: 'top', label: 'The Nest in the DinoBuddy app' },
 }
 
 /* ───────────────────────── Home ───────────────────────── */
@@ -303,7 +303,7 @@ function ProductPage({
               <figure key={m.src} className={`mphone reveal mphone--${i}`}>
                 <div className="mphone__body">
                   <span className="mphone__cam" />
-                  <img src={m.src} alt={m.caption} loading="lazy" width={540} height={m.src.includes('dinobuddy') ? 1199 : 1099} />
+                  <img src={m.src} alt={m.caption} loading="lazy" width={540} height={m.h ?? 1099} />
                 </div>
                 <figcaption>{m.caption}</figcaption>
               </figure>
