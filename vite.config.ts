@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'node:path'
 
 const securityHeaders = {
   'Content-Security-Policy': [
@@ -23,6 +24,15 @@ const securityHeaders = {
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(import.meta.dirname, 'index.html'),
+        workbot: resolve(import.meta.dirname, 'workbot/index.html'),
+        dinoclaw: resolve(import.meta.dirname, 'dinoclaw/index.html'),
+      },
+    },
+  },
   server: {
     headers: securityHeaders,
     proxy: {

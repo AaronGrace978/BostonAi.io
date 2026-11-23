@@ -393,7 +393,7 @@ export function Workbench({ onBackToLab }: { onBackToLab: () => void }) {
           <div className="chrome__titles">
             <div className="chrome__name">BostonAI</div>
             <div className="chrome__tag">
-              Lab console · <em>Aaron Grace</em> · honest builds
+              Builder console · <em>BostonAI</em> · honest builds
             </div>
           </div>
         </div>
@@ -401,11 +401,8 @@ export function Workbench({ onBackToLab }: { onBackToLab: () => void }) {
           <span className="district district--hot">DISTRICT · {district}</span>
           <span className="district">42.36°N 71.06°W</span>
           <button type="button" className="district district--link" onClick={onBackToLab}>
-            LAB · PORTFOLIO
+            ← BOSTONAI.IO
           </button>
-          <a className="district district--link" href="/almanac/" title="The quiet almanac — where this site began">
-            ALMANAC · OLD HARBOR
-          </a>
         </div>
       </header>
 
@@ -417,7 +414,7 @@ export function Workbench({ onBackToLab }: { onBackToLab: () => void }) {
           </div>
           <div className="bay__body">
             <p className="lore">
-              <b>Lab protocol:</b> Seaport bench, Kendall wetware, fog off the Charles. Bring a key.
+              <b>Console protocol:</b> Seaport bench, Kendall wetware, fog off the Charles. Bring a key.
               The agent writes files, shows diffs, and previews in a sandbox. Honest finish only.
             </p>
 

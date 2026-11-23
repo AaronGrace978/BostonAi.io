@@ -1,10 +1,28 @@
-import { StrictMode } from 'react'
+import { StrictMode, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const page = document.body.dataset.page ?? 'home'
+const isConsole = page === 'home' && /^#\/?console$/.test(window.location.hash)
+
+// Marketing pages and the builder console use separate global stylesheets, so
+// load exactly one and do a full reload when switching between them.
+window.addEventListener('hashchange', () => {
+  const next = page === 'home' && /^#\/?console$/.test(window.location.hash)
+  if (next !== isConsole) window.location.reload()
+})
+
+async function boot() {
+  let view: ReactNode
+  if (isConsole) {
+    await import('./index.css')
+    const { Workbench } = await import('./Workbench')
+    view = <Workbench onBackToLab={() => (window.location.hash = '')} />
+  } else {
+    await import('./site/site.css')
+    const { HomePage, WorkBotPage, DinoClawPage } = await import('./site/pages')
+    view = page === 'workbot' ? <WorkBotPage /> : page === 'dinoclaw' ? <DinoClawPage /> : <HomePage />
+  }
+  createRoot(document.getElementById('root')!).render(<StrictMode>{view}</StrictMode>)
+}
+
+void boot()

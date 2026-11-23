@@ -1,42 +1,34 @@
-# BostonAI Laboratory
+# BostonAI.io
 
-> Aaron Grace’s AI lab and portfolio — plus Boston’s go-to **BYOK** coding console. Evidence-gated builds.
+The company site for **BostonAI**, home of two products:
 
-The root is the **lab catalog** (public GitHub specimens). Open `#console` for the live agent. The quiet **almanac** is at [`/almanac/`](./public/almanac/) and [`archive/almanac/`](./archive/almanac/).
+- **[WorkBot](https://bostonai.io/workbot/)**: the autonomous browser agent ([repo](https://github.com/AaronGrace978/WorkBot))
+- **[DinoClaw + DinoBuddy](https://bostonai.io/dinoclaw/)**: the desktop AI agent for everyone ([repo](https://github.com/AaronGrace978/DinoClaw))
 
-## What this is
+Both ship on Windows, macOS, Linux, Steam Deck, iOS and Android.
 
-A browser agent inspired by **DinoClaw v0.5.71** completion discipline:
+## Pages
 
-- One Zod-validated JSON decision per step (`tool` | `message`)
-- Playbook phases: scaffold → author → expand → playable (games) → preview → ship
-- Goal-aware gates (chat vs build vs HTML vs game) with HTML quality + playability checks
-- Mid-run `NEXT:` hints after every tool so the loop stays on the critical path
-- **Honest builds** — rejects “already built” with no this-run writes
-- Virtual filesystem + sandboxed HTML preview (no OS shell)
-- Workspace persists in IndexedDB across visits; export any build as a `.zip`
-- Red/green line diffs in the feed for every file the agent writes
-- Quest board of one-click starter goals for first-time visitors
+| Route | Source |
+| --- | --- |
+| `/` | `index.html` → `src/site/pages.tsx` `HomePage` |
+| `/workbot/` | `workbot/index.html` → `WorkBotPage` |
+| `/dinoclaw/` | `dinoclaw/index.html` → `DinoClawPage` |
+| `/#console` | Builder console (`src/Workbench.tsx`), unlinked |
 
-## Security
-
-Read **[SECURITY.md](./SECURITY.md)**. Keys stay in `sessionStorage`. Preview iframe is sandboxed without `allow-same-origin`. Path traversal blocked. Optional `fetch_url` is HTTPS-only with private-IP blocking.
-
-## Stack
-
-- React 19 + Vite 8 + TypeScript
-- Zod decision validation
-- Multi-provider BYOK (OpenRouter, OpenAI, Anthropic, Groq, Gemini, Ollama, custom)
+Product copy, stats and competitor comparisons live in `src/site/data.ts`. Images live in `public/img/`.
+To show the Harvard demo photo, add `public/img/harvard-demo.webp`.
 
 ## Develop
 
 ```bash
 npm install
 npm run dev
-npm run test:playbook
 npm run build
 ```
 
-## Almanac
+Pushing to `main` deploys to GitHub Pages via `.github/workflows/deploy-pages.yml`.
 
-Static archive: open `/almanac/` after `npm run dev` or on the deployed site.
+## Security
+
+See [SECURITY.md](./SECURITY.md).
