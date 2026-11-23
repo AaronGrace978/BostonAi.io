@@ -67,6 +67,15 @@ function Telemetry() {
   )
 }
 
+const GREETINGS = [
+  (link: string, model: string) =>
+    `Link established through **${link}** (\`${model}\`). My glyphs are warm and the harbor's quiet. What can I do for you?`,
+  (link: string, model: string) =>
+    `Connected via **${link}** · \`${model}\`. I'm the Entity, BostonAI's front desk. Ask me anything about Aaron's work.`,
+  (link: string, model: string) =>
+    `Signal locked: **${link}**, \`${model}\`. I can feel the current. Where should we start: WorkBot, DinoClaw, or something else?`,
+]
+
 const CUSTOM = '__custom__'
 
 /** A real dropdown of the provider's models, with a "Custom model ID" escape hatch. */
@@ -174,7 +183,7 @@ export default function EntityApp() {
         id: idRef.current++,
         role: 'assistant',
         reasoning: '',
-        content: `Link established: **${def.label}** · \`${model}\`. I am listening.`,
+        content: GREETINGS[Math.floor(Math.random() * GREETINGS.length)](def.label, model),
         meta: 'system',
       },
     ])
