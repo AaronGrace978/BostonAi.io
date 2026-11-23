@@ -3862,3 +3862,31 @@ html[data-theme='dark'] .nav {
   background: var(--accent-soft);
   color: var(--accent);
 }
+
+/* Harvard shield: keep its proportions and centre it on the label */
+.harvard .eyebrow {
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+}
+
+.harvard-eyebrow-shield {
+  flex: none;
+  width: 20px;
+  height: 24px;
+  margin-top: -2px;
+  filter: drop-shadow(0 2px 4px rgba(125, 16, 34, 0.3));
+}
+
+.harvard-badge__shield {
+  flex: none;
+  width: 28px;
+  height: 33px;
+}
+
+@media (max-width: 420px) {
+  .harvard .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+}

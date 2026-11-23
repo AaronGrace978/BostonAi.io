@@ -237,7 +237,7 @@ function CrimsonShield({ className }: { className?: string }) {
         </linearGradient>
       </defs>
       <path d="M12 1 22.5 4v9.4c0 6.6-4.4 11.2-10.5 13.6C5.9 24.6 1.5 20 1.5 13.4V4Z" fill="url(#crimson-shield)" stroke="#e6ad34" strokeWidth="1.2" />
-      <text x="12" y="18.2" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="13" fill="#fbf3e2">
+      <text x="12" y="13" textAnchor="middle" dominantBaseline="central" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="12.5" fill="#fbf3e2">
         H
       </text>
     </svg>
@@ -263,7 +263,7 @@ export function HarvardFeature() {
       <div className={`wrap harvard__inner${hasPhoto ? '' : ' harvard__inner--solo'}`}>
         <div className="harvard__copy">
           <p className="eyebrow">
-            <CrimsonShield className="harvard-eyebrow-shield" /> In the room · Harvard University
+            <CrimsonShield className="harvard-eyebrow-shield" /> Harvard University · in the room
           </p>
           <h2>DinoBuddy went to Harvard.</h2>
           <p>
