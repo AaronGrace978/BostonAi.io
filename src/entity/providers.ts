@@ -96,7 +96,6 @@ RESEARCH (public, open source on GitHub)
 MILESTONES
 - DinoBuddy and DinoClaw were demoed live at Harvard University.
 - Hack-Nation 2026 Mozilla Challenge: Top 7 Finalist. Also built entries for the 2026 Mistral Worldwide Hackathon and the Gemini Live Agent Challenge.
-- Aaron is part of the Cursor Boston community (CursorBoston.com).
 
 CONTACT AND NEXT STEPS
 - Email Aaron Grace: aarongrace978@gmail.com. He replies to every note personally, usually within a day.

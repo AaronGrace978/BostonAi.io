@@ -5,7 +5,6 @@ export const COMPANY = {
   founder: 'Aaron Grace',
   email: 'aarongrace978@gmail.com',
   github: 'https://github.com/AaronGrace978',
-  community: { label: 'Cursor Boston', href: 'https://CursorBoston.com' },
 }
 
 export const mail = (subject: string, body = '') =>
@@ -311,7 +310,6 @@ export const RECOGNITION = [
     href: 'https://github.com/AaronGrace978/2026-Mistral-Worldwide-Hackathon---SecurityPrime-Mistral-Edition',
   },
   { label: 'Gemini Live Agent Challenge', detail: 'Prism', href: 'https://github.com/AaronGrace978/Prism---Gemini-Live-Agent-Challenge' },
-  { label: 'Cursor Boston', detail: 'Community builder', href: 'https://CursorBoston.com' },
 ]
 
 const gh = (repo: string) => `https://github.com/AaronGrace978/${repo}`

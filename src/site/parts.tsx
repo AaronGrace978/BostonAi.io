@@ -29,6 +29,35 @@ export function Logo() {
   )
 }
 
+function ThemeToggle() {
+  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark')
+  const flip = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const next = dark ? 'light' : 'dark'
+    document.documentElement.dataset.theme = next
+    try {
+      localStorage.setItem('bai-theme', next)
+    } catch {
+      /* storage unavailable: the choice lasts for this page only */
+    }
+    setDark(!dark)
+  }
+  return (
+    <button type="button" className="theme-toggle" onClick={flip} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} title={dark ? 'Light mode' : 'Dark mode'}>
+      {dark ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1Z" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
 export function Nav({ page }: { page: PageId }) {
   const [open, setOpen] = useState(false)
   return (
@@ -55,6 +84,7 @@ export function Nav({ page }: { page: PageId }) {
             Blog
           </a>
           <a href="#investors">Investors</a>
+          <ThemeToggle />
           <a className="btn btn--sm btn--light" href={mail('BostonAI sales inquiry')}>
             Talk to sales
           </a>
@@ -373,9 +403,6 @@ export function Footer() {
           <a href={mail('BostonAI sales inquiry')}>Sales</a>
           <a href={COMPANY.github} target="_blank" rel="noreferrer">
             GitHub
-          </a>
-          <a href={COMPANY.community.href} target="_blank" rel="noreferrer">
-            {COMPANY.community.label}
           </a>
         </div>
       </div>
