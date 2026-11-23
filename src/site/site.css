@@ -3447,3 +3447,127 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── The Entity band (home) ── */
+.entity-band {
+  padding-top: 0;
+}
+
+.entity-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  padding: clamp(24px, 4vw, 44px);
+  border-radius: 28px;
+  text-decoration: none;
+  color: #c6f7df;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  background:
+    radial-gradient(60% 80% at 80% 30%, rgba(62, 255, 170, 0.14), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0 1px, transparent 1px 3px),
+    #020504;
+  border: 1px solid rgba(62, 255, 170, 0.22);
+  box-shadow: 0 40px 80px -40px rgba(2, 5, 4, 0.8);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.entity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 40px 80px -36px rgba(2, 5, 4, 0.9), 0 0 50px -20px rgba(62, 255, 170, 0.5);
+}
+
+.entity-card__tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #3effaa;
+}
+
+.entity-card h2 {
+  margin: 0.8rem 0 0.9rem;
+  font-family: var(--font);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #eafff4;
+}
+
+.entity-card h2 em {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: #3effaa;
+  text-shadow: 0 0 20px rgba(62, 255, 170, 0.45);
+}
+
+.entity-card p {
+  color: #8fc4ab;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.entity-card__fine {
+  margin-top: 0.8rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid #3effaa;
+  color: #c6f7df !important;
+}
+
+.entity-card__cta {
+  display: inline-block;
+  margin-top: 1.4rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid #3effaa;
+  color: #eafff4;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(62, 255, 170, 0.1);
+}
+
+.entity-card img {
+  border-radius: 14px;
+  border: 1px solid rgba(62, 255, 170, 0.22);
+}
+
+@media (max-width: 1020px) {
+  .entity-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.entity-card h2 em {
+  background: none;
+  -webkit-text-fill-color: #3effaa;
+  color: #3effaa;
+}
+
+/* The menu has grown: collapse it to the hamburger below 960px. */
+@media (max-width: 960px) {
+  .nav__toggle {
+    display: block;
+  }
+
+  .nav__links {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 16px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    display: none;
+  }
+
+  .nav__links .btn {
+    margin: 0.5rem 0 0;
+  }
+
+  .nav--open .nav__links {
+    display: flex;
+  }
+
+  .nav__links a:not(.btn) {
+    padding: 0.85rem 0.6rem;
+  }
+}

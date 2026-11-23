@@ -13,7 +13,11 @@ window.addEventListener('hashchange', () => {
 
 async function boot() {
   let view: ReactNode
-  if (isConsole) {
+  if (page === 'entity') {
+    await import('./entity/entity.css')
+    const { default: EntityApp } = await import('./entity/EntityApp')
+    view = <EntityApp />
+  } else if (isConsole) {
     await import('./index.css')
     const { Workbench } = await import('./Workbench')
     view = <Workbench onBackToLab={() => (window.location.hash = '')} />

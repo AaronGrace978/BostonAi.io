@@ -13,6 +13,7 @@ import {
   HarvardFeature,
   InvestorBand,
   MissionSection,
+  EntityBand,
   Nav,
   PlatformIcon,
   PlatformRow,
@@ -142,6 +143,8 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <EntityBand />
 
       <section className="section section--tint">
         <div className="wrap">

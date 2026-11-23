@@ -50,7 +50,7 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/frustum/" aria-current={page === 'frustum' ? 'page' : undefined}>
             Frustum
           </a>
-          <a href="/#research">Research</a>
+          <a href="/entity/">The Entity</a>
           <a href="/blog/" aria-current={page === 'blog' ? 'page' : undefined}>
             Blog
           </a>
@@ -353,6 +353,7 @@ export function Footer() {
           ))}
           <a href="/dinoclaw/#dinobuddy">DinoBuddy</a>
           <a href="/frustum/">Frustum</a>
+          <a href="/entity/">The Entity</a>
         </div>
         <div className="footer__col">
           <h4>Download</h4>
@@ -637,6 +638,30 @@ export function MissionSection() {
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+export function EntityBand() {
+  return (
+    <section className="section entity-band">
+      <div className="wrap">
+        <a className="entity-card reveal" href="/entity/">
+          <div className="entity-card__copy">
+            <span className="entity-card__tag">◆ Try it now · no download</span>
+            <h2>
+              Talk to <em>The Entity</em>.
+            </h2>
+            <p>
+              A face made of light that contorts in real time as the model thinks. Bring your own key for Ollama Cloud,
+              OpenAI, Anthropic, Gemini, OpenRouter or Groq, or try it with the built-in simulator.
+            </p>
+            <p className="entity-card__fine">Your key is never saved. It is wiped the moment you end the chat.</p>
+            <span className="entity-card__cta">Open The Entity →</span>
+          </div>
+          <img src="/img/entity-chat.webp" alt="The Entity: a green ASCII face beside a chat transcript" loading="lazy" />
+        </a>
       </div>
     </section>
   )
