@@ -380,7 +380,7 @@ export function Footer() {
       </div>
       <div className="wrap footer__legal">
         <span>© {new Date().getFullYear()} BostonAI. All rights reserved.</span>
-        <span>Steam Deck is a trademark of Valve Corporation. Other names are trademarks of their respective owners.</span>
+        <span>Steam and Steam Deck are trademarks of Valve Corporation. BostonAI is not affiliated with or endorsed by Valve. Other names are trademarks of their respective owners.</span>
       </div>
     </footer>
   )
@@ -409,7 +409,6 @@ export function RecognitionStrip() {
 
 export type DeviceShots = {
   laptop: { src: string; pos?: string; label: string }
-  deck: { src: string; pos?: string; label: string }
   ios: { src: string; pos?: string; label: string }
   android: { src: string; pos?: string; label: string }
 }
@@ -461,32 +460,23 @@ export function DeviceShowcase({ shots, products }: { shots: DeviceShots; produc
       </article>
 
       <article className="dev-card dev-card--deck reveal">
-        <div className="dev-card__copy">
-          <div className="dev-card__icons">
+        <div className="deck-ready">
+          <div className="deck-ready__badge" aria-hidden>
             <PlatformIcon p="steamdeck" />
           </div>
-          <h3>Steam Deck</h3>
-          <p>Add to Steam, launch from Game Mode or Desktop Mode. Gamepad, trackpad and touch ready.</p>
-        </div>
-        <div className="deck" aria-hidden>
-          <span className="deck__dpad" />
-          <span className="deck__stick deck__stick--l" />
-          <span className="deck__pad deck__pad--l" />
-          <span className="deck__btn deck__btn--steam">STEAM</span>
-          <span className="deck__grille deck__grille--l" />
-          <div className="deck__screen">
-            <Screen {...shots.deck} />
+          <div className="deck-ready__copy">
+            <p className="eyebrow">Handheld</p>
+            <h3>Built to be Deck Ready</h3>
+            <p>
+              Both apps are designed for handheld gaming PCs like Steam Deck: they fit the screen, respond to gamepad,
+              trackpad and touch, and run from Desktop Mode or straight from your library.
+            </p>
           </div>
-          <span className="deck__abxy">
-            <i>Y</i>
-            <i>X</i>
-            <i>B</i>
-            <i>A</i>
-          </span>
-          <span className="deck__stick deck__stick--r" />
-          <span className="deck__pad deck__pad--r" />
-          <span className="deck__btn deck__btn--dots">•••</span>
-          <span className="deck__grille deck__grille--r" />
+          <ul className="deck-ready__list">
+            <li>Handheld-sized layouts</li>
+            <li>Gamepad, trackpad &amp; touch</li>
+            <li>Game Mode or Desktop Mode</li>
+          </ul>
         </div>
       </article>
 

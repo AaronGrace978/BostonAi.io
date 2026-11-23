@@ -56,21 +56,18 @@ function Shell({ page, children }: { page: PageId; children: React.ReactNode }) 
 
 const HOME_SHOTS: DeviceShots = {
   laptop: { src: '/img/workbot-app.webp', label: 'WorkBot on a laptop' },
-  deck: { src: '/img/dinobuddy.webp', pos: '50% 30%', label: 'DinoBuddy on Steam Deck' },
   ios: { src: '/img/m-dinobuddy.webp', pos: 'top', label: 'DinoBuddy app on a phone' },
   android: { src: '/img/m-workbot-robo.webp', pos: 'top', label: 'WorkBot Mobile on Android' },
 }
 
 const WORKBOT_SHOTS: DeviceShots = {
   laptop: { src: '/img/workbot-console.webp', label: 'WorkBot console on a laptop' },
-  deck: { src: '/img/workbot-app.webp', pos: 'left top', label: 'WorkBot on Steam Deck' },
   ios: { src: '/img/m-workbot-chat.webp', pos: 'top', label: 'WorkBot Mobile chat' },
   android: { src: '/img/m-workbot-robo.webp', pos: 'top', label: 'Robo on WorkBot Mobile' },
 }
 
 const DINO_SHOTS: DeviceShots = {
   laptop: { src: '/img/dinoclaw-projects.webp', label: 'DinoClaw Project Home on a laptop' },
-  deck: { src: '/img/dinobuddy.webp', pos: '50% 30%', label: 'DinoBuddy on Steam Deck' },
   ios: { src: '/img/m-dinobuddy.webp', pos: 'top', label: 'DinoBuddy app on a phone' },
   android: { src: '/img/m-dino-nest.webp', pos: 'top', label: 'The Nest in the DinoBuddy app' },
 }
@@ -343,7 +340,7 @@ function ProductPage({
             title={`${p.name} runs everywhere you do`}
             sub={
               <>
-                <b>Steam Deck:</b> {p.steamDeck} <br />
+                <b>Deck Ready:</b> {p.steamDeck} <br />
                 <b>Mobile:</b> {p.mobile}
               </>
             }

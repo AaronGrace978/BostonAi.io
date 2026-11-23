@@ -155,7 +155,7 @@ export const WORKBOT: Product = {
       { label: 'Hard limits in code: no payments, credentials or CAPTCHA bypass', cells: [true, '—', '—', 'Sentinel guard agent', '—', '—', '—'] },
       { label: 'Resume & cover-letter engine built in', cells: [true, '—', '—', '—', '—', '—', '—'] },
       { label: 'Animated companion you can watch work', cells: ['Robo', '—', '—', '—', '—', '—', '—'] },
-      { label: 'Native Steam Deck app', cells: [true, false, false, false, '—', '—', '—'] },
+      { label: 'Built to be Deck Ready', cells: [true, false, false, false, '—', '—', '—'] },
       { label: 'Keeps working after you close the lid', cells: ['While your machine is on', true, true, true, false, false, false] },
     ],
     honest:
@@ -267,7 +267,7 @@ export const DINOCLAW: Product = {
       { label: 'Approval modals, risk tiers, audit log', cells: [true, 'Partial', 'Strong isolation (NanoClaw, IronClaw)'] },
       { label: 'Local models via Ollama', cells: [true, true, true] },
       { label: 'Chat channels', cells: ['Telegram, Discord, webhooks', 'Widest ecosystem', 'Fewer integrations'] },
-      { label: 'Gamepad-native Steam Deck UI', cells: [true, false, false] },
+      { label: 'Built to be Deck Ready (gamepad UI)', cells: [true, false, false] },
     ],
     honest:
       'Where they win: OpenClaw has the largest channel and skill ecosystem, and PicoClaw / ZeroClaw run on tiny boards with megabytes of RAM. DinoClaw wins for people who want a finished product: a real app, proven builds and a companion they actually like.',
