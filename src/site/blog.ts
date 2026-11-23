@@ -15,6 +15,35 @@ export const AUTHOR = {
 
 export const POSTS: Post[] = [
   {
+    slug: 'frustum-510gb-on-16gb',
+    title: 'Running a 510 GB model on a 16 GB GPU',
+    date: '2026-11-17',
+    tag: 'Research',
+    image: '/img/frustum-activateprime.webp',
+    excerpt:
+      'Frustum streams DeepSeek V4.1 Flash from a USB SSD through one RTX 5060 Ti. The first six tokens took 1,118 seconds. Version 0.8 decodes a token in about four.',
+    body: [
+      'DeepSeek V4.1 Flash is roughly 510 GB on disk. My graphics card has 16. The usual answer is “rent a data center.” Frustum is my answer instead: stream the model from a Samsung T7 USB SSD and only bring onto the GPU what the current token actually needs.',
+      { h: 'Why it can work at all' },
+      'It is a mixture-of-experts model: 384 routed experts per layer, and each token only uses six of them. So a token never needs the whole model, just the slice that is “in view,” the way a game engine only renders what is inside the camera frustum. That is where the name comes from.',
+      { h: 'The road from 1,118 seconds' },
+      {
+        list: [
+          'v0.3.8 produced its first six tokens in 1,118 seconds.',
+          'v0.5 kept dense weights resident on the GPU and added a GPU and host-RAM expert cache with parallel readers. On a USB 3.x link: about 8 seconds a token.',
+          'v0.6 added fused CUDA kernels that decode packed FP4, FP8 and GGUF weights in registers, each one checked against the reference before it is trusted.',
+          'v0.8 switched to unbuffered reads: 5.69 to 4.06 seconds per token, with identical tokens.',
+          'v0.9 made follow-up turns start replying 38% to 51% sooner.',
+        ],
+      },
+      { h: 'More than one model' },
+      'The same engine now runs Qwen3-Next 80B (163 GB) at about 0.6 to 0.8 tokens per second, plus GLM-4.7-Flash and Phi-4, all from a desktop chat app called ActivatePrime.',
+      { h: 'What it does not claim' },
+      'Streaming weights from flash is not a new idea, and full-model parity against a reference provider is still open. Every number comes from one machine. The white paper says all of that plainly, along with the ideas that measured slower and were switched off. That honesty is the point.',
+      'The full 35-page white paper and the code are on the Frustum page.',
+    ],
+  },
+  {
     slug: 'dinobuddy-at-harvard',
     title: 'DinoBuddy went to Harvard',
     tag: 'Event',

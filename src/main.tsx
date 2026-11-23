@@ -19,9 +19,9 @@ async function boot() {
     view = <Workbench onBackToLab={() => (window.location.hash = '')} />
   } else {
     await import('./site/site.css')
-    const { HomePage, WorkBotPage, DinoClawPage, BlogPage } = await import('./site/pages')
+    const { HomePage, WorkBotPage, DinoClawPage, BlogPage, FrustumPage } = await import('./site/pages')
     view =
-      page === 'workbot' ? <WorkBotPage /> : page === 'dinoclaw' ? <DinoClawPage /> : page === 'blog' ? <BlogPage /> : <HomePage />
+      page === 'workbot' ? <WorkBotPage /> : page === 'dinoclaw' ? <DinoClawPage /> : page === 'blog' ? <BlogPage /> : page === 'frustum' ? <FrustumPage /> : <HomePage />
   }
   createRoot(document.getElementById('root')!).render(<StrictMode>{view}</StrictMode>)
 }

@@ -345,6 +345,77 @@ export const RESEARCH = [
 export const GITHUB_STATS = [
   { v: '130+', k: 'repositories built' },
   { v: '2', k: 'shipping products' },
+  { v: '510 GB', k: 'model on a 16 GB GPU' },
   { v: '4', k: 'hackathons & challenges' },
   { v: '1', k: 'Harvard demo' },
 ]
+
+export const FRUSTUM = {
+  repo: 'https://github.com/AaronGrace978/Frustum',
+  paper: '/papers/frustum-whitepaper-v0.11.0.pdf',
+  paperVersion: '0.11.0',
+  paperDate: 'November 17, 2026',
+  paperPages: 35,
+  archive: 'https://github.com/AaronGrace978/Frustum/tree/main/whitepaper',
+  stats: [
+    { v: '510 GB', k: 'DeepSeek V4.1 Flash checkpoint' },
+    { v: '16 GB', k: 'one consumer GPU (RTX 5060 Ti)' },
+    { v: '4.06 s', k: 'per token decode, down from 58 s in v0.4' },
+    { v: '−51%', k: 'time to reply on follow-up turns (v0.9)' },
+  ],
+  how: [
+    {
+      title: 'Only stream what is in view',
+      body: 'Like a camera frustum in a game engine, only the slice of the model the current token touches is loaded. Dense weights and routers stay on the GPU; routed experts are fetched on demand.',
+    },
+    {
+      title: 'Three-tier expert cache',
+      body: 'Experts move through a GPU tier, a host-RAM tier and the SSD, with frequency-ranked eviction and four parallel readers. Frequently used experts stop touching the drive at all.',
+    },
+    {
+      title: 'Reads at the drive’s ceiling',
+      body: 'Unbuffered positioned reads fetch exactly the requested bytes and stop the OS keeping a second copy, taking DeepSeek decode from 5.69 to 4.06 s/token with identical tokens.',
+    },
+    {
+      title: 'Fused, self-checking kernels',
+      body: 'One CUDA kernel decodes packed FP4, FP8 and GGUF weights in registers. Every kernel is checked against the reference on first use and switches itself off on any mismatch.',
+    },
+    {
+      title: 'Faster follow-ups',
+      body: 'Attention extends the conversation by many tokens in one pass, so follow-up turns start replying 38% to 51% sooner with the same reply tokens.',
+    },
+    {
+      title: 'Measured, not guessed',
+      body: 'An I/O ledger, roofline reports and reproducible benchmarks show whether a token is storage- or compute-bound. Ideas that measured slower stay off by default.',
+    },
+  ],
+  models: [
+    { name: 'DeepSeek V4.1 Flash', size: '~510 GB · 40 layers · 384 experts', result: '4.06 s/token decode (v0.8 median)' },
+    { name: 'Qwen3-Next 80B A3B', size: '163 GB BF16 · 512 experts', result: '88 tokens in 132.3 s (0.79 tok/s), first live run' },
+    { name: 'GLM-4.7-Flash', size: '30B MoE · Q4_K_M', result: 'Cold load + 9-token reply in 23 s' },
+    { name: 'Phi-4', size: '14B · GPU-resident GGUF', result: 'Cold load + 36-token reply in 53.8 s' },
+  ],
+  contents: [
+    'Target checkpoint and constraints',
+    'Storage and scheduling design',
+    'Numerical implementation and validation',
+    'First local reply and the Dino Buddies chat demo',
+    'Phi-4 and GLM-4.7-Flash on Frustum',
+    'v0.5.1 live benchmarks in ActivatePrime',
+    'v0.6 fused decode kernels and expert prediction',
+    'v0.7 I/O measurement and roofline',
+    'v0.8 unbuffered reads and the per-layer stall',
+    'v0.9 batched follow-up prompts',
+    'v0.10 less GPU and Python overhead',
+    'Qwen3-Next 80B: first live run',
+    'Research notes, limitations and reproduction',
+  ],
+  limits: [
+    'Full-model parity against a reference provider is still open; agreement so far is component-level.',
+    'Benchmarks come from one machine: an RTX 5060 Ti 16 GB with a Samsung T7 on a 10 Gbps USB port.',
+    'The v0.8 numbers use one short prompt and fifteen decode tokens; long conversations may behave differently.',
+    'Streaming weights from flash is not a new idea in general. Frustum is a specific, working, reproducible implementation for this hardware.',
+  ],
+  credits:
+    'Project concept, architecture and direction: Aaron Grace. Engineering contributors: OpenAI (ChatGPT and Codex, v0.1 to v0.4) and Claude / Anthropic (v0.5 to v0.10). Contributor: DinoBuddy, with help from DinoClaw.',
+}

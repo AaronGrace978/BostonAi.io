@@ -3187,3 +3187,239 @@ a:focus-visible {
     text-align: left;
   }
 }
+
+/* ── Frustum ── */
+.site[data-page='frustum'] {
+  --accent: #0f8a7e;
+  --accent-2: #3d7cf0;
+  --accent-soft: rgba(15, 138, 126, 0.1);
+  --bg: #f4f7f5;
+  --bg-2: #e9f0ed;
+}
+
+.frustum-why {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+}
+
+.frustum-why h2,
+.frustum-honest h2,
+.paper h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.frustum-why > p {
+  font-size: 1.15rem;
+  color: var(--ink-2);
+}
+
+.frustum-chart {
+  margin: 0 0 24px;
+  padding: clamp(16px, 3vw, 32px);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px -26px rgba(21, 19, 15, 0.22);
+}
+
+.frustum-chart figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.model-table {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.model-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr 1.6fr;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.model-row:first-child {
+  border-top: 0;
+}
+
+.model-row span {
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+.model-row .model-row__result {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+.paper__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.paper__cover {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--line), 0 40px 80px -36px rgba(21, 19, 15, 0.5), 18px 18px 0 -2px var(--bg-2),
+    18px 18px 0 -1px var(--line-2);
+  transform: rotate(-2deg);
+  transition: transform 0.5s var(--ease);
+}
+
+.paper__cover:hover {
+  transform: rotate(0) translateY(-6px);
+}
+
+.paper__meta {
+  margin: 0.6rem 0 1rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.paper__copy > p {
+  color: var(--ink-2);
+}
+
+.paper__toc {
+  margin: 1.4rem 0 0.4rem;
+  padding-left: 1.4rem;
+  columns: 2;
+  column-gap: 2rem;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+
+.paper__toc li {
+  break-inside: avoid;
+  margin-bottom: 0.35rem;
+}
+
+.paper__toc li::marker {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.paper__fine {
+  font-size: 0.85rem;
+  color: var(--muted) !important;
+}
+
+.paper__fine a {
+  color: var(--accent);
+}
+
+.frustum-honest {
+  max-width: 860px;
+}
+
+.frustum-honest .checks {
+  margin: 1.6rem 0 2rem;
+}
+
+.checks--muted li {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+
+.frustum-credits {
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.frustum-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 28px;
+  text-decoration: none;
+  color: #eef7f4;
+  background:
+    radial-gradient(60% 90% at 85% 20%, rgba(126, 240, 217, 0.22), transparent 70%),
+    linear-gradient(140deg, #0f3d3e, #082324);
+  box-shadow: 0 30px 70px -40px rgba(8, 35, 36, 0.8);
+  transition: transform 0.4s var(--ease);
+}
+
+.frustum-feature:hover {
+  transform: translateY(-4px);
+}
+
+.frustum-feature h3 {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  margin: 0.8rem 0;
+  color: #fff;
+}
+
+.frustum-feature h3 em {
+  font-family: var(--serif);
+  font-weight: 400;
+  color: #7ef0d9;
+}
+
+.frustum-feature p {
+  color: #b9d3cd;
+}
+
+.frustum-feature img {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.frustum-feature__tag {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7ef0d9;
+  border: 1px solid rgba(126, 240, 217, 0.35);
+}
+
+.frustum-feature__cta {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-weight: 600;
+  color: #7ef0d9;
+}
+
+@media (max-width: 1020px) {
+  .frustum-why,
+  .paper__inner,
+  .frustum-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .paper__cover {
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .model-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .paper__toc {
+    columns: 1;
+  }
+}

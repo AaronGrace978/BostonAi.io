@@ -14,6 +14,7 @@ Both ship on Windows, macOS, Linux, Steam Deck, iOS and Android.
 | `/` | `index.html` → `src/site/pages.tsx` `HomePage` |
 | `/workbot/` | `workbot/index.html` → `WorkBotPage` |
 | `/dinoclaw/` | `dinoclaw/index.html` → `DinoClawPage` |
+| `/frustum/` | `frustum/index.html` → `FrustumPage` (white paper PDF in `public/papers/`) |
 | `/blog/` | `blog/index.html` → `BlogPage` (posts in `src/site/blog.ts`, one post per `#slug`) |
 | `/#console` | Builder console (`src/Workbench.tsx`), unlinked |
 

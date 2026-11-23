@@ -16,7 +16,7 @@ import {
   type Product,
 } from './data'
 
-export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog'
+export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum'
 
 export function Logo() {
   return (
@@ -46,7 +46,9 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/dinoclaw/" aria-current={page === 'dinoclaw' ? 'page' : undefined}>
             DinoClaw
           </a>
-          <a href={page === 'home' || page === 'blog' ? '/#platforms' : '#platforms'}>Platforms</a>
+          <a href="/frustum/" aria-current={page === 'frustum' ? 'page' : undefined}>
+            Frustum
+          </a>
           <a href="/#research">Research</a>
           <a href="/blog/" aria-current={page === 'blog' ? 'page' : undefined}>
             Blog
@@ -349,6 +351,7 @@ export function Footer() {
             </a>
           ))}
           <a href="/dinoclaw/#dinobuddy">DinoBuddy</a>
+          <a href="/frustum/">Frustum</a>
         </div>
         <div className="footer__col">
           <h4>Download</h4>
@@ -361,6 +364,7 @@ export function Footer() {
         <div className="footer__col">
           <h4>Company</h4>
           <a href="/#research">Research</a>
+          <a href="/frustum/#whitepaper">Frustum white paper</a>
           <a href="/blog/">Blog</a>
           <a href="#investors">Investors</a>
           <a href={mail('BostonAI sales inquiry')}>Sales</a>
@@ -517,6 +521,21 @@ export function ResearchSection() {
           }
           sub="WorkBot and DinoClaw sit on top of a deep bench of public research into agents that stay continuous, honest and cheap to run."
         />
+        <a className="frustum-feature reveal" href="/frustum/">
+          <div className="frustum-feature__copy">
+            <span className="frustum-feature__tag">New · white paper v0.11</span>
+            <h3>
+              Frustum: a 510 GB model on a <em>16 GB</em> GPU.
+            </h3>
+            <p>
+              DeepSeek V4.1 Flash streamed from a USB SSD through one RTX 5060 Ti, at about four seconds a token. Qwen3-Next
+              80B, GLM and Phi-4 run on the same engine.
+            </p>
+            <span className="frustum-feature__cta">Explore Frustum and the white paper →</span>
+          </div>
+          <img src="/img/frustum-activateprime.webp" alt="ActivatePrime running Qwen3-Next 80B on Frustum" loading="lazy" />
+        </a>
+
         <article className="featured reveal">
           <div className="featured__art">
             <img src={f.image} alt="ChronoSoul: a glowing mind suspended in a glass chamber surrounded by drifting memories" loading="lazy" />

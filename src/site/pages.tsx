@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AUTHOR, POSTS, formatDate, sortedPosts, type Post } from './blog'
-import { ALL_PLATFORMS, DINOCLAW, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
+import { ALL_PLATFORMS, DINOCLAW, FRUSTUM, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
 import {
   CompareTable,
   DeviceShowcase,
@@ -577,6 +577,169 @@ export function BlogPage() {
           </section>
         </>
       )}
+      <InvestorBand />
+    </Shell>
+  )
+}
+
+/* ───────────────────────── Frustum ───────────────────────── */
+
+export function FrustumPage() {
+  const f = FRUSTUM
+  return (
+    <Shell page="frustum">
+      <section className="hero hero--product hero--frustum">
+        <div className="hero__bg" aria-hidden />
+        <div className="wrap hero__split">
+          <div className="hero__copy">
+            <p className="eyebrow">Research · Frustum · open source (AGPL-3.0)</p>
+            <h1>
+              A 510 GB model on a <em>16 GB</em> GPU.
+            </h1>
+            <p className="hero__lede">
+              Frustum streams giant mixture-of-experts models from a plain USB SSD through one consumer graphics card. DeepSeek
+              V4.1 Flash, Qwen3-Next 80B, GLM and Phi-4 all chat locally, with no data center and nothing leaving the machine.
+            </p>
+            <div className="hero__actions">
+              <a className="btn btn--accent btn--lg" href={f.paper} target="_blank" rel="noreferrer">
+                Read the white paper
+              </a>
+              <a className="btn btn--ghost btn--lg" href={f.repo} target="_blank" rel="noreferrer">
+                View on GitHub
+              </a>
+            </div>
+          </div>
+          <figure className="hero__shot">
+            <img src="/img/frustum-activateprime.webp" alt="ActivatePrime running Qwen3-Next 80B on Frustum, with its run inspector showing VRAM, RAM and SSD placement" />
+          </figure>
+        </div>
+        <div className="wrap">
+          <dl className="stats">
+            {f.stats.map(s => (
+              <div key={s.k}>
+                <dt>{s.v}</dt>
+                <dd>{s.k}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-why">
+          <div>
+            <p className="eyebrow">Why “Frustum”</p>
+            <h2>Only what is in view.</h2>
+          </div>
+          <p>
+            A game engine never draws the whole world. It streams and renders what sits inside the camera’s frustum. Frustum
+            treats a giant model the same way: for each token, only the experts the router actually picks are brought onto
+            the GPU, and everything else waits on the SSD. That is how a checkpoint 30 times larger than the card’s memory
+            can still talk back.
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap">
+          <SectionHead eyebrow="How it works" title="Engineering for the drive, not the data center" />
+          <FeatureGrid features={f.how} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="Results"
+            title={
+              <>
+                From 186 seconds a token to <em>about four</em>.
+              </>
+            }
+            sub="Measured on one RTX 5060 Ti 16 GB with the checkpoint on a Samsung T7 SSD. From v0.8 on, every number is a median of repeated fresh runs with identical token ids."
+          />
+          <figure className="frustum-chart reveal">
+            <img src="/img/frustum-progress.webp" alt="Bar chart: DeepSeek V4.1 Flash seconds per token fell from 186.3 s in v0.3.8 to 8.0 s in v0.5.1" loading="lazy" />
+            <figcaption>
+              Whitepaper Figure 1. v0.8 then took decode from 5.69 to 4.06 s/token with unbuffered reads.
+            </figcaption>
+          </figure>
+          <div className="model-table reveal">
+            {f.models.map(m => (
+              <div key={m.name} className="model-row">
+                <b>{m.name}</b>
+                <span>{m.size}</span>
+                <span className="model-row__result">{m.result}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap shot-band reveal">
+          <div>
+            <p className="eyebrow">ActivatePrime</p>
+            <h2>A desktop chat app on top.</h2>
+            <p>
+              ActivatePrime, a local model workbench, runs every Frustum backend with a live run inspector: load, prefill and
+              decode progress, layer by layer, and exactly how much of the model sits in VRAM, RAM and on the SSD.
+            </p>
+          </div>
+          <img src="/img/frustum-deepseek-chat.webp" alt="DeepSeek V4.1 Flash replying in ActivatePrime: running on consumer hardware, no data center required" loading="lazy" />
+        </div>
+      </section>
+
+      <section id="whitepaper" className="section paper">
+        <div className="wrap paper__inner">
+          <a className="paper__cover reveal" href={f.paper} target="_blank" rel="noreferrer">
+            <img src="/img/frustum-whitepaper-cover.webp" alt="First page of the Frustum_loader technical whitepaper, version 0.11.0" loading="lazy" />
+          </a>
+          <div className="paper__copy">
+            <p className="eyebrow">The white paper</p>
+            <h2>Frustum_loader technical whitepaper</h2>
+            <p className="paper__meta">
+              Version {f.paperVersion} · {f.paperDate} · {f.paperPages} pages · PDF
+            </p>
+            <p>
+              The full engineering record: design, numerical validation, every benchmark from the first six tokens to Qwen3-Next
+              80B, the ideas that measured slower and were turned off, and how to reproduce it all.
+            </p>
+            <ol className="paper__toc">
+              {f.contents.map(c => (
+                <li key={c}>{c}</li>
+              ))}
+            </ol>
+            <div className="hero__actions">
+              <a className="btn btn--accent btn--lg" href={f.paper} target="_blank" rel="noreferrer">
+                Read the white paper (PDF)
+              </a>
+              <a className="btn btn--ghost btn--lg" href={f.paper} download>
+                Download
+              </a>
+            </div>
+            <p className="paper__fine">
+              Earlier editions are on <a href={f.archive} target="_blank" rel="noreferrer">GitHub</a>. Experimental engineering report; not peer reviewed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-honest">
+          <div>
+            <p className="eyebrow">Honest limits</p>
+            <h2>What is not proven yet</h2>
+          </div>
+          <ul className="checks checks--muted">
+            {f.limits.map(l => (
+              <li key={l}>{l}</li>
+            ))}
+          </ul>
+          <p className="frustum-credits">{f.credits}</p>
+        </div>
+      </section>
+
       <InvestorBand />
     </Shell>
   )

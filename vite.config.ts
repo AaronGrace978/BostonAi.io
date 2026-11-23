@@ -31,6 +31,7 @@ export default defineConfig({
         workbot: resolve(import.meta.dirname, 'workbot/index.html'),
         dinoclaw: resolve(import.meta.dirname, 'dinoclaw/index.html'),
         blog: resolve(import.meta.dirname, 'blog/index.html'),
+        frustum: resolve(import.meta.dirname, 'frustum/index.html'),
       },
     },
   },
