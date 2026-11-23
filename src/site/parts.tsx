@@ -21,7 +21,7 @@ export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum'
 export function Logo() {
   return (
     <a className="logo" href="/" aria-label="BostonAI home">
-      <img src="/favicon.svg" alt="" width="30" height="30" />
+      <img src="/favicon.svg?v=3" alt="" width="32" height="32" />
       <span>
         Boston<b>AI</b>
       </span>

@@ -1,15 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1d1a15"/>
-      <stop offset="1" stop-color="#0d0c0a"/>
+      <stop stop-color="#17573f"/>
+      <stop offset="1" stop-color="#0a2e22"/>
     </linearGradient>
-    <linearGradient id="dot" x1="44" y1="38" x2="56" y2="52" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#7c6cff"/>
-      <stop offset="1" stop-color="#22c9a6"/>
+    <linearGradient id="gold" x1="22" y1="8" x2="42" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe7a0"/>
+      <stop offset=".5" stop-color="#e6ad34"/>
+      <stop offset="1" stop-color="#b7801c"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <path d="M19 45V19h14.4a6.8 6.8 0 0 1 0 13.6H19m14.4 0a6.2 6.2 0 0 1 0 12.4H19" fill="none" stroke="#fbf8f1" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
-  <circle cx="48.5" cy="45" r="5" fill="url(#dot)"/>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="12.5" fill="none" stroke="#fbf3e2" stroke-opacity=".12"/>
+  <!-- State House: lantern, golden dome, colonnade -->
+  <circle cx="32" cy="7.6" r="1.4" fill="#ffe7a0"/>
+  <rect x="31" y="8.6" width="2" height="3.4" rx=".5" fill="url(#gold)"/>
+  <path d="M23.2 21.2C23.2 15.6 27 11.8 32 11.8S40.8 15.6 40.8 21.2Z" fill="url(#gold)"/>
+  <rect x="21.2" y="21" width="21.6" height="2.4" rx=".8" fill="#fbf3e2"/>
+  <g fill="#fbf3e2" opacity=".9">
+    <rect x="23" y="23.4" width="1.8" height="3"/>
+    <rect x="27.3" y="23.4" width="1.8" height="3"/>
+    <rect x="31.1" y="23.4" width="1.8" height="3"/>
+    <rect x="34.9" y="23.4" width="1.8" height="3"/>
+    <rect x="39.2" y="23.4" width="1.8" height="3"/>
+  </g>
+  <!-- B -->
+  <path d="M22.2 54.6V29.4h13a6.1 6.1 0 0 1 0 12.2H22.2m13 0a6.5 6.5 0 0 1 0 13H22.2" fill="none" stroke="#fbf3e2" stroke-width="5.2" stroke-linejoin="round" stroke-linecap="round"/>
 </svg>
