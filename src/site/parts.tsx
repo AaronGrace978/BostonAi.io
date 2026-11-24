@@ -54,6 +54,7 @@ function ThemeToggle() {
           <path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1Z" />
         </svg>
       )}
+      <span className="theme-toggle__label">{dark ? 'Light mode' : 'Dark mode'}</span>
     </button>
   )
 }
