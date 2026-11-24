@@ -589,7 +589,19 @@ export function ResearchSection() {
             </p>
             <span className="frustum-feature__cta">Explore Frustum and the white paper →</span>
           </div>
-          <img src="/img/frustum-activateprime.webp" alt="ActivatePrime running Qwen3-Next 80B on Frustum" loading="lazy" />
+          <figure className="frustum-feature__shot">
+            <img
+              src="/img/frustum-deepseek-hi.webp"
+              alt="DeepSeek V4.1 Flash in an early build of ActivatePrime replying: running on consumer hardware, no data center required"
+              width="1189"
+              height="811"
+              loading="lazy"
+            />
+            <figcaption>
+              DeepSeek V4.1 Flash saying hi from Aaron&rsquo;s own PC, in an early build of ActivatePrime (back when Frustum was
+              called Frusium).
+            </figcaption>
+          </figure>
         </a>
 
         <article className="featured reveal">
