@@ -13,6 +13,7 @@ import {
   HarvardFeature,
   InvestorBand,
   MissionSection,
+  FounderNote,
   EntityBand,
   Nav,
   PlatformIcon,
@@ -191,6 +192,8 @@ export function HomePage() {
       <HarvardFeature />
 
       <BlogTeaser />
+
+      <FounderNote />
 
       <InvestorBand />
     </Shell>

@@ -336,6 +336,9 @@ export function InvestorBand({ product }: { product?: Product }) {
           <a className="btn btn--ghost-light btn--block" href={mail(product ? `Sales / licensing: ${product.name}` : 'Sales / licensing: BostonAI')}>
             Sales &amp; licensing
           </a>
+          <a className="investors__note" href="/#founder-note">
+            Read Aaron&rsquo;s note to investors →
+          </a>
           <p className="investors__fine">
             We reply to every note personally, usually within a day.
             <br />
@@ -733,6 +736,61 @@ export function EntityBand() {
           </div>
           <img src="/img/entity-chat.webp" alt="The Entity: a green ASCII face beside a chat transcript" loading="lazy" />
         </a>
+      </div>
+    </section>
+  )
+}
+
+export function FounderNote() {
+  return (
+    <section id="founder-note" className="section founder-note">
+      <div className="wrap founder-note__inner">
+        <p className="eyebrow">A note to investors</p>
+        <h2 className="founder-note__headline">
+          I have the builds. <em>I just need the nudge.</em>
+        </h2>
+        <div className="founder-note__letter">
+          <p className="founder-note__lead">I&rsquo;ll be straight with you: I&rsquo;m just a man trying to make it in this industry.</p>
+          <p>
+            I don&rsquo;t have a famous last name, a big lab behind me or a trust fund to fall back on. What I have is a passion for
+            AI that has carried me through a lot of late nights, and a belief that this technology can do real good for real
+            people, not just for the people who already have the most.
+          </p>
+          <p>
+            It hasn&rsquo;t been easy. I&rsquo;ve built most of this on my own, between contract work, often wondering if anyone would
+            ever see it. I&rsquo;ve watched the spotlight in this space go to whoever has the most clout instead of whoever does the
+            most careful work. I&rsquo;ve walked away from opportunities that didn&rsquo;t sit right with me, because I&rsquo;d rather
+            build slowly with integrity than quickly without it. There have been days that tested me.
+          </p>
+          <p className="founder-note__turn">But I didn&rsquo;t give up. And I&rsquo;m not going to.</p>
+          <p>
+            Because the work is real. <b>WorkBot</b> finishes the online chores that eat people&rsquo;s evenings, on their own
+            computer, with their own data. <b>DinoClaw</b> gives everyday people an AI that builds and proves its work without a
+            terminal, and <b>DinoBuddy</b> has stood on a screen at Harvard and made a room smile. <b>Frustum</b> runs a 510 GB AI
+            model on a single 16 GB consumer graphics card. <b>ChronoSoul</b> was contributed to a research corpus. These
+            aren&rsquo;t slides. They&rsquo;re builds.
+          </p>
+          <p>
+            I understand business is competition. I respect that, and I&rsquo;m ready for it. I&rsquo;m not asking anyone to carry
+            me. I&rsquo;m looking for a few people who believe what I believe: that AI should work for everyday people and be their
+            buddy, not just make the rich richer.
+          </p>
+          <p>
+            I have the builds. What I need now is the nudge: the backing to finish the public launch, bring the mobile apps to
+            everyone, and put these products in the hands of the people they were made for.
+          </p>
+          <p className="founder-note__close">If that resonates with you, I&rsquo;d be grateful to talk.</p>
+          <div className="founder-note__sign">
+            <img src="/img/emblem-160.png" alt="" width="52" height="52" />
+            <div>
+              <span className="mission__signature">Aaron Grace</span>
+              <span>Founder, BostonAi.io · Boston, Massachusetts</span>
+            </div>
+            <a className="btn btn--accent" href={mail('Early investor interest: BostonAI')}>
+              Talk with Aaron
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )

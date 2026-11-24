@@ -4004,3 +4004,129 @@ html[data-theme='dark'] .site[data-page='chronosoul'] {
     justify-content: center;
   }
 }
+
+/* ── Founder's note to investors ── */
+.founder-note {
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(217, 138, 38, 0.1), transparent 70%),
+    var(--bg-2);
+  border-top: 1px solid var(--line);
+}
+
+.founder-note__inner {
+  max-width: 860px;
+  text-align: center;
+}
+
+.founder-note .eyebrow {
+  color: #c97a1c;
+}
+
+.founder-note .eyebrow::after {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+
+.founder-note__headline {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  letter-spacing: -0.04em;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.founder-note__headline em {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 400;
+  color: #c97a1c;
+}
+
+.founder-note__letter {
+  text-align: left;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 28px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 70px -40px rgba(21, 19, 15, 0.3);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.founder-note__letter p + p {
+  margin-top: 1.1rem;
+}
+
+.founder-note__lead {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.founder-note__turn {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  color: #c97a1c;
+}
+
+.founder-note__close {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.founder-note__sign {
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.founder-note__sign > div {
+  display: grid;
+  gap: 0.15rem;
+  margin-right: auto;
+}
+
+.founder-note__sign img {
+  border-radius: 50%;
+}
+
+.investors__note {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.investors__note:hover {
+  text-decoration: underline;
+}
+
+html[data-theme='dark'] .founder-note .eyebrow,
+html[data-theme='dark'] .founder-note__headline em,
+html[data-theme='dark'] .founder-note__turn {
+  color: #f0a23a;
+}
+
+.founder-note__headline em {
+  background: linear-gradient(100deg, #c97a1c, #e6a23c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme='dark'] .founder-note__headline em {
+  background: linear-gradient(100deg, #f0a23a, #ffd27a);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
