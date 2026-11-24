@@ -34,3 +34,10 @@ Pushing to `main` deploys to GitHub Pages via `.github/workflows/deploy-pages.ym
 ## Security
 
 See [SECURITY.md](./SECURITY.md).
+
+## License
+
+Proprietary. Copyright (c) 2026 Aaron Grace / BostonAI. All rights reserved.
+This repository is public for viewing only; it is **not** open source. See
+[LICENSE](./LICENSE) for terms and [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
+for the open-source components it uses. Licensing inquiries: aarongrace978@gmail.com

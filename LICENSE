@@ -1,0 +1,82 @@
+BostonAI Proprietary License
+
+Copyright (c) 2026 Aaron Grace / BostonAI (bostonai.io). All rights reserved.
+
+This repository and everything in it, including source code, designs, page
+layouts, text, graphics, illustrations, logos, icons, screenshots, documents and
+other assets (together, the "Materials"), are the proprietary property of Aaron
+Grace / BostonAI (the "Owner"), except for the third-party components listed in
+THIRD_PARTY_NOTICES.md, which remain under their own licenses.
+
+1. No license granted
+
+   The Materials are not open source. No license or other right is granted to
+   you, by implication, estoppel or otherwise, except as expressly stated in
+   Section 2. All rights not expressly granted are reserved by the Owner.
+
+2. What you may do
+
+   a. Visit and use the public website at https://bostonai.io in the ordinary
+      way through a web browser.
+   b. View this repository on GitHub, and create a fork on GitHub, solely to
+      the extent the GitHub Terms of Service require for public repositories.
+      A fork does not give you any right to use, run, modify or distribute the
+      Materials outside of GitHub's viewing and forking features.
+
+3. What you may not do
+
+   Without the Owner's prior written permission, you may not:
+
+   a. copy, reproduce, download in bulk or scrape the Materials, in whole or in
+      part, except as permitted by Section 2;
+   b. modify the Materials or create derivative works based on them;
+   c. publish, distribute, sell, sublicense, rent, host or deploy the Materials,
+      or any website, app or service built from them;
+   d. use the Materials, in whole or in part, to build or promote a competing
+      product, service or website;
+   e. use the Materials to train, fine-tune or evaluate any machine learning or
+      AI model, or include them in any dataset;
+   f. remove, obscure or alter any copyright, trademark or proprietary notice.
+
+4. Trademarks
+
+   "BostonAI", "BostonAi.io", "WorkBot", "Robo", "DinoClaw", "DinoBuddy",
+   "The Entity", "Frustum", "ChronoSoul", and the related names, logos, seals
+   and characters are trademarks of the Owner. Nothing in this license grants
+   any right to use them. Names of other companies and products that appear in
+   the Materials belong to their respective owners.
+
+5. Contributions
+
+   The Owner does not accept unsolicited contributions. If you nevertheless
+   submit a contribution (for example an issue, pull request, patch or
+   suggestion), you grant the Owner a perpetual, worldwide, irrevocable,
+   royalty-free license to use, modify and incorporate it for any purpose, and
+   you confirm you have the right to grant that license. Submitting a
+   contribution gives you no rights in the Materials.
+
+6. No warranty
+
+   THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+
+7. Limitation of liability
+
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL THE OWNER BE LIABLE
+   FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE MATERIALS
+   OR THE USE OF OR OTHER DEALINGS IN THE MATERIALS.
+
+8. Termination
+
+   Any use of the Materials in violation of this license is unauthorized and
+   may infringe the Owner's copyright and trademark rights. The Owner reserves
+   all remedies available under law.
+
+9. Governing law
+
+   This license is governed by the laws of the Commonwealth of Massachusetts,
+   United States, without regard to its conflict-of-law rules.
+
+Permissions and licensing inquiries: aarongrace978@gmail.com
