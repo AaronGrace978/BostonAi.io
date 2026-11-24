@@ -4237,3 +4237,12 @@ html[data-theme='dark'] .yt {
     height: 45px;
   }
 }
+
+.site[data-page='dinoclaw'] .yt {
+  background:
+    radial-gradient(60% 80% at 70% 30%, rgba(94, 224, 138, 0.35), transparent 70%),
+    radial-gradient(60% 80% at 20% 80%, rgba(180, 83, 42, 0.45), transparent 70%),
+    #0c1a12;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.6), 0 0 80px -24px rgba(94, 224, 138, 0.55),
+    0 50px 100px -50px rgba(11, 18, 32, 0.55);
+}

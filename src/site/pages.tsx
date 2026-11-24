@@ -438,7 +438,30 @@ export function WorkBotPage() {
 
 export function DinoClawPage() {
   return (
-    <ProductPage product={DINOCLAW} rivalsTitle="DinoClaw vs. OpenClaw and the other claws" shots={DINO_SHOTS}>
+    <ProductPage
+      product={DINOCLAW}
+      rivalsTitle="DinoClaw vs. OpenClaw and the other claws"
+      shots={DINO_SHOTS}
+      intro={
+        <section id="demo" className="section demo">
+          <div className="wrap demo__inner">
+            <SectionHead
+              eyebrow="See it in action"
+              title={
+                <>
+                  Watch Dino <em>build a world</em>.
+                </>
+              }
+              sub="DinoClaw building a 3D world from a single request: planning it, writing it, running it and proving it works."
+              center
+            />
+            <div className="reveal">
+              <YouTubeVideo id="yR-5NB0ov1g" title="DinoClaw builds a world" />
+            </div>
+          </div>
+        </section>
+      }
+    >
       <HarvardFeature />
       <section className="section">
         <div className="wrap manifesto reveal">
