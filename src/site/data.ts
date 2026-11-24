@@ -313,6 +313,7 @@ export const RECOGNITION = [
     detail: 'SecurityPrime, 2026',
     href: 'https://github.com/AaronGrace978/2026-Mistral-Worldwide-Hackathon---SecurityPrime-Mistral-Edition',
   },
+  { label: 'Xerj Hub corpus', detail: 'ChronoSoul research contribution', href: '/chronosoul/' },
   { label: 'Gemini Live Agent Challenge', detail: 'Prism', href: 'https://github.com/AaronGrace978/Prism---Gemini-Live-Agent-Challenge' },
 ]
 

@@ -783,7 +783,7 @@ export function ChronoSoulPage() {
                 ✦
               </span>
               <span>
-                <b>Listed in the Xerj Hub corpus</b>
+                <b>Contributed to the Xerj Hub corpus</b>
                 <small>hub.xerj.org · view the entry ↗</small>
               </span>
             </a>

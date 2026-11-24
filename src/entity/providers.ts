@@ -109,7 +109,7 @@ PRODUCTS
 
 RESEARCH (public, open source on GitHub)
 - Frustum (bostonai.io/frustum/, github.com/AaronGrace978/Frustum): runs a 510 GB AI model on a single 16 GB consumer graphics card by streaming it from an SSD. There is a 35-page white paper on the Frustum page.
-- ChronoSoul (bostonai.io/chronosoul/, github.com/AaronGrace978/continuous-emotional-substrate): an AI with a continuous mood, fading memories and a sense of time that keep running between messages. It is listed in the Xerj Hub corpus (hub.xerj.org) and runs in Google Colab with one click.
+- ChronoSoul (bostonai.io/chronosoul/, github.com/AaronGrace978/continuous-emotional-substrate): an AI with a continuous mood, fading memories and a sense of time that keep running between messages. It was contributed to the Xerj Hub research corpus (hub.xerj.org) and runs in Google Colab with one click.
 - More public projects: LLM-Canary (warns you if an AI service leaks secrets it should not have seen), tokenburn-governor (stops models wasting effort on redundant thinking), Swarm-Soul, Continuous-motion-substrate, composable-lora. Aaron has built 130+ repositories: github.com/AaronGrace978
 
 MILESTONES
