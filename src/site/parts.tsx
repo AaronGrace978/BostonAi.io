@@ -795,3 +795,46 @@ export function FounderNote() {
     </section>
   )
 }
+
+/**
+ * Click-to-play YouTube embed. Shows the thumbnail and a play button; the privacy-enhanced player
+ * (youtube-nocookie.com) loads only after the visitor presses play.
+ */
+export function YouTubeVideo({ id, title }: { id: string; title: string }) {
+  const [playing, setPlaying] = useState(false)
+  const [thumb, setThumb] = useState(`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`)
+  return (
+    <div className="yt">
+      {playing ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      ) : (
+        <button type="button" className="yt__facade" onClick={() => setPlaying(true)} aria-label={`Play video: ${title}`}>
+          <img
+            src={thumb}
+            alt=""
+            loading="lazy"
+            onLoad={e => {
+              // YouTube returns a 120px grey placeholder when there is no high-res thumbnail.
+              if ((e.currentTarget as HTMLImageElement).naturalWidth < 200) setThumb(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`)
+            }}
+            onError={e => ((e.currentTarget as HTMLImageElement).style.display = 'none')}
+          />
+          <span className="yt__shade" />
+          <span className="yt__play" aria-hidden>
+            <svg viewBox="0 0 68 48">
+              <path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2.2 34 .2 34 .2s-21.2 0-26.5 1.5a8.6 8.6 0 0 0-6 6C0 13 0 24 0 24s0 11 1.5 16.3a8.6 8.6 0 0 0 6 6C12.8 47.8 34 47.8 34 47.8s21.2 0 26.5-1.5a8.6 8.6 0 0 0 6-6C68 35 68 24 68 24s0-11-1.5-16.3Z" />
+              <path d="M27 34.3 45 24 27 13.7Z" fill="#fff" />
+            </svg>
+          </span>
+          <span className="yt__label">{title}</span>
+        </button>
+      )}
+    </div>
+  )
+}

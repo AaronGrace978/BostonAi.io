@@ -6,6 +6,7 @@ import {
   DeviceShowcase,
   RecognitionStrip,
   ResearchSection,
+  YouTubeVideo,
   type DeviceShots,
   FeatureGrid,
   Footer,
@@ -206,11 +207,13 @@ function ProductPage({
   product,
   rivalsTitle,
   shots,
+  intro,
   children,
 }: {
   product: Product
   rivalsTitle: string
   shots: DeviceShots
+  intro?: React.ReactNode
   children?: React.ReactNode
 }) {
   const p = product
@@ -253,6 +256,8 @@ function ProductPage({
           </dl>
         </div>
       </section>
+
+      {intro}
 
       <section className="section pitch">
         <div className="wrap">
@@ -390,7 +395,30 @@ function ProductPage({
 
 export function WorkBotPage() {
   return (
-    <ProductPage product={WORKBOT} rivalsTitle="WorkBot vs. every big-lab agent" shots={WORKBOT_SHOTS}>
+    <ProductPage
+      product={WORKBOT}
+      rivalsTitle="WorkBot vs. every big-lab agent"
+      shots={WORKBOT_SHOTS}
+      intro={
+        <section id="demo" className="section demo">
+          <div className="wrap demo__inner">
+            <SectionHead
+              eyebrow="See it in action"
+              title={
+                <>
+                  Robo, <em>on the job</em>.
+                </>
+              }
+              sub="WorkBot working on Aaron’s Devpost hackathon entry, powered by Claude: reading the page, filling the fields and finishing the job."
+              center
+            />
+            <div className="reveal">
+              <YouTubeVideo id="hRdPUBTc0R4" title="WorkBot works a Devpost hackathon entry, powered by Claude" />
+            </div>
+          </div>
+        </section>
+      }
+    >
       <section className="section">
         <div className="wrap shot-band reveal">
           <div>
