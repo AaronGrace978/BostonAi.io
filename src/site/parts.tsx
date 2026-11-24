@@ -16,7 +16,7 @@ import {
   type Product,
 } from './data'
 
-export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum'
+export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum' | 'chronosoul'
 
 export function Logo() {
   return (
@@ -78,6 +78,9 @@ export function Nav({ page }: { page: PageId }) {
           <a href="/#mission">Mission</a>
           <a href="/frustum/" aria-current={page === 'frustum' ? 'page' : undefined}>
             Frustum
+          </a>
+          <a href="/chronosoul/" aria-current={page === 'chronosoul' ? 'page' : undefined}>
+            ChronoSoul
           </a>
           <a href="/entity/">The Entity</a>
           <a href="/blog/" aria-current={page === 'blog' ? 'page' : undefined}>
@@ -401,6 +404,7 @@ export function Footer() {
           ))}
           <a href="/dinoclaw/#dinobuddy">DinoBuddy</a>
           <a href="/frustum/">Frustum</a>
+          <a href="/chronosoul/">ChronoSoul</a>
           <a href="/entity/">The Entity</a>
         </div>
         <div className="footer__col">
@@ -603,7 +607,10 @@ export function ResearchSection() {
               ))}
             </ul>
             <div className="featured__cta">
-              <a className="btn btn--accent" href={f.href} target="_blank" rel="noreferrer">
+              <a className="btn btn--accent" href={f.page}>
+                Explore ChronoSoul
+              </a>
+              <a className="btn btn--ghost" href={f.href} target="_blank" rel="noreferrer">
                 View on GitHub
               </a>
               <a className="btn btn--ghost" href={f.colab} target="_blank" rel="noreferrer">

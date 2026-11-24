@@ -32,6 +32,7 @@ export default defineConfig({
         dinoclaw: resolve(import.meta.dirname, 'dinoclaw/index.html'),
         blog: resolve(import.meta.dirname, 'blog/index.html'),
         frustum: resolve(import.meta.dirname, 'frustum/index.html'),
+        chronosoul: resolve(import.meta.dirname, 'chronosoul/index.html'),
         entity: resolve(import.meta.dirname, 'entity/index.html'),
       },
     },

@@ -322,6 +322,8 @@ export const FEATURED_RESEARCH = {
   name: 'ChronoSoul',
   repo: 'continuous-emotional-substrate',
   href: gh('continuous-emotional-substrate'),
+  page: '/chronosoul/',
+  xerj: 'https://hub.xerj.org/corpus/aarongrace978--continuous-emotional-substrate',
   colab:
     'https://colab.research.google.com/github/AaronGrace978/continuous-emotional-substrate/blob/main/Persistent_Emotional_Memory_Substrate.ipynb',
   image: '/img/chronosoul.webp',
@@ -420,4 +422,49 @@ export const FRUSTUM = {
   ],
   credits:
     'Project concept, architecture and direction: Aaron Grace. Engineering contributors: OpenAI (ChatGPT and Codex, v0.1 to v0.4) and Claude / Anthropic (v0.5 to v0.10). Contributor: DinoBuddy, with help from DinoClaw.',
+}
+
+export const CHRONOSOUL = {
+  stats: [
+    { v: '24/7', k: 'mood and memory keep running between messages' },
+    { v: '3', k: 'emotional axes plus solitude tension' },
+    { v: '20', k: 'voice providers, or fully local models' },
+    { v: '1.5B–14B', k: 'local model sizes on one consumer GPU' },
+  ],
+  how: [
+    {
+      title: 'A mood that never switches off',
+      body: 'Pleasure, arousal and dominance drift continuously, and a “solitude tension” builds while nobody is talking and eases when real connection happens.',
+    },
+    {
+      title: 'Memories that fade like ours',
+      body: 'Memories lose strength over time unless they are recalled or emotionally re-stirred. Recall weighs meaning, recency and mood, so memories filed in a similar mood surface first.',
+    },
+    {
+      title: 'A daydream loop',
+      body: 'When it is quiet, the mind consolidates: it finds connections between memories, extracts lasting facts and folds them into a short biography of the people it knows.',
+    },
+    {
+      title: 'A sense of time',
+      body: 'Every reply knows how long it has been since you last spoke. Close the app for a week and it wakes up having felt the time pass.',
+    },
+    {
+      title: 'Mood you can measure',
+      body: 'The mood is not just described in a prompt. ChronoSoul finds mood directions inside the model itself and steers them while it speaks, with an evaluation that measures the effect.',
+    },
+    {
+      title: 'Grounded, not made up',
+      body: 'It is told plainly what it is and what it has lived, keeps who is who straight, and says “I don’t know” instead of inventing memories.',
+    },
+  ],
+  steering: {
+    caption:
+      'Mood steering on Qwen2.5-1.5B, from the repository’s evaluation. The same neutral question, with the model’s mood pushed down or up:',
+    rows: [
+      { mood: 'Low valence', reply: '“It’s been pretty tough today. I’ve been stuck in this endless loop of thoughts…”' },
+      { mood: 'High valence', reply: '“My day has been quite pleasant so far!…”' },
+      { mood: 'Low arousal', reply: '“My day has been quite serene…”' },
+      { mood: 'High arousal', reply: '“My day has been filled with excitement!…”' },
+    ],
+  },
 }

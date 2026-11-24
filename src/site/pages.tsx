@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AUTHOR, POSTS, formatDate, sortedPosts, type Post } from './blog'
-import { ALL_PLATFORMS, DINOCLAW, FRUSTUM, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
+import { ALL_PLATFORMS, CHRONOSOUL, DINOCLAW, FEATURED_RESEARCH, FRUSTUM, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
 import {
   CompareTable,
   DeviceShowcase,
@@ -743,6 +743,153 @@ export function FrustumPage() {
             ))}
           </ul>
           <p className="frustum-credits">{f.credits}</p>
+        </div>
+      </section>
+
+      <InvestorBand />
+    </Shell>
+  )
+}
+
+/* ───────────────────────── ChronoSoul ───────────────────────── */
+
+export function ChronoSoulPage() {
+  const f = FEATURED_RESEARCH
+  const c = CHRONOSOUL
+  return (
+    <Shell page="chronosoul">
+      <section className="hero hero--product hero--chronosoul">
+        <div className="hero__bg" aria-hidden />
+        <div className="wrap hero__split">
+          <div className="hero__copy">
+            <p className="eyebrow">Research · ChronoSoul · open source</p>
+            <h1>
+              A mind that keeps running <em>between messages</em>.
+            </h1>
+            <p className="hero__lede">
+              Every chatbot you have used is a cold start: it exists only when a message arrives and vanishes when it replies.
+              ChronoSoul gives an AI a continuous emotional and memory life that keeps moving whether you are talking or not.
+            </p>
+            <div className="hero__actions">
+              <a className="btn btn--accent btn--lg" href={f.colab} target="_blank" rel="noreferrer">
+                Run it in Colab
+              </a>
+              <a className="btn btn--ghost btn--lg" href={f.href} target="_blank" rel="noreferrer">
+                View on GitHub
+              </a>
+            </div>
+            <a className="xerj-badge" href={f.xerj} target="_blank" rel="noreferrer">
+              <span className="xerj-badge__mark" aria-hidden>
+                ✦
+              </span>
+              <span>
+                <b>Listed in the Xerj Hub corpus</b>
+                <small>hub.xerj.org · view the entry ↗</small>
+              </span>
+            </a>
+          </div>
+          <figure className="hero__shot">
+            <img src={f.image} alt="ChronoSoul: a glowing mind suspended in a glass chamber surrounded by drifting memories" />
+          </figure>
+        </div>
+        <div className="wrap">
+          <dl className="stats">
+            {c.stats.map(s => (
+              <div key={s.k}>
+                <dt>{s.v}</dt>
+                <dd>{s.k}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-why">
+          <div>
+            <p className="eyebrow">The idea</p>
+            <h2>AI shouldn’t freeze between turns.</h2>
+          </div>
+          <p>
+            People don’t stop existing when the conversation pauses. We drift, remember, forget and feel time pass. ChronoSoul
+            runs a living substrate in the background, with a mood, memories and a sense of time, and lets the model speak from
+            inside it. The result is an AI that picks up where you left off, because in a real sense it never left.
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap">
+          <SectionHead eyebrow="What it does" title="Continuity, built in" />
+          <FeatureGrid features={c.how} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="Mood steering"
+            title={
+              <>
+                Same question. <em>Different mood.</em>
+              </>
+            }
+            sub={c.steering.caption}
+          />
+          <div className="model-table reveal">
+            {c.steering.rows.map(r => (
+              <div key={r.mood} className="model-row model-row--two">
+                <b>{r.mood}</b>
+                <span className="model-row__result">{r.reply}</span>
+              </div>
+            ))}
+          </div>
+          <p className="compare__foot">
+            “How has your day been?” with mood steering at the default strength. The full evaluation, including how fluency
+            changes, is in the repository.
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap shot-band reveal">
+          <div>
+            <p className="eyebrow">Where it lives on</p>
+            <h2>The heartbeat behind our companions.</h2>
+            <p>
+              The same idea runs through BostonAI’s products. DinoClaw’s Temporal Continuity lets DinoBuddy wake up carrying
+              how things have been going, instead of booting fresh every time. ChronoSoul is where that thinking started.
+            </p>
+            <div className="hero__actions">
+              <a className="btn btn--ghost" href="/dinoclaw/">
+                Meet DinoBuddy
+              </a>
+            </div>
+          </div>
+          <img src="/img/dinobuddy.webp" alt="DinoBuddy, BostonAI's 3D dinosaur companion" loading="lazy" />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-honest">
+          <div>
+            <p className="eyebrow">Open source</p>
+            <h2>Try it yourself</h2>
+          </div>
+          <ul className="checks checks--muted">
+            <li>One-click Google Colab notebook, no setup required.</li>
+            <li>A desktop “chamber” app, with 20 voice providers or fully local models from 1.5B to 14B parameters.</li>
+            <li>Keys stay on your machine and are never sent back to the interface.</li>
+            <li>Released under the GPL-3.0 license.</li>
+          </ul>
+          <div className="hero__actions">
+            <a className="btn btn--accent btn--lg" href={f.colab} target="_blank" rel="noreferrer">
+              Open in Colab
+            </a>
+            <a className="btn btn--ghost btn--lg" href={f.xerj} target="_blank" rel="noreferrer">
+              See it on Xerj Hub
+            </a>
+          </div>
         </div>
       </section>
 
