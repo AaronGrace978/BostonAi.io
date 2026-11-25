@@ -409,11 +409,24 @@ export function WorkBotPage() {
                   Robo, <em>on the job</em>.
                 </>
               }
-              sub="WorkBot working on Aaron’s Devpost hackathon entry, powered by Claude: reading the page, filling the fields and finishing the job."
+              sub="Real runs, recorded on Aaron’s own computer. No mockups, no staging."
               center
             />
-            <div className="reveal">
-              <YouTubeVideo id="hRdPUBTc0R4" title="WorkBot works a Devpost hackathon entry, powered by Claude" />
+            <div className="demo__grid">
+              <figure className="demo__item reveal">
+                <YouTubeVideo id="hRdPUBTc0R4" title="WorkBot works a Devpost hackathon entry, powered by Claude" />
+                <figcaption>
+                  <b>Entering a Devpost hackathon.</b> Powered by Claude, WorkBot reads the page, fills the fields and finishes
+                  the job.
+                </figcaption>
+              </figure>
+              <figure className="demo__item reveal">
+                <YouTubeVideo id="cUuO5k__8Og" title="Robo posts on LinkedIn through browser automation" />
+                <figcaption>
+                  <b>Posting on LinkedIn.</b> Robo writes and publishes a LinkedIn post on his own, clicking through the site
+                  like a person would.
+                </figcaption>
+              </figure>
             </div>
           </div>
         </section>

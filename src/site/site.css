@@ -4257,3 +4257,38 @@ html[data-theme='dark'] .yt {
   line-height: 1.45;
   color: #9fc4bb;
 }
+
+.demo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 32px);
+}
+
+.site[data-page='workbot'] .demo__inner {
+  max-width: 1200px;
+}
+
+.demo__item {
+  margin: 0;
+}
+
+.demo__item .yt {
+  border-radius: 20px;
+}
+
+.demo__item figcaption {
+  margin-top: 1rem;
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.demo__item figcaption b {
+  color: var(--ink);
+}
+
+@media (max-width: 860px) {
+  .demo__grid {
+    grid-template-columns: 1fr;
+  }
+}
