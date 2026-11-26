@@ -473,7 +473,7 @@ export const CHRONOSOUL = {
 export const APPENDIX_B = {
   repo: gh('appendix-b-substrate'),
   releases: `${gh('appendix-b-substrate')}/releases/latest`,
-  version: '0.7.3',
+  version: '0.8.0',
   stats: [
     { v: '4', k: 'protocol phases every answer must pass' },
     { v: '7', k: 'substrate state variables carried across turns' },
@@ -509,7 +509,7 @@ export const APPENDIX_B = {
     },
     {
       title: 'Independent checks on every reply',
-      body: 'Arithmetic, prime, letter-count and Collatz claims in the model’s prose are recomputed in Python and marked ✓ or ✗ under the reply. Claims it can’t check stay unchecked: no check is not support.',
+      body: 'Arithmetic, primes, letter counts, Collatz steps and number theory in the model’s prose (gcd and lcm, factorials, congruences, prime factorizations, divisor counts, nth primes, Fibonacci), in plain text or LaTeX, are recomputed in Python and marked ✓ or ✗ under the reply. Claims it can’t check stay unchecked: no check is not support.',
     },
     {
       title: 'A substrate that remembers how it’s going',
