@@ -473,7 +473,7 @@ export const CHRONOSOUL = {
 export const APPENDIX_B = {
   repo: gh('appendix-b-substrate'),
   releases: `${gh('appendix-b-substrate')}/releases/latest`,
-  version: '0.8.0',
+  version: '0.9.0',
   stats: [
     { v: '4', k: 'protocol phases every answer must pass' },
     { v: '7', k: 'substrate state variables carried across turns' },
@@ -494,7 +494,7 @@ export const APPENDIX_B = {
     {
       n: '03',
       name: 'Verify',
-      body: 'Evidence has to come from a trusted verifier or real code the app runs, never from the model’s own say-so.',
+      body: 'Evidence has to come from a trusted verifier or real code the app runs, never from the model’s own say-so. The verifier must also reject a known-false negative control.',
     },
     {
       n: '04',
@@ -525,7 +525,7 @@ export const APPENDIX_B = {
     },
     {
       title: 'A library, not just an app',
-      body: 'The substrate is plain Python 3.10+ with zero dependencies. Plug in your own proposer and a trusted verifier, and the runtime enforces the protocol and keeps state in SQLite.',
+      body: 'The substrate is plain Python 3.10+ with zero dependencies. Plug in your own proposer and a trusted verifier, and the runtime enforces the protocol and keeps state in SQLite. Pass a known-false negative control and a candidate stays inconclusive unless the verifier refutes it.',
     },
   ],
   session: {
