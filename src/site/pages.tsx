@@ -1164,6 +1164,32 @@ export function AppendixBPage() {
       </section>
 
       <section className="section">
+        <div className="wrap shot-band ab-nugget reveal">
+          <div>
+            <p className="eyebrow">Off the record</p>
+            <h2>Paid in chicken nuggets.</h2>
+            <p>
+              After a long verification run, the model was offered one chicken nugget for its trouble. It accepted the
+              “rigorously verified, high-precision chicken nugget” and called it the best payment ever.
+            </p>
+            <p>
+              Asked whether it was curious about anything, it hedged honestly about what it feels, named a few questions it
+              finds hard to put down, then proposed one more: why dinosaur-shaped nuggets taste better, and whether we can design
+              a properly controlled experiment. The protocol rubs off.
+            </p>
+            <p className="compare__foot">Real session, Kimi k3.1 Pro on Ollama Cloud. Its substrate rail read curiosity 0.65.</p>
+          </div>
+          <img
+            src="/img/appendix-b-chicken-nugget.webp"
+            alt="Appendix B chat: the user offers the model a chicken nugget and it gratefully accepts a rigorously verified, high-precision chicken nugget; asked if it is curious, it lists questions and asks why dinosaur-shaped chicken nuggets taste better"
+            width="795"
+            height="625"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section className="section section--tint">
         <div className="wrap frustum-honest">
           <div>
             <p className="eyebrow">Honest limits</p>
