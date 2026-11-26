@@ -1164,6 +1164,24 @@ export function AppendixBPage() {
       </section>
 
       <section className="section">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="Stress tests"
+            title="Then we tried to break it."
+            sub="Seven hard prompts in physics and mathematics, run in Appendix B v0.9.0. Every key number below that we could recompute independently matched."
+          />
+          <div className="model-table ab-stress reveal">
+            {a.stress.map(r => (
+              <div key={r.topic} className="model-row model-row--two">
+                <b>{r.topic}</b>
+                <span>{r.result}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--tint">
         <div className="wrap shot-band ab-nugget reveal">
           <div>
             <p className="eyebrow">Off the record</p>
@@ -1189,7 +1207,7 @@ export function AppendixBPage() {
         </div>
       </section>
 
-      <section className="section section--tint">
+      <section className="section">
         <div className="wrap frustum-honest">
           <div>
             <p className="eyebrow">Honest limits</p>
