@@ -4370,6 +4370,19 @@ html[data-theme='dark'] .site[data-page='appendix-b'] {
   object-position: top;
 }
 
+.site[data-page='appendix-b'] .ab-nugget {
+  align-items: center;
+}
+
+.site[data-page='appendix-b'] .ab-nugget p + p {
+  margin-top: 0.9rem;
+}
+
+.site[data-page='appendix-b'] .ab-nugget img {
+  height: auto;
+  max-height: none;
+}
+
 .hero--appendix-b .hero__shot img {
   display: block;
   width: 100%;
