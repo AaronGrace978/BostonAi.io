@@ -539,6 +539,43 @@ export const APPENDIX_B = {
     ],
     answer: 'n² − 61n + 971: 71 primes for n = 0…70, exactly Euler’s n² + n + 41 shifted by 31.',
   },
+  stress: [
+    {
+      topic: 'Quantum gravity',
+      result:
+        'Computed the Planck energy (1.221 × 10¹⁹ GeV) and showed 14 TeV collisions are suppressed by 1.3 × 10⁻³⁰. Cross-checked a solar-mass black hole’s Hawking temperature (6.17 × 10⁻⁸ K) and entropy (1.049 × 10⁷⁷ in units of Boltzmann’s constant) by two routes, agreeing to 10⁻¹⁶. Declined to present a finished theory of quantum gravity.',
+    },
+    {
+      topic: 'JT gravity',
+      result:
+        'Numerically integrated the Schwarzian density of states and matched the analytic disk partition function to 1.5 × 10⁻¹⁴, then warned that a 2D toy model with no local gravitons doesn’t solve 4D gravity.',
+    },
+    {
+      topic: 'Bekenstein bound',
+      result:
+        'Set the Bekenstein information ceiling for a 5 kg head (1.288 × 10⁴³ bits) against Landauer’s heat budget (7.0 × 10²⁴ erasures per kelvin of warming).',
+    },
+    {
+      topic: 'Page curve',
+      result:
+        'Derived the turnover at M₀/√2, 64.64% of the way through evaporation. Flagged that a 10 M☉ black hole at 6.17 × 10⁻⁹ K is colder than the CMB, so today it absorbs rather than evaporates.',
+    },
+    {
+      topic: 'Fine-tuning',
+      result:
+        'Checked the proton’s electric-to-gravitational force ratio (1.236 × 10³⁶) two ways, reconciled the 8π convention between Λℓₚ² and the vacuum-to-Planck density ratio, and refused to put probabilities on design, multiverse or necessity.',
+    },
+    {
+      topic: 'Kolmogorov',
+      result:
+        'Caught an off-by-one in the prompt: at least 193 of the 256 8-bit strings are incompressible by more than 2 bits, not 192. Then it seeded a bug in its own verifier and showed that a mutation test catches it.',
+    },
+    {
+      topic: 'Logistic map',
+      result:
+        'Certified with 384-bit interval arithmetic that a 64-bit float run from x₀ = 0.2 drifts past 0.1 at exactly n = 52. As a negative control it built a float-vs-float checker that passed despite 0.949 divergence.',
+    },
+  ],
   limits: [
     'The substrate governs an agent’s external workflow. It can’t make a model’s private reasoning follow the protocol.',
     'Open questions stay inconclusive unless a deterministic check applies, because model agreement is not proof.',
