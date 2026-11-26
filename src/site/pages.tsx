@@ -449,6 +449,87 @@ export function WorkBotPage() {
   )
 }
 
+/** Release highlights for the current DinoClaw version, with real app screenshots. */
+function DinoClawWhatsNew() {
+  return (
+    <>
+      <section id="whats-new" className="section section--tint">
+        <div className="wrap shot-band reveal">
+          <div>
+            <p className="eyebrow">New in v{DINOCLAW.version}</p>
+            <h2>
+              Watch Dino <em>think, write and run</em>.
+            </h2>
+            <p>
+              The mission view is now a live trace of the work. A generative signal reacts to every step and changes colour
+              with what Dino is doing. Each action reads like a sentence (“Wrote <b>index.html</b> in nocturne-landing”), and
+              the file he is writing appears as highlighted code while he writes it.
+            </p>
+            <ul className="checks">
+              <li>Live status, elapsed time, actions and files at a glance</li>
+              <li>His plan up front, then every tool call and result as one readable line</li>
+              <li>Code previews, terminal output and the raw call one click away</li>
+            </ul>
+          </div>
+          <img
+            src="/img/dinoclaw-live-view.webp"
+            alt="DinoClaw live mission view: Dino is writing app.js for a soundscape landing page, with his plan, finished steps and highlighted code"
+            width="1600"
+            height="1243"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap shot-band shot-band--phone reveal">
+          <img
+            src="/img/dinoclaw-phone-pairing.webp"
+            alt="DinoClaw Infra phone card: the Nest URL and a six-digit pairing code for the DinoBuddy app, and a QR code for the browser version"
+            width="744"
+            height="1352"
+            loading="lazy"
+          />
+          <div>
+            <p className="eyebrow">New in v{DINOCLAW.version} · Infra</p>
+            <h2>
+              Pair your phone <em>in one step</em>.
+            </h2>
+            <p>
+              Infra now shows exactly what the DinoBuddy app asks for: the Nest address and a one-time code. One button gets
+              your PC ready for phones, so you can send missions and approve risky steps from the couch.
+            </p>
+            <ul className="checks">
+              <li>Fresh codes any time, for a new or reinstalled phone</li>
+              <li>The right Wi‑Fi address, not a virtual adapter</li>
+              <li>One-click Windows firewall fix, limited to your own network</li>
+              <li>No app? Scan the QR code to use Dino Link in the phone’s browser</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-honest">
+          <div>
+            <p className="eyebrow">Also in v{DINOCLAW.version}</p>
+            <h2>Small things you notice every day</h2>
+          </div>
+          <ul className="checks checks--muted">
+            <li>
+              <b>Enter sends.</b> Shift+Enter starts a new line, in missions and in DinoBuddy chat.
+            </li>
+            <li>
+              <b>eSpeak NG on Windows.</b> The classic Dino voice from Linux and Steam Deck now ships in the Windows build too,
+              and keeps Dino talking if the Windows voice can’t start.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </>
+  )
+}
+
 export function DinoClawPage() {
   return (
     <ProductPage
@@ -475,6 +556,7 @@ export function DinoClawPage() {
         </section>
       }
     >
+      <DinoClawWhatsNew />
       <HarvardFeature />
       <section className="section">
         <div className="wrap manifesto reveal">

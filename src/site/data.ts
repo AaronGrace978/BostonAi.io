@@ -192,7 +192,7 @@ export const WORKBOT: Product = {
 export const DINOCLAW: Product = {
   id: 'dinoclaw',
   name: 'DinoClaw',
-  version: '0.6.84',
+  version: '0.6.85',
   href: '/dinoclaw/',
   earlyAccess: earlyAccessMail('DinoClaw'),
   icon: '/icons/dinoclaw.svg',
@@ -239,7 +239,7 @@ export const DINOCLAW: Product = {
     },
     {
       title: 'Connects everywhere',
-      body: 'Telegram and Discord bots, a paired REST gateway, webhooks, cron-style schedules, tunnels and a Docker sandbox for risky commands.',
+      body: 'Pair the DinoBuddy phone app from Infra, plus Telegram and Discord bots, a paired REST gateway, webhooks, cron-style schedules, tunnels and a Docker sandbox for risky commands.',
     },
     {
       title: 'Safety you can see',
@@ -251,11 +251,11 @@ export const DINOCLAW: Product = {
     title: 'DinoBuddy is the face of the agent.',
     body: 'A fully rigged 3D dinosaur with moods that track how missions are going. He blinks, sleeps, wags his tail, stomps when he is happy, and talks back with lip-synced speech. Hold or right-click him for emotes, snap a photo, or open a chat sheet.',
     image: '/img/dinobuddy.webp',
-    points: ['Emote wheel, photo mode and chat sheet', 'Mood follows real mission outcomes', 'Bundled Kokoro voice, local speech input'],
+    points: ['Emote wheel, photo mode and chat sheet', 'Mood follows real mission outcomes', 'Bundled Kokoro and eSpeak NG voices, local speech input'],
   },
   steamDeck:
     'Built on and for the Deck. One script installs from the tarball, then add DinoClaw to Steam as a non-Steam game. Gamepad and touch controls, a Deck OLED theme, and Game Buddy works in both Game Mode and Desktop Mode.',
-  mobile: 'The DinoBuddy app puts your 3D buddy, chat and model picker in your pocket. Its Nest tab pairs your phone with DinoClaw at home, so you can send missions and review actions from anywhere.',
+  mobile: 'The DinoBuddy app puts your 3D buddy, chat and model picker in your pocket. Its Nest tab pairs with DinoClaw at home using the address and one-time code shown in Infra, so you can send missions and approve risky steps from the couch, or from anywhere through a tunnel.',
   compare: {
     columns: ['DinoClaw', 'OpenClaw', 'NanoClaw · ZeroClaw · PicoClaw · IronClaw'],
     rows: [

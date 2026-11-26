@@ -110,6 +110,33 @@ export const POSTS: Post[] = [
     ],
   },
   {
+    slug: 'dinoclaw-watch-dino-work',
+    title: 'Watch Dino work, then pair your phone',
+    date: '2026-11-26',
+    tag: 'Release',
+    image: '/img/dinoclaw-live-view.webp',
+    excerpt:
+      'DinoClaw v0.6.85 turns the mission view into a live trace you can actually read, and makes pairing the DinoBuddy phone app a one-step job.',
+    body: [
+      'An agent that works quietly behind a spinner asks you to trust it. An agent that shows its work earns that trust. DinoClaw v0.6.85 is about showing the work.',
+      { h: 'A live trace, not a log dump' },
+      'The mission view used to print raw tool calls and JSON. Now a generative signal at the top reacts to every step and shifts colour with what Dino is doing: thinking, writing, running, waiting for you or recovering from a failure. His plan sits up front. Every action reads like a sentence, “Wrote index.html in nocturne-landing”, and the file he is writing appears as highlighted code while he writes it.',
+      { h: 'Your phone, paired in one step' },
+      'Infra now shows exactly what the DinoBuddy app asks for: the Nest address and a one-time code. One button gets the PC ready for phones, and it fixes the things that used to get in the way:',
+      {
+        list: [
+          'A fresh pairing code any time, so a new or reinstalled phone can always pair.',
+          'The real Wi‑Fi address instead of a virtual adapter the phone cannot reach.',
+          'A one-click Windows firewall fix, limited to devices on your own network.',
+          'No app installed? The Nest serves Dino Link to the phone’s browser, and a QR code opens it.',
+        ],
+      },
+      { h: 'And the small things' },
+      'Enter now sends in missions and DinoBuddy chat, with Shift+Enter for a new line. On Windows, the build bundles eSpeak NG, the classic Dino voice from Linux and Steam Deck, which also keeps him talking if the Windows voice cannot start.',
+      'DinoClaw runs on Windows, macOS (Apple Silicon and Intel), Linux and Steam Deck. It is coming soon to the public: request early access on the DinoClaw page.',
+    ],
+  },
+  {
     slug: 'dinoclaw-needs-work-is-a-feature',
     title: '“Needs work” is a feature',
     date: '2026-11-19',

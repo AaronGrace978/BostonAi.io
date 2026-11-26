@@ -4478,3 +4478,30 @@ html[data-theme='dark'] .site[data-page='appendix-b'] {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── DinoClaw: release highlights ── */
+.site[data-page='dinoclaw'] .shot-band img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shot-band--phone {
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+}
+
+.shot-band--phone img {
+  justify-self: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (max-width: 1020px) {
+  .shot-band--phone {
+    grid-template-columns: 1fr;
+  }
+
+  .shot-band--phone img {
+    order: 2;
+  }
+}
