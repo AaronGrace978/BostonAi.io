@@ -469,3 +469,80 @@ export const CHRONOSOUL = {
     ],
   },
 }
+
+export const APPENDIX_B = {
+  repo: gh('appendix-b-substrate'),
+  releases: `${gh('appendix-b-substrate')}/releases/latest`,
+  version: '0.7.3',
+  stats: [
+    { v: '4', k: 'protocol phases every answer must pass' },
+    { v: '7', k: 'substrate state variables carried across turns' },
+    { v: '5', k: 'providers: OpenAI, Anthropic, OpenRouter, Ollama Cloud and Local' },
+    { v: '0', k: 'Python dependencies for the substrate library' },
+  ],
+  phases: [
+    {
+      n: '01',
+      name: 'Decompose',
+      body: 'Split the task into subproblems before answering. A first guess is written down as a hypothesis, not a result.',
+    },
+    {
+      n: '02',
+      name: 'Attack',
+      body: 'At least two skeptical attacks on the candidate: off-by-one errors, missed cases, a smaller answer hiding below it.',
+    },
+    {
+      n: '03',
+      name: 'Verify',
+      body: 'Evidence has to come from a trusted verifier or real code the app runs, never from the model’s own say-so.',
+    },
+    {
+      n: '04',
+      name: 'Conclude',
+      body: 'Supported, refuted or inconclusive. A conclusion with no verified evidence behind it is blocked, not published.',
+    },
+  ],
+  how: [
+    {
+      title: 'Models that run real code',
+      body: 'With Code on, the model gets a run_python tool through each provider’s native tool calling. Every call runs in a fresh, restricted Python process and the output goes back to the model, for up to four rounds per reply.',
+    },
+    {
+      title: 'Independent checks on every reply',
+      body: 'Arithmetic, prime, letter-count and Collatz claims in the model’s prose are recomputed in Python and marked ✓ or ✗ under the reply. Claims it can’t check stay unchecked: no check is not support.',
+    },
+    {
+      title: 'A substrate that remembers how it’s going',
+      body: 'Curiosity, skepticism, confidence, resolve, strain, surprise and stagnation carry across turns and runs. A refuted guess raises surprise; repeated candidates raise stagnation and the controller rotates strategy.',
+    },
+    {
+      title: 'Any model, your keys',
+      body: 'OpenAI, Anthropic, OpenRouter, Ollama Cloud and Ollama Local, with live reasoning streams from thinking models. Keys stay in memory only and are never written to disk.',
+    },
+    {
+      title: 'Guard-rails on model code',
+      body: '15-second limit, no network, no process spawning, and file access only inside a throwaway temp folder, so model code can’t read your files and send them to a cloud model.',
+    },
+    {
+      title: 'A library, not just an app',
+      body: 'The substrate is plain Python 3.10+ with zero dependencies. Plug in your own proposer and a trusted verifier, and the runtime enforces the protocol and keeps state in SQLite.',
+    },
+  ],
+  session: {
+    prompt:
+      'Among all polynomials n² + an + b with |a| < 1000 and |b| ≤ 1000, find the one that gives the longest run of primes for consecutive n starting at n = 0. Verify everything with code.',
+    rows: [
+      { run: 'Run 1 ✓', result: 'Searched all 335,832 pairs with prime b: unique winner (−61, 971), 71 primes, broken by 1681 = 41 × 41.' },
+      { run: 'Run 2 ✗', result: 'A second, independent Miller–Rabin search disagreed and crashed. The model kept the answer unconfirmed instead of explaining it away.' },
+      { run: 'Run 3 ✓', result: 'It diagnosed its own bug: the Miller–Rabin wrapper tested the prime 61 against base 61 instead of skipping it.' },
+      { run: 'Run 4 ✓', result: 'Fixed it, cross-checked against trial division for 0–10,000 and reran. Both searches agree on the same unique winner.' },
+    ],
+    answer: 'n² − 61n + 971: 71 primes for n = 0…70, exactly Euler’s n² + n + 41 shifted by 31.',
+  },
+  limits: [
+    'The substrate governs an agent’s external workflow. It can’t make a model’s private reasoning follow the protocol.',
+    'Open questions stay inconclusive unless a deterministic check applies, because model agreement is not proof.',
+    'State dynamics and attack budgets are heuristics, not calibrated measurements, and are not a claim about feelings.',
+    'The code runner is a guard-rail against accidents, not a security sandbox. Use models you trust.',
+  ],
+}

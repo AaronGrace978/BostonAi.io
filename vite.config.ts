@@ -34,6 +34,7 @@ export default defineConfig({
         frustum: resolve(import.meta.dirname, 'frustum/index.html'),
         chronosoul: resolve(import.meta.dirname, 'chronosoul/index.html'),
         entity: resolve(import.meta.dirname, 'entity/index.html'),
+        appendixB: resolve(import.meta.dirname, 'appendix-b/index.html'),
       },
     },
   },

@@ -16,7 +16,7 @@ import {
   type Product,
 } from './data'
 
-export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum' | 'chronosoul'
+export type PageId = 'home' | 'workbot' | 'dinoclaw' | 'blog' | 'frustum' | 'chronosoul' | 'appendix-b'
 
 export function Logo() {
   return (
@@ -82,6 +82,9 @@ export function Nav({ page }: { page: PageId }) {
           </a>
           <a href="/chronosoul/" aria-current={page === 'chronosoul' ? 'page' : undefined}>
             ChronoSoul
+          </a>
+          <a href="/appendix-b/" aria-current={page === 'appendix-b' ? 'page' : undefined}>
+            Appendix B
           </a>
           <a href="/entity/">The Entity</a>
           <a href="/blog/" aria-current={page === 'blog' ? 'page' : undefined}>
@@ -409,6 +412,7 @@ export function Footer() {
           <a href="/dinoclaw/#dinobuddy">DinoBuddy</a>
           <a href="/frustum/">Frustum</a>
           <a href="/chronosoul/">ChronoSoul</a>
+          <a href="/appendix-b/">Appendix B</a>
           <a href="/entity/">The Entity</a>
         </div>
         <div className="footer__col">
@@ -635,6 +639,26 @@ export function ResearchSection() {
             </div>
           </div>
         </article>
+
+        <a className="ab-feature reveal" href="/appendix-b/">
+          <div>
+            <span className="frustum-feature__tag">New · Appendix B v0.7</span>
+            <h3>
+              Models propose. <em>Python decides.</em>
+            </h3>
+            <p>
+              A cognitive research lab that makes every answer pass decompose, attack, verify and conclude. Models run real code,
+              claims are rechecked in Python, and unverified conclusions are blocked.
+            </p>
+            <span className="frustum-feature__cta">Explore Appendix B →</span>
+          </div>
+          <ol className="ab-feature__phases" aria-label="The four protocol phases">
+            <li><span>01</span>Decompose</li>
+            <li><span>02</span>Attack</li>
+            <li><span>03</span>Verify</li>
+            <li><span>04</span>Conclude</li>
+          </ol>
+        </a>
 
         <div className="repo-grid">
           {RESEARCH.map(r => (

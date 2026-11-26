@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AUTHOR, POSTS, formatDate, sortedPosts, type Post } from './blog'
-import { ALL_PLATFORMS, CHRONOSOUL, DINOCLAW, FEATURED_RESEARCH, FRUSTUM, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
+import { ALL_PLATFORMS, APPENDIX_B, CHRONOSOUL, DINOCLAW, FEATURED_RESEARCH, FRUSTUM, PLATFORM_LABEL, PRODUCTS, WORKBOT, type Product } from './data'
 import {
   CompareTable,
   DeviceShowcase,
@@ -957,6 +957,153 @@ export function ChronoSoulPage() {
               See it on Xerj Hub
             </a>
           </div>
+        </div>
+      </section>
+
+      <InvestorBand />
+    </Shell>
+  )
+}
+
+export function AppendixBPage() {
+  const a = APPENDIX_B
+  return (
+    <Shell page="appendix-b">
+      <section className="hero hero--product hero--appendix-b">
+        <div className="hero__bg" aria-hidden />
+        <div className="wrap hero__split">
+          <div className="hero__copy">
+            <p className="eyebrow">Research · Appendix B · open source</p>
+            <h1>
+              Models propose. <em>Python decides.</em>
+            </h1>
+            <p className="hero__lede">
+              Appendix B is a cognitive research lab for language models. Every answer has to pass four phases, decompose,
+              attack, verify and conclude, and the verdict comes from real code and independent checks, never from the model
+              grading its own homework.
+            </p>
+            <div className="hero__actions">
+              <a className="btn btn--accent btn--lg" href={a.releases} target="_blank" rel="noreferrer">
+                Download for Windows
+              </a>
+              <a className="btn btn--ghost btn--lg" href={a.repo} target="_blank" rel="noreferrer">
+                View on GitHub
+              </a>
+            </div>
+          </div>
+          <figure className="hero__shot">
+            <img
+              src="/img/appendix-b-chat.webp"
+              alt="Appendix B chat: Kimi k3.1 Pro proposes 10,971 for a Collatz question, runs an exhaustive Python check, and shows the substrate state in the side rail"
+              width="1440"
+              height="1070"
+            />
+          </figure>
+        </div>
+        <div className="wrap">
+          <dl className="stats">
+            {a.stats.map(s => (
+              <div key={s.k}>
+                <dt>{s.v}</dt>
+                <dd>{s.k}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-why">
+          <div>
+            <p className="eyebrow">The idea</p>
+            <h2>Good at proposing. Bad at knowing when they’re wrong.</h2>
+          </div>
+          <p>
+            Ask a strong reasoning model for the smallest n above 10,000 whose Collatz sequence takes at least 260 steps, and it
+            will often spend its whole output budget doing arithmetic in its head, then stop without answering. Appendix B puts
+            the model inside a workflow it can’t skip: it has to break the problem down, attack its own answer, and back it with
+            evidence that a computer actually produced. It follows the pattern of recent human–AI mathematics, where the model
+            proposes and a formal checker decides.
+          </p>
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap">
+          <SectionHead eyebrow="The protocol" title="Four phases. No shortcuts." sub="Each phase is enforced by the runtime and drawn as its own card in the chat." />
+          <ol className="ab-phases">
+            {a.phases.map(p => (
+              <li key={p.n} className="ab-phase reveal">
+                <span className="ab-phase__n">{p.n}</span>
+                <h3>{p.name}</h3>
+                <p>{p.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <SectionHead eyebrow="What it does" title="A lab that checks the model’s work" />
+          <FeatureGrid features={a.how} />
+        </div>
+      </section>
+
+      <section className="section section--tint">
+        <div className="wrap shot-band reveal">
+          <div>
+            <p className="eyebrow">A real session</p>
+            <h2>The model caught its own bug.</h2>
+            <p>
+              Kimi k3.1 Pro on Ollama Cloud, with Protocol and Code on, was asked: <i>“{a.session.prompt}”</i>
+            </p>
+            <div className="model-table">
+              {a.session.rows.map(r => (
+                <div key={r.run} className="model-row model-row--two">
+                  <b>{r.run}</b>
+                  <span>{r.result}</span>
+                </div>
+              ))}
+            </div>
+            <p className="compare__foot">
+              Its conclusion: <b>{a.session.answer}</b> A failed verification sent the model back to attack its own checker,
+              which is the protocol working as designed.
+            </p>
+          </div>
+          <img
+            src="/img/appendix-b-code-run.webp"
+            alt="A Python run card in Appendix B: the code, then its output, ending with FIRST_QUALIFYING 10971 STEPS 267 and ALL_TRANSITIONS_VALID True"
+            width="900"
+            height="1254"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap frustum-honest">
+          <div>
+            <p className="eyebrow">Honest limits</p>
+            <h2>What it is, and what it isn’t</h2>
+          </div>
+          <ul className="checks checks--muted">
+            {a.limits.map(x => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+          <div className="hero__actions">
+            <a className="btn btn--accent btn--lg" href={a.releases} target="_blank" rel="noreferrer">
+              Get v{a.version} for Windows
+            </a>
+            <a className="btn btn--ghost btn--lg" href={a.repo} target="_blank" rel="noreferrer">
+              Read the code
+            </a>
+          </div>
+          <p className="frustum-credits">
+            Windows x64 installer with Python and Electron bundled; the substrate library also runs anywhere with Python 3.10+.
+            Released under AGPL-3.0. Built by Aaron Grace, with credit to DinoClaw.
+          </p>
         </div>
       </section>
 
